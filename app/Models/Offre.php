@@ -21,4 +21,24 @@ class Offre extends Model
         'categorie_id',
         'profil_id',
     ];
+
+    public function Categorie()
+    {
+        return $this->belongsTo(Categorie::class);
+    }
+
+    public function Profil()
+    {
+        return $this->belongsTo(Profil::class);
+    }
+
+    public function Candidacture()
+    {
+        return $this->hasMany(Candidacture::class);
+    }
+
+    public function Notification()
+    { 
+        return $this->hasMany(Notification::class);
+    }
 }

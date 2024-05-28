@@ -14,4 +14,14 @@ class Reponse extends Model
         'user_id',
         'discussion_id',
     ];
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function Discussion()
+    {
+        return $this->belongsTo(Discussion::class);
+    }
 }

@@ -16,4 +16,9 @@ class Certification extends Model
         'fichier',
         'profil_id',
     ];
+
+    public function Profil()
+    {
+        return $this->belongsTo(Profil::class);
+    }
 }

@@ -15,4 +15,14 @@ class Competence extends Model
         'profil_id',
         'categorie_id',
     ];
+
+    public function Profil()
+    {
+        return $this->belongsTo(Profil::class);
+    }
+
+    public function Categorie()
+    {
+        return $this->belongsTo(Categorie::class);
+    }
 }

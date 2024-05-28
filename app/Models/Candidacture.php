@@ -15,4 +15,19 @@ class Candidacture extends Model
         'profil_id',
         'offre_id'
     ];
+
+    public function Offre()
+    {
+        return $this->belongsTo(Offre::class);
+    }
+
+    public function Profil()
+    {
+        return $this->belongsTo(Profil::class);
+    }
+
+    public function Notification()
+    { 
+        return $this->hasMany(Notification::class);
+    }
 }

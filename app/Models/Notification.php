@@ -16,4 +16,24 @@ class Notification extends Model
         'discussion_id',
         'offre_id'
     ];
+
+    public function Candidacture()
+    {
+        return $this->belongsTo(Candidacture::class);
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function Offre()
+    {
+        return $this->belongsTo(Offre::class);
+    }
+
+    public function Discussion()
+    {
+        return $this->belongsTo(Discussion::class);
+    }
 }

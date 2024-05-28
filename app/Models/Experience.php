@@ -19,4 +19,9 @@ class Experience extends Model
         'date_fin',
         'profil_id',
     ];
+
+    public function Profil()
+    {
+        return $this->belongsTo(Profil::class);
+    }
 }
