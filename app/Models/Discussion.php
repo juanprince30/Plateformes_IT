@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Discussion extends Model
 {
     use HasFactory;
+
+    protected $fillable=[
+        'sujet',
+        'contenu',
+        'etat',
+        'user_id',
+        'categorie_id',
+    ];
 }

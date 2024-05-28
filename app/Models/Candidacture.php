@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Candidacture extends Model
 {
     use HasFactory;
+
+    protected $fillable=[
+        'motivation',
+        'description',
+        'profil_id',
+        'offre_id'
+    ];
 }
