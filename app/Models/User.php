@@ -50,16 +50,6 @@ class User extends Authenticatable
         return $this->hasMany(Profil::class);
     }
 
-    public function Discussion()
-    {
-        return $this->hasMany(Discussion::class);
-    }
-
-    public function Reponse()
-    {
-        return $this->hasMany(Reponse::class);
-    }
-
     public function Notification()
     { 
         return $this->hasMany(Notification::class);

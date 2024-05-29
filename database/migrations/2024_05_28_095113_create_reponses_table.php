@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('reponses', function (Blueprint $table) {
             $table->id();
             $table->string('contenu');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('profil_id');
             $table->unsignedBigInteger('discussion_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign('profil_id')->references('id')->on('profils')->onUpdate('restrict')->onDelete('restrict');
             $table->foreign('discussion_id')->references('id')->on('discussions')->onUpdate('restrict')->onDelete('restrict');
             $table->timestamps();
         });

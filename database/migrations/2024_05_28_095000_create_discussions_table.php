@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('sujet');
             $table->string('contenu');
             $table->string('etat')->default('ouvert');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('profil_id');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('restrict')->onUpdate('restrict');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign('profil_id')->references('id')->on('profils')->onUpdate('restrict')->onDelete('restrict');
             $table->timestamps();
         });
     }

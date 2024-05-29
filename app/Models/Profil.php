@@ -53,4 +53,14 @@ class Profil extends Model
     {
         return $this->hasMany(Candidacture::class);
     }
+
+    public function Discussion()
+    {
+        return $this->hasMany(Discussion::class);
+    }
+
+    public function Reponse()
+    {
+        return $this->hasMany(Reponse::class);
+    }
 }
