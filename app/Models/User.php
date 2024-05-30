@@ -44,4 +44,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function Profil()
+    {
+        return $this->hasMany(Profil::class);
+    }
+
+    public function Notification()
+    { 
+        return $this->hasMany(Notification::class);
+    }
 }
