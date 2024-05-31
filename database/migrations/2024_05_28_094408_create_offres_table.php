@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('experience_requis');
             $table->string('responsabilite');
             $table->string('competence_requis');
+            $table->date('date_debut_offre');
+            $table->date('date_fin_offre');
             $table->unsignedBigInteger('categorie_id');
             $table->unsignedBigInteger('profil_id');
             $table->foreign('categorie_id')->references('id')->on('categories')->onUpdate('restrict')->onDelete('restrict');

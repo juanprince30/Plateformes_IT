@@ -18,3 +18,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::resource('/profil', App\Http\Controllers\ProfilController::class);

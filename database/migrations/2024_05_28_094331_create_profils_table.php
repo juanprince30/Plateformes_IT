@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('addresse',100);
             $table->string('niveau_etude',200);
             $table->string('statut',100);
-            $table->string('image', 500);
+            $table->string('image')->nullable();
             $table->string('role',100)->default('user');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
