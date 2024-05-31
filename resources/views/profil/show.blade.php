@@ -13,7 +13,8 @@
         
         <form>
             @csrf
-
+            @auth
+                
             @if($profil->image)
                 <img src="{{ asset('storage/' . $profil->image) }}" alt="Image du profil" width="100">
             @endif
@@ -69,5 +70,7 @@
 
         <br><br>
         <a href="{{ route('profil.index')}}">Retour en arriere</a>
+
+        @endauth
     </body>
 </html>

@@ -8,6 +8,9 @@
         
     </head>
     <body>
+        @auth
+            
+        
         <h1>Veuillez Completez votre Profil</h1>
 
         <form action="{{ route('profil.store') }}" method="POST" enctype="multipart/form-data">
@@ -70,5 +73,6 @@
             
             <button type="submit">Enregistrer</button>
         </form>
+        @endauth
     </body>
 </html>

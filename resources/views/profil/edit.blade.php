@@ -8,6 +8,8 @@
         
     </head>
     <body>
+        @auth
+            
         <h1>Veuillez Completez votre Profil</h1>
 
         <form action="{{ route('profil.update', $profil->id) }}" method="POST" enctype="multipart/form-data">
@@ -73,5 +75,6 @@
             
             <button type="submit">Enregistrer la modification</button>
         </form>
+        @endauth
     </body>
 </html>

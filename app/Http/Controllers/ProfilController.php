@@ -16,7 +16,7 @@ class ProfilController extends Controller
     {
         $user_id= Auth::id();
         $profil= Profil::where('user_id',$user_id)->get();
-
+        
         return view('profil.index', compact('profil'));
     }
 
@@ -53,7 +53,6 @@ class ProfilController extends Controller
             $imagePath = $image->store('images', 'public');
             $input['image'] = $imagePath;
         }
-
         Profil::create($input);
         return redirect()->route('profil.index');
     }
