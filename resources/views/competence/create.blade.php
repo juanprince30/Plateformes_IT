@@ -19,7 +19,7 @@
             <div class="mb-3 row">
                 <label for="titre" class="col-sm-2 col-form-label">Titre</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name='titre' id="libelle" required>
+                    <input type="text" class="form-control" name='titre' id="titre" required>
                 </div>
             </div>
             <div class="mb-3 row">
