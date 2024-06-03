@@ -75,6 +75,7 @@
             
             <button type="submit">Enregistrer la modification</button>
         </form>
+        
         @endauth
     </body>
 </html>

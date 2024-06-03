@@ -8,13 +8,15 @@
         
     </head>
     <body>
+        @auth
+        
         <h1>Votre Profil: </h1>
         <br><br>
         
         <form>
             @csrf
-            @auth
                 
+            
             @if($profil->image)
                 <img src="{{ asset('storage/' . $profil->image) }}" alt="Image du profil" width="100">
             @endif
@@ -67,10 +69,9 @@
         <button type="submit" onclick=" return confirm('Etes vous bien sur de vouloir supprimer votre profil? Nb: Cette action est irreversible!')">Supprimer le profil</button>
 
         </form>
-
+        @endauth
         <br><br>
         <a href="{{ route('profil.index')}}">Retour en arriere</a>
-
-        @endauth
+        
     </body>
 </html>

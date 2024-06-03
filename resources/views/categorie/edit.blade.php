@@ -8,7 +8,7 @@
         
     </head>
     <body>
-        <h1>Ajouter une categorie</h1>
+        <h1>Modifier une categorie</h1>
         <form action="{{ route('categorie.update', $categorie->id)}}" method="POST">
             @csrf
             @method('PUT')
