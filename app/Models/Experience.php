@@ -13,15 +13,22 @@ class Experience extends Model
         'entreprise',
         'nom_superviseur',
         'contact_superviseur',
+        'travail_actuellement',
         'titre',
         'responsabilite',
+        'ville',
         'date_debut',
         'date_fin',
         'profil_id',
+        'pays_id',
     ];
 
     public function Profil()
     {
         return $this->belongsTo(Profil::class);
+    }
+    public function Pays()
+    {
+        return $this->belongsTo(Pays::class);
     }
 }

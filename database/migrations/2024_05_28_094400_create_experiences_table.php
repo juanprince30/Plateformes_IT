@@ -13,14 +13,24 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->string('entreprise',100);
-            $table->string('nom_superviseur',100);
-            $table->string('contact_superviseur');
+            $table->unsignedBigInteger('profil_id');
+            $table->unsignedBigInteger('pays_id')->nullable();
             $table->string('titre');
+            $table->string('entreprise',100);
+            $table->string('nom_superviseur',100)->nullable();
+            $table->string('contact_superviseur')->nullable();
+            $table->unsignedBigInteger('ville')->nullable();
             $table->string('responsabilite');
+            $table->string('Description');
+            $table->boolean('travail_actuellement')->default(0);
+            
             $table->date('date_debut');
             $table->date('date_fin')->nullable();
-            $table->unsignedBigInteger('profil_id');
+
+            $table->foreign('pays_id')->references('id')->on('pays')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+
             $table->foreign('profil_id')->references('id')->on('profils')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });

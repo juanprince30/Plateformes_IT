@@ -22,11 +22,16 @@ class Profil extends Model
         'image',
         'role',
         'user_id',
+        'pays_id',
     ];
 
     public function User()
     {
         return $this->belongsTo(User::class);
+    }
+    public function Pays()
+    {
+        return $this->belongsTo(Pays::class);
     }
 
     public function Certification()

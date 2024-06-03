@@ -18,12 +18,19 @@ return new class extends Migration
             $table->string('description', 500);
             $table->string('telepone',100)->nullable();
             $table->string('telephone_2',100)->nullable();
+            $table->unsignedBigInteger('pays_id')->nullable();
+            
             $table->string('ville',50);
             $table->string('addresse',100);
             $table->string('niveau_etude',200);
             $table->string('statut',100);
             $table->string('image', 500);
             $table->string('role',100)->default('user');
+            
+            $table->foreign('pays_id')->references('id')->on('pays')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();

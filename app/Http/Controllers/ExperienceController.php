@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Experience;
+use App\Models\Pays;
 use Illuminate\Http\Request;
+use App\Models\Profil;
+use Illuminate\Support\Facades\Auth;
 
 class ExperienceController extends Controller
 {
@@ -12,7 +15,9 @@ class ExperienceController extends Controller
      */
     public function index()
     {
-        //
+        $experiences = Experience::all();
+        $pays = Pays::all();
+        return view('experiences.index', compact('experiences','pays'));
     }
 
     /**
@@ -20,7 +25,7 @@ class ExperienceController extends Controller
      */
     public function create()
     {
-        //
+        return view('experiences.create');
     }
 
     /**
@@ -28,7 +33,27 @@ class ExperienceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'pays_id' => 'nullable|exists:pays,id',
+            'titre' => 'required|string|max:255',
+            'entreprise' => 'required|string|max:100',
+            'nom_superviseur' => 'nullable|string|max:100',
+            'contact_superviseur' => 'nullable|string|max:255',
+            'ville' => 'nullable|integer',
+            'responsabilite' => 'required|string',
+            'Description' => 'required|string',
+            'travail_actuellement' => 'boolean',
+            'date_debut' => 'required|date',
+            'date_fin' => 'nullable|date|after_or_equal:date_debut',
+        ]);
+        $user_id=Auth::id();
+        $profil= Profil::where('user_id',$user_id)->first();
+        $input=$request->all();
+        $input['profil_id']=$profil->id;
+
+        Experience::create($input);
+
+        return redirect()->route('experiences.index')->with('success', 'Experience created successfully.');
     }
 
     /**
@@ -36,7 +61,7 @@ class ExperienceController extends Controller
      */
     public function show(Experience $experience)
     {
-        //
+        return view('experiences.show', compact('experience'));
     }
 
     /**
@@ -44,7 +69,7 @@ class ExperienceController extends Controller
      */
     public function edit(Experience $experience)
     {
-        //
+        return view('experiences.edit', compact('experience'));
     }
 
     /**
@@ -52,7 +77,24 @@ class ExperienceController extends Controller
      */
     public function update(Request $request, Experience $experience)
     {
-        //
+        $request->validate([
+            'profil_id' => 'required|exists:profils,id',
+            'pays_id' => 'nullable|exists:pays,id',
+            'titre' => 'required|string|max:255',
+            'entreprise' => 'required|string|max:100',
+            'nom_superviseur' => 'nullable|string|max:100',
+            'contact_superviseur' => 'nullable|string|max:255',
+            'ville' => 'nullable|integer',
+            'responsabilite' => 'required|string',
+            'Description' => 'required|string',
+            'travail_actuellement' => 'boolean',
+            'date_debut' => 'required|date',
+            'date_fin' => 'nullable|date|after_or_equal:date_debut',
+        ]);
+
+        $experience->update($request->all());
+
+        return redirect()->route('experiences.index')->with('success', 'Experience updated successfully.');
     }
 
     /**
@@ -60,6 +102,7 @@ class ExperienceController extends Controller
      */
     public function destroy(Experience $experience)
     {
-        //
+        $experience->delete();
+        return redirect()->route('experiences.index')->with('success', 'Experience deleted successfully.');
     }
 }
