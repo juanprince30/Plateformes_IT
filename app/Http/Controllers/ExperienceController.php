@@ -34,14 +34,14 @@ class ExperienceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pays_id' => 'nullable|exists:pays,id',
+            'pays_id' => 'nullable',
             'titre' => 'required|string|max:255',
             'entreprise' => 'required|string|max:100',
             'nom_superviseur' => 'nullable|string|max:100',
             'contact_superviseur' => 'nullable|string|max:255',
             'ville' => 'nullable|integer',
             'responsabilite' => 'required|string',
-            'Description' => 'required|string',
+            'description' => 'required|string',
             'travail_actuellement' => 'boolean',
             'date_debut' => 'required|date',
             'date_fin' => 'nullable|date|after_or_equal:date_debut',
@@ -50,7 +50,7 @@ class ExperienceController extends Controller
         $profil= Profil::where('user_id',$user_id)->first();
         $input=$request->all();
         $input['profil_id']=$profil->id;
-
+// dd($input);
         Experience::create($input);
 
         return redirect()->route('experiences.index')->with('success', 'Experience created successfully.');
@@ -78,7 +78,6 @@ class ExperienceController extends Controller
     public function update(Request $request, Experience $experience)
     {
         $request->validate([
-            'profil_id' => 'required|exists:profils,id',
             'pays_id' => 'nullable|exists:pays,id',
             'titre' => 'required|string|max:255',
             'entreprise' => 'required|string|max:100',
@@ -86,7 +85,7 @@ class ExperienceController extends Controller
             'contact_superviseur' => 'nullable|string|max:255',
             'ville' => 'nullable|integer',
             'responsabilite' => 'required|string',
-            'Description' => 'required|string',
+            'description' => 'required|string',
             'travail_actuellement' => 'boolean',
             'date_debut' => 'required|date',
             'date_fin' => 'nullable|date|after_or_equal:date_debut',

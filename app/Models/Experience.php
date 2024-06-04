@@ -17,6 +17,7 @@ class Experience extends Model
         'titre',
         'responsabilite',
         'ville',
+        'description',
         'date_debut',
         'date_fin',
         'profil_id',
