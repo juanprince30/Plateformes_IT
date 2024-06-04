@@ -43,6 +43,9 @@ class ProfilController extends Controller
         ]);
 
         $user_id=Auth::id();
+        if (!$user_id) {
+            return redirect()->route('profil.index')->with('error', 'Utilisateur non authentifié');
+        }
         $input= $request->all();
         $input['user_id']= $user_id;
 
@@ -92,6 +95,9 @@ class ProfilController extends Controller
         ]);
 
         $user_id = Auth::id();
+        if (!$user_id) {
+            return redirect()->route('profil.index')->with('error', 'Utilisateur non authentifié');
+        }
         $input = $request->all();
         $input['user_id'] = $user_id;
 

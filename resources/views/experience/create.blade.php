@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Ajouter une compétence</title>
+        <title>Ajouter une experience</title>
 
     </head>
     <body>
         @auth
 
 
-        <h1>Ajouter une compétence</h1>
+        <h1>Ajouter une experience</h1>
 
         <form method='POST' action='{{ route('experience.store') }}'>
 

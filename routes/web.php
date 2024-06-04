@@ -26,3 +26,5 @@ Route::resource('/categorie', App\Http\Controllers\CategorieController::class);
 Route::resource('/competence',App\Http\Controllers\CompetenceController::class);
 
 Route::resource('/experience', App\Http\Controllers\ExperienceController::class);
+
+Route::resource('/certification', App\Http\Controllers\CertificationController::class);

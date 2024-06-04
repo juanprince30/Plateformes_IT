@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certification;
+use App\Models\Profil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CertificationController extends Controller
 {
@@ -12,7 +15,8 @@ class CertificationController extends Controller
      */
     public function index()
     {
-        //
+        $certification=Certification::all();
+        return view('certification.index',compact('certification'));
     }
 
     /**
@@ -20,7 +24,7 @@ class CertificationController extends Controller
      */
     public function create()
     {
-        //
+        return view('certification.create');
     }
 
     /**
@@ -28,38 +32,93 @@ class CertificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titre' => 'required|string|max:200',
+            'nom_institut' => 'required|string|max:200',
+            'date_dobtention' => 'required|date',
+            'fichier' => 'required|file|mimes:pdf|max:2048',
+        ]);
+        $user_id=Auth::id();
+        if (!$user_id) {
+            return redirect()->route('certification.index')->with('error', 'Utilisateur non authentifié');
+        }
+        $profil= Profil::where('user_id',$user_id)->first();
+        $input=$request->all();
+        $input['profil_id']=$profil->id;
+
+        
+        if ($request->hasFile('fichier')) {
+            /** @var UploadedFile $image */  
+            $fichier = $request->file('fichier');
+
+            $fichierPath = $fichier->store('fichiers', 'public');
+            $input['fichier'] = $fichierPath;
+        }
+
+        Certification::create($input);
+
+        return redirect()->route('certification.index')->with('success', 'Experience creer avec succes');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Certification $certification)
+    public function show($id)
     {
-        //
+        $certification=Certification::findOrFail($id);
+        return view('certification.show', compact('certification'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Certification $certification)
+    public function edit($id)
     {
-        //
+        $certification=Certification::findOrFail($id);
+        return view('certification.edit', compact('certification'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Certification $certification)
+    public function update(Request $request, $id)
     {
-        //
+        $certification=Certification::findOrFail($id);
+        $request->validate([
+            'titre' => 'required|string|max:200',
+            'nom_institut' => 'required|string|max:200',
+            'date_dobtention' => 'required|date',
+            'fichier' => 'file|mimes:pdf|max:2048',
+        ]);
+        $user_id=Auth::id();
+        if (!$user_id) {
+            return redirect()->route('certification.index')->with('error', 'Utilisateur non authentifié');
+        }
+        $profil= Profil::where('user_id',$user_id)->first();
+        $input=$request->all();
+        $input['profil_id']=$profil->id;
+
+        if ($request->hasFile('fichier')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($certification->fichier) {
+                Storage::disk('public')->delete($certification->fichier);
+            }
+
+            // Stocker la nouvelle image
+            $fichierPath = $request->file('fichier')->store('fichier', 'public');
+            $input['fichier'] = $fichierPath;
+        }
+        $certification->update($input);
+
+        return redirect()->route('certification.index')->with('success', 'Experience modifier avec succes');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Certification $certification)
+    public function destroy($id)
     {
-        //
+        Certification::destroy($id);
+        return redirect()->route('certification.index');
     }
 }

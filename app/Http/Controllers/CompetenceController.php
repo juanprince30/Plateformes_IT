@@ -40,6 +40,9 @@ class CompetenceController extends Controller
         ]);
 
         $user_id=Auth::id();
+        if (!$user_id) {
+            return redirect()->route('competence.index')->with('error', 'Utilisateur non authentifié');
+        }
         $profil= Profil::where('user_id',$user_id)->first();
         $input=$request->all();
         $input['profil_id']=$profil->id;
@@ -77,6 +80,9 @@ class CompetenceController extends Controller
         $competence=Competence::findOrFail($id);
         
         $user_id=Auth::id();
+        if (!$user_id) {
+            return redirect()->route('competence.index')->with('error', 'Utilisateur non authentifié');
+        }
         $profil= Profil::where('user_id',$user_id)->first();
         request()->validate([
             'titre'=>'required',
