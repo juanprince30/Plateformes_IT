@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Experience;
-use App\Models\Pays;
 use Illuminate\Http\Request;
 use App\Models\Profil;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +15,7 @@ class ExperienceController extends Controller
     public function index()
     {
         $experiences = Experience::all();
-        $pays = Pays::all();
-        return view('experiences.index', compact('experiences','pays'));
+        return view('experiences.index', compact('experiences'));
     }
 
     /**
@@ -34,12 +32,11 @@ class ExperienceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pays_id' => 'nullable',
             'titre' => 'required|string|max:255',
             'entreprise' => 'required|string|max:100',
             'nom_superviseur' => 'nullable|string|max:100',
             'contact_superviseur' => 'nullable|string|max:255',
-            'ville' => 'nullable|integer',
+            'ville' => 'nullable|string',
             'responsabilite' => 'required|string',
             'description' => 'required|string',
             'travail_actuellement' => 'boolean',

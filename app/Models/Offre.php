@@ -9,7 +9,7 @@ class Offre extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'titre',
         'type_offre',
         'ville',
@@ -22,23 +22,23 @@ class Offre extends Model
         'profil_id',
     ];
 
-    public function Categorie()
+    public function categorie()
     {
         return $this->belongsTo(Categorie::class);
     }
 
-    public function Profil()
+    public function profil()
     {
         return $this->belongsTo(Profil::class);
     }
 
-    public function Candidacture()
+    public function candidatures()
     {
         return $this->hasMany(Candidacture::class);
     }
 
-    public function Notification()
-    { 
+    public function notifications()
+    {
         return $this->hasMany(Notification::class);
     }
 }

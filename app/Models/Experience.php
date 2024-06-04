@@ -21,15 +21,10 @@ class Experience extends Model
         'date_debut',
         'date_fin',
         'profil_id',
-        'pays_id',
     ];
 
     public function Profil()
     {
         return $this->belongsTo(Profil::class);
-    }
-    public function Pays()
-    {
-        return $this->belongsTo(Pays::class);
     }
 }

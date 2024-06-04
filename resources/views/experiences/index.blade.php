@@ -70,15 +70,7 @@ Expériences
                                         <form action="{{ route('experiences.update', $experience->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
-                                            <div class="form-group">
-                                                <label for="edit_pays_id{{ $experience->id }}">Pays</label>
-                                                <select class="form-control" id="edit_pays_id{{ $experience->id }}" name="pays_id">
-                                                    <option value="">Sélectionner un pays</option>
-                                                    @foreach($pays as $pay)
-                                                        <option value="{{ $pay->id }}" {{ $experience->pays_id == $pay->id ? 'selected' : '' }}>{{ $pay->nom }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                            
                                             <div class="form-group">
                                                 <label for="edit_titre{{ $experience->id }}">Titre</label>
                                                 <input type="text" class="form-control" id="edit_titre{{ $experience->id }}" name="titre" value="{{ $experience->titre }}" required>
@@ -97,7 +89,7 @@ Expériences
                                             </div>
                                             <div class="form-group">
                                                 <label for="edit_ville{{ $experience->id }}">Ville</label>
-                                                <input type="number" class="form-control" id="edit_ville{{ $experience->id }}" name="ville" value="{{ $experience->ville }}">
+                                                <input type="text" class="form-control" id="edit_ville{{ $experience->id }}" name="ville" value="{{ $experience->ville }}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="edit_responsabilite{{ $experience->id }}">Responsabilité</label>
@@ -170,15 +162,6 @@ Expériences
                         <form action="{{ route('experiences.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="pays_id">Pays</label>
-                                <select class="form-control" id="pays_id" name="pays_id">
-                                    <option value="">Sélectionner un pays</option>
-                                    @foreach($pays as $pay)
-                                        <option value="{{ $pay->id }}">{{ $pay->nom }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label for="titre">Titre</label>
                                 <input type="text" class="form-control" id="titre" name="titre" required>
                             </div>
@@ -196,7 +179,7 @@ Expériences
                             </div>
                             <div class="form-group">
                                 <label for="ville">Ville</label>
-                                <input type="number" class="form-control" id="ville" name="ville">
+                                <input type="text" class="form-control" id="ville" name="ville">
                             </div>
                             <div class="form-group">
                                 <label for="responsabilite">Responsabilité</label>
@@ -204,7 +187,7 @@ Expériences
                             </div>
                             <div class="form-group">
                                 <label for="Description">Description</label>
-                                <textarea class="form-control" id="Description" name="escription" required></textarea>
+                                <textarea class="form-control" id="Description" name="description" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="travail_actuellement">Travail Actuellement</label>

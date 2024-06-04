@@ -51,20 +51,10 @@ class CompetenceController extends Controller
         return redirect()->route('competence.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Competence $competence)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Competence $competence)
     {
-        //
+        $categories = Categorie::all();
+        return view('competence.edit', compact('competence', 'categories'));
     }
 
     /**
@@ -72,8 +62,24 @@ class CompetenceController extends Controller
      */
     public function update(Request $request, Competence $competence)
     {
-        //
+        request()->validate([
+            'titre' => 'required',
+            'categorie_id' => 'required',
+        ]);
+
+        $competence->update($request->all());
+
+        return redirect()->route('competence.index');
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Competence $competence)
+    {
+        return view('competence.show', compact('competence'));
+    }
+
 
     /**
      * Remove the specified resource from storage.
