@@ -15,7 +15,7 @@ class ProfilController extends Controller
     public function index()
     {
         $user_id= Auth::id();
-        $profil= Profil::where('user_id',$user_id)->get();
+        $profil= Profil::where('user_id',$user_id)->first();
         
         return view('profil.index', compact('profil'));
     }

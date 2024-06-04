@@ -15,7 +15,10 @@ class CertificationController extends Controller
      */
     public function index()
     {
-        $certification=Certification::all();
+        $user_id= Auth::id();
+        $profil=Profil::where('user_id',$user_id)->first();
+        $certification=Certification::where('profil_id',$profil->id)->get();
+        
         return view('certification.index',compact('certification'));
     }
 

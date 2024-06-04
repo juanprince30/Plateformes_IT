@@ -14,7 +14,10 @@ class ExperienceController extends Controller
      */
     public function index()
     {
-        $experience= Experience::all();
+        $user_id= Auth::id();
+        $profil=Profil::where('user_id',$user_id)->first();
+        $experience=Experience::where('profil_id',$profil->id)->get();
+        
         return view('experience.index', compact('experience'));
     }
 

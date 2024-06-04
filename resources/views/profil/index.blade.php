@@ -8,22 +8,33 @@
         
     </head>
     <body>
-        <h1>PROFIL</h1>
-        <br><br>
         
         @auth
-            <a href="{{ route('profil.create')}}">Ajouter un profil</a>
-            
+            <h1>PROFIL</h1>
             <br><br>
-            @foreach ($profil as $item)
-                {{$item->nom}}
+
+            @if (!$profil)
+                <a href="{{ route('profil.create')}}">Ajouter un profil</a>      
+            @else
+                <br><br>
+                
+                {{$profil->nom}}
                 ---
-                {{ $item->prenom}}
+                {{ $profil->prenom}}
 
 
                 <br><br>
-                <button> <a href="{{ route('profil.show', $item->id)}}">Voir plus...</a></button>
-            @endforeach
+                <button> <a href="{{ route('profil.show', $profil->id)}}">Voir plus...</a></button>
+                
+
+                <br><br>
+                <button><a href="{{ route('competence.index')}}">Mes Competences</a></button><br><br>
+                <button><a href="{{ route('cv_et_motivation.index')}}">CV et Motivation</a></button><br><br>
+                <button><a href="{{ route('experience.index')}}">Mes Experiences</a></button><br><br>
+                <button><a href="{{ route('certification.index')}}">Mes certifications</a></button><br><br> 
+            @endif
+            
+
         @endauth
         
     </body>

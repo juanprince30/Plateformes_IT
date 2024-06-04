@@ -15,7 +15,10 @@ class CompetenceController extends Controller
      */
     public function index()
     {
-        $competence=Competence::with('categorie',)->get();
+        $user_id= Auth::id();
+        $profil=Profil::where('user_id',$user_id)->first();
+        $competence=Competence::where('profil_id',$profil->id)->get();
+        
         return view('competence.index', compact('competence'));
     }
 

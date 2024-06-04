@@ -15,7 +15,10 @@ class CvEtMotivationController extends Controller
      */
     public function index()
     {
-        $cv_et_motivation=Cv_et_motivation::all();
+        $user_id= Auth::id();
+        $profil=Profil::where('user_id',$user_id)->first();
+        $cv_et_motivation=Cv_et_motivation::where('profil_id',$profil->id)->get();
+        
         return view('cv_et_motivation.index', compact('cv_et_motivation'));
     }
 
