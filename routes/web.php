@@ -28,3 +28,5 @@ Route::resource('/competence',App\Http\Controllers\CompetenceController::class);
 Route::resource('/experience', App\Http\Controllers\ExperienceController::class);
 
 Route::resource('/certification', App\Http\Controllers\CertificationController::class);
+
+Route::resource('/cv_et_motivation', App\Http\Controllers\CvEtMotivationController::class);

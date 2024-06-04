@@ -63,4 +63,9 @@ class Profil extends Model
     {
         return $this->hasMany(Reponse::class);
     }
+
+    public function Cv_et_motivation()
+    {
+        return $this->hasMany(Cv_et_motivation::class);
+    }
 }
