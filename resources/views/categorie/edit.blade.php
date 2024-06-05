@@ -8,19 +8,26 @@
         
     </head>
     <body>
-        <h1>Modifier une categorie</h1>
-        <form action="{{ route('categorie.update', $categorie->id)}}" method="POST">
-            @csrf
-            @method('PUT')
-            <label for="">Libelle :</label>
-            <input type="text" name="libelle" id="libelle" value="{{ $categorie->libelle}}" required>
-            <br><br>
+        @auth
+            
+            <h1>Modifier une categorie</h1>
+            <form action="{{ route('categorie.update', $categorie->id)}}" method="POST">
+                @csrf
+                @method('PUT')
+                <label for="">Libelle :</label>
+                <input type="text" name="libelle" id="libelle" value="{{ $categorie->libelle}}" required>
+                <br><br>
 
-            <label for="">Description :</label>
-            <textarea name="description" id="description" cols="30" rows="10" required>{{$categorie->description}}</textarea>
-            <br><br>
+                <label for="">Description :</label>
+                <textarea name="description" id="description" cols="30" rows="10" required>{{$categorie->description}}</textarea>
+                <br><br>
 
-            <button type="submit">Enregistrer</button>
-        </form>
+                <button type="submit">Enregistrer</button>
+            </form>
+        @endauth
+        @guest
+            <h1>VOUS ETES PAS CONNECTER</h1>
+            <a href="{{ route('login')}}">CLIQUER ici pour vous connecter!</a>
+        @endguest
     </body>
 </html>

@@ -15,6 +15,10 @@ class CertificationController extends Controller
      */
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
+        }
+
         $user_id= Auth::id();
         $profil=Profil::where('user_id',$user_id)->first();
         $certification=Certification::where('profil_id',$profil->id)->get();

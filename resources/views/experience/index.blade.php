@@ -8,10 +8,9 @@
 
     </head>
     <body>
+        @auth
         <h1>Experiences</h1>
         <br><br>
-
-        @auth
             <button><a href="{{ route('experience.create')}}">Ajouter une experience proffesionel</a></button>
             <br><br>
 
@@ -59,7 +58,10 @@
 
     @endauth
 
-
+    @guest
+        <h1>VOUS ETES PAS CONNECTER</h1>
+        <a href="{{ route('login')}}">CLIQUER ici pour vous connecter!</a>
+    @endguest
 
     </body>
 </html>

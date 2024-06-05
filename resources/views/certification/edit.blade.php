@@ -47,5 +47,9 @@
 
         <form>
         @endauth
+        @guest
+            <h1>VOUS ETES PAS CONNECTER</h1>
+            <a href="{{ route('login')}}">CLIQUER ici pour vous connecter!</a>
+        @endguest
     </body>
 </html>

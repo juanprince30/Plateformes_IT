@@ -69,9 +69,14 @@
         <button type="submit" onclick=" return confirm('Etes vous bien sur de vouloir supprimer votre profil? Nb: Cette action est irreversible!')">Supprimer le profil</button>
 
         </form>
-        @endauth
         <br><br>
         <a href="{{ route('profil.index')}}">Retour en arriere</a>
+        @endauth
+        
+        @guest
+            <h1>VOUS ETES PAS CONNECTER</h1>
+            <a href="{{ route('login')}}">CLIQUER ici pour vous connecter!</a>
+        @endguest
         
     </body>
 </html>

@@ -15,6 +15,10 @@ class CvEtMotivationController extends Controller
      */
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
+        }
+
         $user_id= Auth::id();
         $profil=Profil::where('user_id',$user_id)->first();
         $cv_et_motivation=Cv_et_motivation::where('profil_id',$profil->id)->get();

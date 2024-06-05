@@ -8,6 +8,8 @@
         
     </head>
     <body>
+        @auth
+            
         <h1>Liste des categories</h1>
         <br>
         <a href="{{ route('categorie.create')}}">Ajouter une categorie</a>
@@ -23,5 +25,10 @@
                 </form>
             @endforeach
         </ol>
+        @endauth
+        @guest
+            <h1>VOUS ETES PAS CONNECTER</h1>
+            <a href="{{ route('login')}}">CLIQUER ici pour vous connecter!</a>
+        @endguest
     </body>
 </html>

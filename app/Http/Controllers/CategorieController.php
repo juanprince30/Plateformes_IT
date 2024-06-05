@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategorieController extends Controller
 {
@@ -12,6 +13,10 @@ class CategorieController extends Controller
      */
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
+        }
+
         $categorie=Categorie::all();
 
         return view('categorie.index', compact('categorie'));
