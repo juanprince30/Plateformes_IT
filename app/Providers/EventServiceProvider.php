@@ -18,5 +18,12 @@ class EventServiceProvider extends ServiceProvider
             ProcessUserInteraction::class,
         ],
     ];
+
+    public function boot()
+    {
+        parent::boot();
+
+        //
+    }
 }
 

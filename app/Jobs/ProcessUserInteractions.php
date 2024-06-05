@@ -1,7 +1,9 @@
 <?php
 namespace App\Jobs;
 
+use App\Models\Competence;
 use App\Models\Offre;
+use App\Models\Profil;
 use App\Models\User;
 use App\Models\Recommendation;
 use App\Models\UserInteraction;
@@ -10,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class ProcessUserInteractions implements ShouldQueue
 {
@@ -37,6 +40,11 @@ class ProcessUserInteractions implements ShouldQueue
      */
     public function handle()
     {
+
+        Log::info('Job ProcessUserInteractions started for user: ' . $this->user->id);
+
+        try {
+
         // 1. Récupérer les interactions de l'utilisateur
         $interactions = UserInteraction::where('user_id', $this->user->id)->get();
 
@@ -46,6 +54,12 @@ class ProcessUserInteractions implements ShouldQueue
             $offreSkills = $interaction->offre->competence_requis;
             $skills = array_merge($skills, $offreSkills);
         }
+
+        // Ajouter les compétences de l'utilisateur à la liste des compétences analysées
+        $userSkills = Competence::where('user_id', $this->user->id)->pluck('titre')->toArray();
+        $skills = array_merge($skills, $userSkills);
+
+
         $uniqueSkills = array_unique($skills);
 
         // 3. Trouver des opportunités pertinentes
@@ -72,5 +86,9 @@ class ProcessUserInteractions implements ShouldQueue
                 'offre_id' => $offre->id,
             ]);
         }
+        Log::info('Job ProcessUserInteractions completed for user: ' . $this->user->id);
+    } catch (\Exception $e) {
+        Log::error('Error in ProcessUserInteractions job: ' . $e->getMessage());
+    }
     }
 }

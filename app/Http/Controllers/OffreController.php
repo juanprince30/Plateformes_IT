@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserInteractedWithOffres;
+use App\Models\Categorie;
 use App\Models\Offre;
+use App\Models\Profil;
 use App\Models\UserInteraction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OffreController extends Controller
 {
-    protected $user;
+    // protected $user;
     protected $interactionLimit = 50; // Limite des interactions utilisateur
 
     /**
@@ -18,8 +20,14 @@ class OffreController extends Controller
      */
     public function index()
     {
+        $categories = Categorie::all();
         $offres = Offre::all();
-        return view('offres.index', compact('offres'));
+        return view('offres.index', compact('offres','categories'));
+    }
+    public function liste()
+    {
+        $offres = Offre::all();
+        return view('offres.liste', compact('offres'));
     }
 
     /**
@@ -35,7 +43,7 @@ class OffreController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'titre' => 'required|max:255',
             'type_offre' => 'required|max:255',
             'ville' => 'required|max:255',
@@ -45,13 +53,18 @@ class OffreController extends Controller
             'responsabilite' => 'required',
             'competence_requis' => 'required',
             'categorie_id' => 'required|exists:categories,id',
-            'profil_id' => 'required|exists:profils,id',
         ]);
 
-        $offre = Offre::create($validated);
+        $user_id=Auth::id();
+        $profil= Profil::where('user_id',$user_id)->first();
+        $input=$request->all();
+        $input['profil_id']=$profil->id;
 
-        return redirect()->route('offres.show', $offre->id)
-                         ->with('success', 'Offre créée avec succès.');
+        Offre::create($input);
+
+
+        return redirect()->route('offres.index');
+
     }
 
     /**
@@ -59,13 +72,24 @@ class OffreController extends Controller
      */
     public function show($id)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login'); // Rediriger vers la page de connexion si l'utilisateur n'est pas authentifié
+        }
+        
         $offre = Offre::findOrFail($id);
         $user = Auth::user();
 
+
+        // Vérifier si l'utilisateur a déjà une interaction pour cette offre et lui Rediriger s'il a déjà interagi avec cette offre
+        if ($user->interactions()->where('offre_id', $offre->id)->exists()) {
+            return view('offres.show', compact('offre')); 
+        }
+
+
         // Vérifier si la limite des interactions est atteinte
-         if ($this->user->interactions()->count() >= $this->interactionLimit) {
+         if ($user->interactions()->count() >= $this->interactionLimit) {
             // Supprimer l'interaction la plus ancienne
-            $this->user->interactions()->orderBy('created_at')->first()->delete();
+            $user->interactions()->orderBy('created_at')->first()->delete();
         }
 
         // Enregistrer l'interaction de l'utilisateur

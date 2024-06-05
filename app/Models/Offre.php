@@ -22,6 +22,12 @@ class Offre extends Model
         'profil_id',
     ];
 
+
+
+    protected $casts = [
+        'competence_requis' => 'array',
+    ];
+
     public function categorie()
     {
         return $this->belongsTo(Categorie::class);

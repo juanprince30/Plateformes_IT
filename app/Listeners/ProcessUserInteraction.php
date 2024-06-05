@@ -5,20 +5,15 @@ use App\Jobs\ProcessUserInteractions;
 use App\Events\UserInteractedWithOffres;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class ProcessUserInteraction
 {
-    
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
-    }
+
 
     public function handle(UserInteractedWithOffres $event): void
     {
+        Log::info('Event UserInteractedWithOpportunity triggered for user: ' . $event->user->id);
         ProcessUserInteractions::dispatch($event->user);
     }
 

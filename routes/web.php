@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/offres/liste', [OffreController::class, 'liste'])->name('offres.liste');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -24,4 +27,5 @@ Route::resource('/profil', App\Http\Controllers\ProfilController::class);
 Route::resource('/categorie', App\Http\Controllers\CategorieController::class);
 Route::resource('/competence', App\Http\Controllers\CompetenceController::class);
 Route::resource('/experiences', App\Http\Controllers\ExperienceController::class);
-Route::resource('/offres', App\Http\Controllers\ExperienceController::class);
+Route::resource('/offres', App\Http\Controllers\OffreController::class);
+Route::resource('/candidatures', App\Http\Controllers\CandidactureController::class);
