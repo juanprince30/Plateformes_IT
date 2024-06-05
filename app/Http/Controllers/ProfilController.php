@@ -17,7 +17,7 @@ class ProfilController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        
+
         $user_id= Auth::id();
         $profil= Profil::where('user_id',$user_id)->first();
         
@@ -42,7 +42,10 @@ class ProfilController extends Controller
             'prenom'=>'required',
             'telephone_2'=>'required',
             'ville'=>'required',
+            'addresse' => 'required',
             'niveau_etude'=>'required',
+            'statut' => 'required',
+            'description' =>' required',
             'image'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 

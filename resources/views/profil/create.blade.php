@@ -25,7 +25,7 @@
             <br><br>
 
             <label for="">Description:</label>
-            <textarea name="description" id="description" cols="30" rows="10"></textarea>
+            <textarea name="description" id="description" cols="30" rows="10" required></textarea>
             <br><br>
 
             <label for="">Telephone   :</label>
@@ -41,7 +41,7 @@
             <br><br>
 
             <label for="">Adresse  :</label>
-            <input type="text" name="addresse" id="addresse">
+            <input type="text" name="addresse" id="addresse" required>
             <br><br>
 
             <label for="">Niveau d'etude  :</label>
@@ -58,7 +58,7 @@
             <br><br>
 
             <label for="">Statut  :</label>
-            <select name="statut" id="statut">
+            <select name="statut" id="statut" required>
                 <option value="" selected disabled hidden>Selectionner une oprion</option>
                 <option value="Etudiant">Etudiant</option>
                 <option value="Professionel">Professionel</option>
