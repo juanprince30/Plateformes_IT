@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Offre;
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RecommendationController extends Controller
 {
@@ -12,7 +14,18 @@ class RecommendationController extends Controller
      */
     public function index()
     {
-        //
+        // Récupérer l'utilisateur actuellement connecté
+        $user = Auth::user();
+
+        // Récupérer les recommandations de l'utilisateur actuellement connecté
+        $recommendations = $user->recommendations()->pluck('offre_id');
+
+        // Récupérer les offres dont les IDs se trouvent dans les recommandations
+        $offres = Offre::whereIn('id', $recommendations)->get();
+
+
+        // Retourner la vue avec les données des offres
+        return view('recommendation.index', ['offres' => $offres]);
     }
 
     /**

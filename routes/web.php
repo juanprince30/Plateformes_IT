@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecommendationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,6 +14,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/offres/liste', [OffreController::class, 'liste'])->name('offres.liste');
+Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendation.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -40,55 +40,47 @@ class ProcessUserInteractions implements ShouldQueue
      */
     public function handle()
     {
-
-        Log::info('Job ProcessUserInteractions started for user: ' . $this->user->id);
-
+        
         try {
+            // 1. Récupérer les interactions de l'utilisateur
+            $interactions = UserInteraction::where('user_id', $this->user->id)->pluck('offre_id');
 
-        // 1. Récupérer les interactions de l'utilisateur
-        $interactions = UserInteraction::where('user_id', $this->user->id)->get();
+            
+            // 2. Trouver des opportunités pertinentes
 
-        // 2. Analyser les compétences et intérêts de l'utilisateur
-        $skills = [];
-        foreach ($interactions as $interaction) {
-            $offreSkills = $interaction->offre->competence_requis;
-            $skills = array_merge($skills, $offreSkills);
-        }
-
-        // Ajouter les compétences de l'utilisateur à la liste des compétences analysées
-        $userSkills = Competence::where('user_id', $this->user->id)->pluck('titre')->toArray();
-        $skills = array_merge($skills, $userSkills);
+            $recommendations = Offre::whereIn('id', $interactions)->get();
 
 
-        $uniqueSkills = array_unique($skills);
+            
+            // 4. Enregistrer les nouvelles recommandations tout en respectant la limite
+            foreach ($recommendations as $offre) {
+                if ($this->user->recommendations()->count() >= $this->recommendationLimit) {
+                    // Supprimer la recommandation la plus ancienne
+                    $this->user->recommendations()->orderBy('created_at')->first()->delete();
+                }
 
-        // 3. Trouver des opportunités pertinentes
-        $recommendations = Offre::where(function ($query) use ($uniqueSkills) {
-            foreach ($uniqueSkills as $skill) {
-                $query->orWhereJsonContains('competence_requis', $skill);
+                // Vérifier si la recommandation existe déjà avant de l'ajouter
+                $existingRecommendation = Recommendation::where('user_id', $this->user->id)
+                    ->where('offre_id', $offre->id)
+                    ->first();
+
+                if (!$existingRecommendation) {
+
+                    // Enregistrer la nouvelle recommandation
+                    Recommendation::create([
+                        'user_id' => $this->user->id,                        
+                        'offre_id' => $offre->id,
+                    ]);
+                //     Log::info('Recommendation save : ' . $offre->id);
+                }
+                else{
+                    Log::info('Job recommendation existe for : ' . $offre->id);
+
+                }
             }
-        })->get();
 
-       // 4. Ajouter les nouvelles recommandations tout en respectant la limite
-       foreach ($recommendations as $offre) {
-        // Vérifier si la limite est atteinte
-        if ($this->user->recommendations()->count() >= $this->recommendationLimit) {
-            // Supprimer la recommandation la plus ancienne
-            $this->user->recommendations()->orderBy('created_at')->first()->delete();
-            }
+        } catch (\Exception $e) {
+            Log::error('Error in ProcessUserInteractions job: ' . $e->getMessage());
         }
-
-
-        // 5. Enregistrer les nouvelles recommandations
-        foreach ($recommendations as $offre) {
-            Recommendation::create([
-                'user_id' => $this->user->id,
-                'offre_id' => $offre->id,
-            ]);
-        }
-        Log::info('Job ProcessUserInteractions completed for user: ' . $this->user->id);
-    } catch (\Exception $e) {
-        Log::error('Error in ProcessUserInteractions job: ' . $e->getMessage());
-    }
     }
 }

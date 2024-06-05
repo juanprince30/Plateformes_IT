@@ -1,14 +1,14 @@
 @extends('layouts.test')
 
 @section('titre')
-liste des Offres
+liste des recommendations
 @endsection
 
 @section('content')
 
 <div class="container mt-5">
 
-    <h1 class="mb-4">Liste des Offres</h1>
+    <h1 class="mb-4">Liste des recommendations </h1>
     
     <div class="row">
         @foreach ($offres as $offre)

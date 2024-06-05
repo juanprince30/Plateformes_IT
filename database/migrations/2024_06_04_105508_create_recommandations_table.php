@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recommandations', function (Blueprint $table) {
+        Schema::create('recommendations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('profil_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('offre_id');
             $table->timestamps();
 
-            $table->foreign('profil_id')->references('id')->on('profils')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('offre_id')->references('id')->on('offres')->onDelete('restrict')->onUpdate('restrict');
 
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recommandations');
+        Schema::dropIfExists('recommendations');
     }
 };

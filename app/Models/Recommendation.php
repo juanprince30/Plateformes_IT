@@ -10,7 +10,7 @@ class Recommendation extends Model
     use HasFactory;
 
     protected $fillable= [
-        'profil_id',
+        'user_id',
         'offre_id'
     ];
 

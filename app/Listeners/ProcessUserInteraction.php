@@ -13,7 +13,6 @@ class ProcessUserInteraction
 
     public function handle(UserInteractedWithOffres $event): void
     {
-        Log::info('Event UserInteractedWithOpportunity triggered for user: ' . $event->user->id);
         ProcessUserInteractions::dispatch($event->user);
     }
 

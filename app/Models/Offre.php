@@ -24,9 +24,9 @@ class Offre extends Model
 
 
 
-    protected $casts = [
-        'competence_requis' => 'array',
-    ];
+    // protected $casts = [
+    //     'competence_requis' => 'array',
+    // ];
 
     public function categorie()
     {
