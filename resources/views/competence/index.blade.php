@@ -24,6 +24,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Titre</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Categorie</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -32,6 +33,8 @@
                     <tr>
                         <th scope="row">{{ $item->id }}</th>
                         <td>{{$item->titre}}</td>
+                        <td>{{ $item->description}}</td>
+                        <td>{{$item->categorie->libelle}}</td>
                         <td>
                             <form action="{{ route('competence.destroy',$item->id) }}" method="POST">
 

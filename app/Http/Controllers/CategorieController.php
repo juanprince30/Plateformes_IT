@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class CategorieController extends Controller
 {
+    /**search for a categorie */
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $result = Categorie::where('libelle', 'LIKE', "%{$query}%")->get();
+        return response()->json($result);
+    }
     /**
      * Display a listing of the resource.
      */
