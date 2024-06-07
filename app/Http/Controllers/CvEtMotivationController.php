@@ -20,8 +20,7 @@ class CvEtMotivationController extends Controller
         }
 
         $user_id= Auth::id();
-        $profil=Profil::where('user_id',$user_id)->first();
-        $cv_et_motivation=Cv_et_motivation::where('profil_id',$profil->id)->get();
+        $cv_et_motivation=Cv_et_motivation::where('user_id',$user_id)->get();
         
         return view('cv_et_motivation.index', compact('cv_et_motivation'));
     }
@@ -44,13 +43,13 @@ class CvEtMotivationController extends Controller
             'motivation' => 'nullable|file|mimes:pdf|max:2048',
             'description' => 'nullable|string',
         ]);
-        $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('cv_et_motivation.index')->with('error', 'Utilisateur non authentifié');
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        $profil= Profil::where('user_id',$user_id)->first();
+
+        $user_id= Auth::id();
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         if ($request->hasFile('cv')) {
             /** @var UploadedFile $image */  
@@ -101,13 +100,13 @@ class CvEtMotivationController extends Controller
             'motivation' => 'nullable|file|mimes:pdf|max:2048',
             'description' => 'nullable|string',
         ]);
-        $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('cv_et_motivation.index')->with('error', 'Utilisateur non authentifié');
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        $profil= Profil::where('user_id',$user_id)->first();
+
+        $user_id= Auth::id();
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         if ($request->hasFile('cv')) {
             // Supprimer l'ancienne image si elle existe

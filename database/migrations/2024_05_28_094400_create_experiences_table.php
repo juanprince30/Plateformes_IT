@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('responsabilite');
             $table->date('date_debut');
             $table->date('date_fin')->nullable();
-            $table->unsignedBigInteger('profil_id');
-            $table->foreign('profil_id')->references('id')->on('profils')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }

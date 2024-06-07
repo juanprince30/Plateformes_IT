@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('nom_institut',200);
             $table->date('date_dobtention');
             $table->string('fichier',500);
-            $table->unsignedBigInteger('profil_id');
-            $table->foreign('profil_id')->references('id')->on('profils')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }

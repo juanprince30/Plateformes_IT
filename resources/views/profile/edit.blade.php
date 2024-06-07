@@ -24,6 +24,18 @@
                     @include('profile.partials.delete-user-form')
                 </div>
             </div>
+
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    <button><a href="{{ route('competence.index')}}">Mes Competences</a></button><br><br>
+                    <button><a href="{{ route('cv_et_motivation.index')}}">CV et Motivation</a></button><br><br>
+                    <button><a href="{{ route('experience.index')}}">Mes Experiences</a></button><br><br>
+                    <button><a href="{{ route('certification.index')}}">Mes certifications</a></button><br><br> 
+                </div>
+            </div>
+            
+                
+
         </div>
     </div>
 </x-app-layout>

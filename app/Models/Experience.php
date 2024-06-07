@@ -17,11 +17,11 @@ class Experience extends Model
         'responsabilite',
         'date_debut',
         'date_fin',
-        'profil_id',
+        'user_id',
     ];
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 }

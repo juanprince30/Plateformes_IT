@@ -13,11 +13,11 @@ class Cv_et_motivation extends Model
         'cv',
         'motivation',
         'description',
-        'profil_id',
+        'user_id',
     ];
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 }

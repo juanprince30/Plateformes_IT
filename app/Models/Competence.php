@@ -12,13 +12,13 @@ class Competence extends Model
     protected $fillable= [
         'titre',
         'description',
-        'profil_id',
+        'user_id',
         'categorie_id',
     ];
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 
     public function Categorie()

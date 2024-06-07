@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('cv')->nullable();
             $table->string('motivation')->nullable();
             $table->string('description')->nullable();
-            $table->unsignedBigInteger('profil_id');
-            $table->foreign('profil_id')->references('id')->on('profils')->onDelete('restrict')->onUpdate('restrict');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });
     }

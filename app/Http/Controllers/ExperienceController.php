@@ -19,8 +19,7 @@ class ExperienceController extends Controller
         }
 
         $user_id= Auth::id();
-        $profil=Profil::where('user_id',$user_id)->first();
-        $experience=Experience::where('profil_id',$profil->id)->get();
+        $experience=Experience::where('user_id',$user_id)->get();
         
         return view('experience.index', compact('experience'));
     }
@@ -47,13 +46,13 @@ class ExperienceController extends Controller
             'date_debut' => 'required|date',
             'date_fin' => 'nullable|date|after_or_equal:date_debut',
         ]);
-        $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('experience.index')->with('error', 'Utilisateur non authentifié');
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        $profil= Profil::where('user_id',$user_id)->first();
+
+        $user_id= Auth::id();
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         Experience::create($input);
 
@@ -93,13 +92,13 @@ class ExperienceController extends Controller
             'date_debut' => 'required|date',
             'date_fin' => 'nullable|date|after_or_equal:date_debut',
         ]);
-        $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('experience.index')->with('error', 'Utilisateur non authentifié');
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        $profil= Profil::where('user_id',$user_id)->first();
+
+        $user_id= Auth::id();
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         $experience->update($input);
 

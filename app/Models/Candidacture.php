@@ -12,7 +12,7 @@ class Candidacture extends Model
     protected $fillable=[
         'motivation',
         'description',
-        'profil_id',
+        'user_id',
         'offre_id'
     ];
 
@@ -21,9 +21,9 @@ class Candidacture extends Model
         return $this->belongsTo(Offre::class);
     }
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 
     public function Notification()

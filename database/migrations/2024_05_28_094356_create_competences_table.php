@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('description');
-            $table->unsignedBigInteger('profil_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('categorie_id');
-            $table->foreign('profil_id')->references('id')->on('profils')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
         });

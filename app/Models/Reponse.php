@@ -15,9 +15,9 @@ class Reponse extends Model
         'discussion_id',
     ];
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 
     public function Discussion()

@@ -17,9 +17,9 @@ class Discussion extends Model
         'categorie_id',
     ];
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 
     public function Categorie()

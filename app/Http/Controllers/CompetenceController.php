@@ -20,8 +20,7 @@ class CompetenceController extends Controller
         }
 
         $user_id= Auth::id();
-        $profil=Profil::where('user_id',$user_id)->first();
-        $competence=Competence::where('profil_id',$profil->id)->get();
+        $competence=Competence::where('user_id',$user_id)->get();
         
         return view('competence.index', compact('competence'));
     }
@@ -43,16 +42,17 @@ class CompetenceController extends Controller
     {
         request()->validate([
             'titre'=>'required',
+            'description'=>'required',
             'categorie_id'=>'required',
         ]);
 
         $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('competence.index')->with('error', 'Utilisateur non authentifié');
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        $profil= Profil::where('user_id',$user_id)->first();
+
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         Competence::create($input);
 
@@ -86,19 +86,18 @@ class CompetenceController extends Controller
     {
         $competence=Competence::findOrFail($id);
         
-        $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('competence.index')->with('error', 'Utilisateur non authentifié');
-        }
-        $profil= Profil::where('user_id',$user_id)->first();
         request()->validate([
             'titre'=>'required',
             'description'=>'required',
             'categorie_id'=>'required',
         ]);
 
+        $user_id=Auth::id();
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
+        }
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         $competence->update($input);
         return redirect()->route('competence.index');

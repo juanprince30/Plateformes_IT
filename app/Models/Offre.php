@@ -19,7 +19,7 @@ class Offre extends Model
         'responsabilite',
         'competence_requis',
         'categorie_id',
-        'profil_id',
+        'user_id',
     ];
 
     public function Categorie()
@@ -27,9 +27,9 @@ class Offre extends Model
         return $this->belongsTo(Categorie::class);
     }
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 
     public function Candidacture()

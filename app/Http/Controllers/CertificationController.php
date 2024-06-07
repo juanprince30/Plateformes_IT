@@ -20,8 +20,7 @@ class CertificationController extends Controller
         }
 
         $user_id= Auth::id();
-        $profil=Profil::where('user_id',$user_id)->first();
-        $certification=Certification::where('profil_id',$profil->id)->get();
+        $certification=Certification::where('user_id',$user_id)->get();
         
         return view('certification.index',compact('certification'));
     }
@@ -45,13 +44,14 @@ class CertificationController extends Controller
             'date_dobtention' => 'required|date',
             'fichier' => 'required|file|mimes:pdf|max:2048',
         ]);
+        
         $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('certification.index')->with('error', 'Utilisateur non authentifié');
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        $profil= Profil::where('user_id',$user_id)->first();
+        
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         
         if ($request->hasFile('fichier')) {
@@ -97,13 +97,14 @@ class CertificationController extends Controller
             'date_dobtention' => 'required|date',
             'fichier' => 'file|mimes:pdf|max:2048',
         ]);
+        
         $user_id=Auth::id();
-        if (!$user_id) {
-            return redirect()->route('certification.index')->with('error', 'Utilisateur non authentifié');
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
         }
-        $profil= Profil::where('user_id',$user_id)->first();
+        
         $input=$request->all();
-        $input['profil_id']=$profil->id;
+        $input['user_id']=$user_id;
 
         if ($request->hasFile('fichier')) {
             // Supprimer l'ancienne image si elle existe

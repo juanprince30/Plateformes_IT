@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('motivation');
             $table->string('description');
-            $table->unsignedBigInteger('profil_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('offre_id');
-            $table->foreign('profil_id')->references('id')->on('profils')->onUpdate('restrict')->onDelete('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('restrict')->onDelete('restrict');
             $table->foreign('offre_id')->references('id')->on('offres')->onUpdate('restrict')->onDelete('restrict');
             $table->timestamps();
         });

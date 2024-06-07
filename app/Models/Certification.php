@@ -14,11 +14,11 @@ class Certification extends Model
         'nom_institut',
         'date_dobtention',
         'fichier',
-        'profil_id',
+        'user_id',
     ];
 
-    public function Profil()
+    public function User()
     {
-        return $this->belongsTo(Profil::class);
+        return $this->belongsTo(User::class);
     }
 }
