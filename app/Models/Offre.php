@@ -17,6 +17,8 @@ class Offre extends Model
         'salaire',
         'experience_requis',
         'responsabilite',
+        'date_debut_offre',
+        'date_fin_offre',
         'competence_requis',
         'categorie_id',
         'user_id',

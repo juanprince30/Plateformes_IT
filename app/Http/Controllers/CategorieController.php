@@ -34,7 +34,8 @@ class CategorieController extends Controller
      */
     public function create()
     {
-        return view('categorie.create');
+        $categorie = Categorie::all();
+        return view('offre.create', compact('categorie'));
     }
 
     /**

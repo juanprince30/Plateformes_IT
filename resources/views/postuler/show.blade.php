@@ -6,13 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Postuler</h1>
+
+    <h1>Postuler</h1>
     <div>
         <form action="" method="POST" class='offre'>
             @csrf
             
             <p>
-                <input type="file" value="Charger votre CV" name="cover_letter">
+                <textarea name="description" cols="30" rows="10" placeholder="description"></textarea>
             </p>
             <p>
                 <textarea name="motivation" cols="30" rows="10" placeholder="Motivation"></textarea>
@@ -22,5 +23,6 @@
                 <button type="submit">Submit</button>
             </div>
                 
+
 </body>
-</html>>
+</html>

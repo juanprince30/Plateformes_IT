@@ -23,6 +23,8 @@ class Categorie extends Model
     {
         return $this->hasMany(Offre::class);
     }
+    
+
 
     public function Discussion()
     {
