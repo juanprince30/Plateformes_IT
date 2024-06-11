@@ -13,7 +13,8 @@ class Candidacture extends Model
         'motivation',
         'description',
         'user_id',
-        'offre_id'
+        'offre_id',
+        'etat_candidature',
     ];
 
     public function Offre()

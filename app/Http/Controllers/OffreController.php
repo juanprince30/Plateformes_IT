@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidacture;
 use App\Models\Offre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OffreController extends Controller
 {
@@ -12,7 +14,8 @@ class OffreController extends Controller
      */
     public function index()
     {
-        //
+        $offres = Offre::query()->orderBy('created_at', 'desc')->paginate();
+        return view('offre.index', ['offres' => $offres]);
     }
 
     /**
@@ -20,7 +23,7 @@ class OffreController extends Controller
      */
     public function create()
     {
-        //
+        return view('offre.create');
     }
 
     /**
@@ -28,7 +31,30 @@ class OffreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'titre' => 'required|string|max:255',
+            'type_offre' => 'required|string|max:255',
+            'ville' => 'required|string|max:255',
+            'pays' => 'required|string|max:255',
+            'prix' =>'nullable|string',
+            'salaire' => 'nullable|string',
+            'experience_requis' => 'nullable|string',
+            'responsabilite' => 'required|string',
+            'competence_requis' => 'required|string',
+            'date_debut_offre' => 'required|date',
+            'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
+            'categorie_id' => 'required|integer|exists:categories,id',
+        ]);
+
+        $data['user_id'] = Auth::id();
+        $data['etat_offre'] = 'en cours';
+
+        if (now()->greaterThan($data['date_fin_offre'])) {
+            $data['etat_offre'] = 'terminer';
+        }
+        
+        $offre=Offre::create($data);
+        return redirect()->route('offre.show', $offre)->with('message', 'Offre créée avec succès.');
     }
 
     /**
@@ -36,7 +62,7 @@ class OffreController extends Controller
      */
     public function show(Offre $offre)
     {
-        //
+        return view('offre.show', ['offre' => $offre]);
     }
 
     /**
@@ -44,7 +70,7 @@ class OffreController extends Controller
      */
     public function edit(Offre $offre)
     {
-        //
+        return view('offre.edit', ['offre' => $offre]);
     }
 
     /**
@@ -52,7 +78,26 @@ class OffreController extends Controller
      */
     public function update(Request $request, Offre $offre)
     {
-        //
+        $data = $request->validate([
+            'titre' => 'required|string|max:255',
+            'type_offre' => 'required|string|max:255',
+            'ville' => 'required|string|max:255',
+            'pays' => 'required|string|max:255',
+            'salaire' => 'nullable|string',
+            'experience_requis' => 'nullable|string',
+            'responsabilite' => 'required|string',
+            'competence_requis' => 'required|string',
+            'date_debut_offre' => 'required|date',
+            'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
+            'categorie_id' => 'required|integer|exists:categories,id',
+        ]);
+
+        $data['user_id'] = Auth::id();
+        $data['etat_offre'] = 'en cours';
+
+        $offre->update($data);
+
+        return redirect()->route('offre.show', $offre)->with('message', 'Offre mise à jour avec succès.');
     }
 
     /**
@@ -60,6 +105,24 @@ class OffreController extends Controller
      */
     public function destroy(Offre $offre)
     {
-        //
+        $offre->delete();
+        return redirect()->route('offre.index')->with('message', 'Offre supprimée avec succès.');
+    }
+
+    public function mesoffre()
+    {
+        $offres = Offre::where('user_id', Auth::id())->paginate(10);
+        return view('offre.mesoffre', compact('offres'));
+    }
+
+    public function showmesoffre($offre)
+    {
+        $offre = Offre::find($offre);
+        if (!$offre) {
+            abort(404, 'Offre non trouvée');
+        }
+        $candidatures = Candidacture::where('offre_id', $offre)->get();
+
+        return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidatures]);
     }
 }
