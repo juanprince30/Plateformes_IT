@@ -106,8 +106,10 @@
         <div class="form-group">
             <label for="categorie_id">Catégorie</label>
             <select class="form-control" id="categorie_id" name="categorie_id" required>
-                <option value="1">Développement Web</option>
-                <option value="2">Cyber Sécurité</option>
+                <option value="">Sélectionnez une catégorie</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->libelle }}</option>
+                @endforeach
             </select>
         </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use App\Models\Offre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,8 @@ class OffreController extends Controller
      */
     public function create()
     {
-        return view('offre.create');
+        $categories = Categorie::all();
+        return view('offre.create', compact('categories'));
     }
 
     /**
@@ -59,8 +61,9 @@ class OffreController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Offre $offre)
+    public function show($id)
     {
+        $offre = Offre::with('candidacture')->findOrFail($id);
         return view('offre.show', ['offre' => $offre]);
     }
 

@@ -124,14 +124,22 @@
     </div>
     <div>
     <div>
-    @foreach($offres as $offre)
-        <div class="candidature-details">
-            <p><strong>Nom:</strong> {{ $offre->user->name }}</p>
-            <p><strong>Prénom:</strong> {{ $offre->user->prenom }}</p>
-            <p><strong>Description:</strong> {{ $offre->user->description }}</p>
-            <p><strong>Motivation:</strong> {{ $offre->user->motivation }}</p>
-        </div>
-    @endforeach
+        <h2>Candidats ayant postulé</h2>
+        @if($offre->Candidacture->isEmpty())
+            <p>Aucun candidat n'a postulé pour cette offre.</p>
+        @else
+            <ul>
+                @foreach($offre->Candidacture as $candidat)
+                    <li>
+                        <p>Nom : {{ $candidat->user->name }}</p>
+                        <p>Prenom : {{ $candidat->user->prenom }}</p>
+                        <p>Description : {{ $candidat->description }}</p>
+                        <p>Motivation : {{ $candidat->motivation }}</p>
+                       
+                    </li>
+                @endforeach
+            </ul>
+        @endif
 </div>
 
 
