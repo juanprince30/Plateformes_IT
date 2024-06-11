@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Offre extends Model
+class Post extends Model
 {
     use HasFactory;
 
@@ -29,7 +29,7 @@ class Offre extends Model
         return $this->belongsTo(Categorie::class);
     }
 
-    public function user()
+    public function User()
     {
         return $this->belongsTo(User::class);
     }

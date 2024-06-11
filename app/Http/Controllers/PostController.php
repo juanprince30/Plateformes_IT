@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Offre;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class OffreController extends Controller
+class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-       
-            
-        $offres = Offre::paginate(10);
+        
+        $offres = Post::where('user_id', Auth::id())->paginate(10);
         
 
         return view('offre.index', compact('offres'));
@@ -26,7 +22,7 @@ class OffreController extends Controller
      */
     public function create()
     {
-        return view('offre.create');
+        return view('poste.create');
     }
 
     /**
@@ -49,33 +45,33 @@ class OffreController extends Controller
         ]);
 
         $data['user_id'] = Auth::id();
-        $data['etat_offre'] = 'en cours';
+        $data['etat_post'] = 'en cours';
 
-        
-        $offre=Offre::create($data);
-        return redirect()->route('offre.index', $offre)->with('message', 'Offre créée avec succès.');
+        Post::create($data);
+
+        return redirect()->route('poste.index')->with('message', 'Poste créé avec succès.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Offre $offre)
+    public function show(Post $poste)
     {
-        return view('offre.show', ['offre' => $offre]);
+        return view('poste.show', ['poste' => $poste]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Offre $offre)
+    public function edit(Post $poste)
     {
-        return view('offre.edit', ['offre' => $offre]);
+        return view('poste.edit', ['poste' => $poste]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Offre $offre)
+    public function update(Request $request, Post $poste)
     {
         $data = $request->validate([
             'titre' => 'required|string|max:255',
@@ -92,30 +88,19 @@ class OffreController extends Controller
         ]);
 
         $data['user_id'] = Auth::id();
-        $data['etat_offre'] = 'en cours';
+        $data['etat_post'] = 'en cours';
 
-        $offre->update($data);
+        $poste->update($data);
 
-        return redirect()->route('offre.show', $offre)->with('message', 'Offre mise à jour avec succès.');
+        return redirect()->route('poste.show', $poste)->with('message', 'Poste mis à jour avec succès.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Offre $offre)
+    public function destroy(Post $poste)
     {
-        $offre->delete();
-        return redirect()->route('offre.index')->with('message', 'Offre supprimée avec succès.');
-    }
-
-    public function mesoffre(){
-        $offres = Offre::where('user_id', Auth::id())->paginate(10);
-        return view('offre.mesoffre', compact('offres'));
-    }
-
-    public function showmesoffre($id){
-        $offre = Offre::findOrFail($id);
-        $offres = Offre::all();
-        return view('offre.showmesoffre', compact('offre', 'offres'));
+        $poste->delete();
+        return redirect()->route('poste.index')->with('message', 'Poste supprimé avec succès.');
     }
 }

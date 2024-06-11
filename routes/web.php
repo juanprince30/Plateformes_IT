@@ -3,6 +3,7 @@
 use App\Http\Controllers\CandidactureController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\OffreController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +17,11 @@ Route::get('/', function () {
 
 
 Route::resource('offre', OffreController::class);
+Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');
+Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
 
 Route::middleware('auth')->group(function(){
+
     Route::get('postuler', [CandidactureController::class, 'index'])->name('postuler.index');
     Route::get('postuler/create', [CandidactureController::class, 'create'])->name('postuler.create');
     Route::post('postuler', [CandidactureController::class, 'store'])->name('postuler.store');

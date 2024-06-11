@@ -85,7 +85,7 @@ class CandidactureController extends Controller
             'offre_id' => 'required|exists:offres,id',
         ]);
 
-        $data['profil_id'] = Auth::id();
+        $data['user_id'] = Auth::id();
 
         $candidature->update($data);
 
