@@ -32,6 +32,7 @@ class ProfileController extends Controller
 
         // Récupérer les données validées de la requête
         $validatedData = $request->validated();
+        dd($validatedData);
 
         // Vérification de la présence d'un fichier image dans la requête
         if ($request->hasFile('image')) {

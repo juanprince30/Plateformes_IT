@@ -39,6 +39,12 @@
             <x-text-input id="prenom" name="prenom" type="text" class="mt-1 block w-full" :value="old('prenom', $user->prenom)" required autofocus autocomplete="prenom" />
             <x-input-error class="mt-2" :messages="$errors->get('prenom')" />
         </div>
+
+        <div>
+            <x-input-label for="date_naissance" :value="__('Date de naissance')" />
+            <x-text-input id="date_naissance" name="date_naissance" type="date" class="mt-1 block w-full" :value="old('date_naissance', $user->date_naissance)" autofocus autocomplete="date_naissance" />
+            <x-input-error class="mt-2" :messages="$errors->get('date_naissance')" />
+        </div>
         
         <div>
             <x-input-label for="telepone" :value="__('Telephone')" />
