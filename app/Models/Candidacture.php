@@ -12,6 +12,7 @@ class Candidacture extends Model
     protected $fillable=[
         'motivation',
         'description',
+        'etat_candidature',
         'user_id',
         'offre_id'
     ];

@@ -15,8 +15,8 @@ class CandidactureController extends Controller
     public function index()
     {
         
-
-        $candidatures = Candidacture::all();
+        $candidatures = Candidacture::where('user_id', Auth::id())->get();
+       
         return view('postuler.index', compact('candidatures'));
 
 
@@ -41,13 +41,14 @@ class CandidactureController extends Controller
     $data = $request->validate([
         'motivation' => 'required|string',
         'description' => 'required|string',
+        
         'offre_id' => 'required|exists:offres,id',
     ]);
 
     if ($request->hasFile('description')) {
         $data['description'] = $request->file('description')->store('descriptions');
     }
-
+    $data['etat_candidature'] = 'En attente';
     $data['user_id'] = Auth::id();
 
 

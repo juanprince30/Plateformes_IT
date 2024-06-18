@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Categorie;
+
+use App\Models\Candidacture;
+
 use App\Models\Offre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,12 +50,16 @@ class OffreController extends Controller
             'responsabilite' => 'required|string',
             'competence_requis' => 'required|string',
             'date_debut_offre' => 'required|date',
-            'date_fin_offre' => 'required|date',
+            'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
             'categorie_id' => 'required|integer|exists:categories,id',
         ]);
 
         $data['user_id'] = Auth::id();
         $data['etat_offre'] = 'en cours';
+        if(now()->greaterThan($data['date_fin_offre'])){
+            $data['etat_offre']='terminer';
+        }
+        
 
         
         $offre=Offre::create($data);
@@ -63,7 +71,10 @@ class OffreController extends Controller
      */
     public function show($id)
     {
+
         $offre = Offre::with('candidacture')->findOrFail($id);
+
+        
         return view('offre.show', ['offre' => $offre]);
     }
 
@@ -90,7 +101,7 @@ class OffreController extends Controller
             'responsabilite' => 'required|string',
             'competence_requis' => 'required|string',
             'date_debut_offre' => 'required|date',
-            'date_fin_offre' => 'required|date',
+            'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
             'categorie_id' => 'required|integer|exists:categories,id',
         ]);
 
@@ -116,9 +127,15 @@ class OffreController extends Controller
         return view('offre.mesoffre', compact('offres'));
     }
 
-    public function showmesoffre($id){
-        $offre = Offre::findOrFail($id);
-        $offres = Offre::all();
-        return view('offre.showmesoffre', compact('offre', 'offres'));
+    public function showmesoffre($offre)
+    {
+    $offre = Offre::find($offre);
+    if (!$offre) {
+        abort(404, 'Offre non trouvée');
     }
+    $candidatures = Candidacture::where('offre_id', $offre)->get();
+
+    return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidatures]);
+}
+
 }

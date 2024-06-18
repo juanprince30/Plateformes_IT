@@ -6,28 +6,26 @@
     <title>Détails de l'Offre</title>
     <style>
         .offre-details {
-        line-height: 1.6;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-    }
+            line-height: 1.6;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
 
-    /* Styles spécifiques pour les détails de la candidature */
-    .candidature-details {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
+        .candidature-details {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
 
-    /* Autres styles inchangés */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
 
         .offre-detail-container {
             width: 80%;
@@ -38,10 +36,12 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .offre-actions {
             text-align: right;
             margin-bottom: 20px;
         }
+
         .offre-back-button, .offre-edit-button, .offre-delete-button {
             display: inline-block;
             padding: 10px 15px;
@@ -51,34 +51,44 @@
             text-decoration: none;
             color: #fff;
         }
+
         .offre-back-button {
             background-color: #6c757d;
         }
+
         .offre-back-button:hover {
             background-color: #5a6268;
         }
+
         .offre-edit-button {
             background-color: #ffc107;
         }
+
         .offre-edit-button:hover {
             background-color: #e0a800;
         }
+
         .offre-delete-button {
             background-color: #dc3545;
         }
+
         .offre-delete-button:hover {
             background-color: #c82333;
         }
+
         .offre-details {
             line-height: 1.6;
         }
+
         .offre-details p {
             margin: 10px 0;
         }
+
         .offre-details strong {
             display: inline-block;
             width: 150px;
         }
+
         .postuler-button {
             display: inline-block;
             padding: 10px 15px;
@@ -89,6 +99,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-top: 20px;
         }
+
         .postuler-button:hover {
             background-color: #218838;
         }
@@ -97,7 +108,7 @@
 <body>
 <div class="offre-detail-container">
     <h1>Show Post: {{ $offre->titre }}</h1>
-    
+
     <div class="offre-actions">
         <a href="{{ route('offre.index') }}" class="offre-back-button">Retour</a>
         
@@ -122,7 +133,7 @@
         <p><strong>Date de début:</strong> {{ $offre->date_debut_offre }}</p>
         <p><strong>Date de fin:</strong> {{ $offre->date_fin_offre }}</p>
     </div>
-    <div>
+    
     <div>
         <h2>Candidats ayant postulé</h2>
         @if($offre->Candidacture->isEmpty())
@@ -130,21 +141,17 @@
         @else
             <ul>
                 @foreach($offre->Candidacture as $candidat)
-                    <li>
-                        <p>Nom : {{ $candidat->user->name }}</p>
-                        <p>Prenom : {{ $candidat->user->prenom }}</p>
-                        <p>Description : {{ $candidat->description }}</p>
-                        <p>Motivation : {{ $candidat->motivation }}</p>
-                       
+                    <li class="candidature-details">
+                        <p><strong>Nom :</strong> {{ $candidat->user->name }}</p>
+                        <p><strong>Prénom :</strong> {{ $candidat->user->prenom }}</p>
+                        <p><strong>Description :</strong> {{ $candidat->description }}</p>
+                        <p><strong>Motivation :</strong> {{ $candidat->motivation }}</p>
                     </li>
                 @endforeach
             </ul>
         @endif
-</div>
-
-
     </div>
-    
+
     <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}" class="postuler-button">Voir plus</a>
 </div>
 </body>

@@ -13,11 +13,13 @@
             Postuler
         </a> -->
         <div class="postuler">
-            @foreach($candidatures as $candidature)
+            @forelse($candidatures as $candidature)
             <div class="postuler">
                 <div class="postuler-body">
+                    <strong><p>Job: {{ $candidature->offre->titre }}</p></strong>
                     <strong><p>{{ $candidature->description }}</p></strong>
                     <p>{{ $candidature->motivation }}</p>
+                    <p>Statue:{{$candidature->etat_candidature}}</p>
                 </div>
                 <div class="offre-buttons">
                     <a href="{{ route('postuler.show', $candidature) }}" class="offre-edit-button">View</a>
@@ -30,7 +32,12 @@
                     </form> -->
                 </div>
             </div>
-            @endforeach
+            <a href="{{route('offre.index')}}">Retour</a>
+            @empty
+            <a href="{{route('offre.index')}}">Retour</a>
+            <p>Aucune candidature trouvée. Veuillez postuler à une offre avant.</p>
+            @endforelse
+           
         </div>
        
     </div>

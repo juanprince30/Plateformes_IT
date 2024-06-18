@@ -22,7 +22,9 @@ class Offre extends Model
         'competence_requis',
         'categorie_id',
         'user_id',
+        'etat_offre'
     ];
+   
 
     public function Categorie()
     {

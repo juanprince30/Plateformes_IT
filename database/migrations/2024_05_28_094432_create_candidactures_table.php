@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('motivation');
             $table->string('description');
+            $table->string('etat_candidature')->default('En attente');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('offre_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('restrict')->onDelete('restrict');
