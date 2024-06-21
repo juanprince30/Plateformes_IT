@@ -16,7 +16,9 @@
             @foreach($candidatures as $candidature)
             <div class="postuler">
                 <div class="postuler-body">
-                    <strong><p>{{ $candidature->description }}</p></strong>
+                    <strong><p>@if ($candidature->description)
+                        {{ $candidature->description}}
+                    @endif</p></strong>
                     <p>{{ $candidature->motivation }}</p>
                 </div>
                 <div class="offre-buttons">

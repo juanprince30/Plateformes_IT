@@ -109,12 +109,12 @@
                 <div class="offre-buttons">
                     <a href="{{ route('offre.showmesoffre', $offre) }}" class="offre-view-button">View</a>
                     <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-                    <!-- <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button">Edit</a> -->
-                    <!-- <form action="{{ route('offre.destroy', $offre) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button">Edit</a>
+                    <form action="{{ route('offre.destroy', $offre) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button class="offre-delete-button">Delete</button>
-                    </form> -->
+                    </form>
                 </div>
             </div>
             @endif

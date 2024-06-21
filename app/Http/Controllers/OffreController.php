@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidacture;
+use App\Models\Categorie;
 use App\Models\Offre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +15,8 @@ class OffreController extends Controller
      */
     public function index()
     {
-        $offres = Offre::query()->orderBy('created_at', 'desc')->paginate();
-        return view('offre.index', ['offres' => $offres]);
+        $offres = Offre::paginate(10);
+        return view('offre.index', compact('offres'));
     }
 
     /**
@@ -23,7 +24,8 @@ class OffreController extends Controller
      */
     public function create()
     {
-        return view('offre.create');
+        $categories = Categorie::all();
+        return view('offre.create', compact('categories'));
     }
 
     /**
@@ -54,15 +56,26 @@ class OffreController extends Controller
         }
         
         $offre=Offre::create($data);
-        return redirect()->route('offre.show', $offre)->with('message', 'Offre créée avec succès.');
+        return redirect()->route('offre.index', $offre)->with('message', 'Offre créée avec succès.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Offre $offre)
+    public function show($id)
     {
-        return view('offre.show', ['offre' => $offre]);
+        $offre = Offre::with('candidacture')->findOrFail($id);
+        $user = auth()->user();
+        $hasApplied = false;
+
+        if ($user) {
+            // Charger les candidatures de l'utilisateur
+            $hasApplied = $user->candidacture->where('offre_id', $id)->isNotEmpty();
+        }
+
+        return view('offre.show', compact('offre', 'hasApplied'));
+        
+        //return view('offre.show', ['offre' => $offre,]);
     }
 
     /**
@@ -83,6 +96,7 @@ class OffreController extends Controller
             'type_offre' => 'required|string|max:255',
             'ville' => 'required|string|max:255',
             'pays' => 'required|string|max:255',
+            'prix' =>'nullable|string',
             'salaire' => 'nullable|string',
             'experience_requis' => 'nullable|string',
             'responsabilite' => 'required|string',
@@ -94,6 +108,10 @@ class OffreController extends Controller
 
         $data['user_id'] = Auth::id();
         $data['etat_offre'] = 'en cours';
+
+        if (now()->greaterThan($data['date_fin_offre'])) {
+            $data['etat_offre'] = 'terminer';
+        }
 
         $offre->update($data);
 

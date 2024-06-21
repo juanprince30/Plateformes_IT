@@ -4,6 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .offre-detail-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .offre-actions {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .offre-back-button, .offre-edit-button, .offre-delete-button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 3px;
+            text-decoration: none;
+            color: #fff;
+        }
+        .offre-back-button {
+            background-color: #6c757d;
+        }
+        .offre-back-button:hover {
+            background-color: #5a6268;
+        }
+        .offre-edit-button {
+            background-color: #ffc107;
+        }
+        .offre-edit-button:hover {
+            background-color: #e0a800;
+        }
+        .offre-delete-button {
+            background-color: #dc3545;
+        }
+        .offre-delete-button:hover {
+            background-color: #c82333;
+        }
+        .offre-details {
+            line-height: 1.6;
+        }
+        .offre-details p {
+            margin: 10px 0;
+        }
+        .offre-details strong {
+            display: inline-block;
+            width: 150px;
+        }
+        .postuler-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .postuler-button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
 <div class="offre-detail-container">
@@ -41,7 +112,11 @@
             <p><strong>Date de fin:</strong> {{ $offre->date_fin_offre }}</p>
         </div>
         
-        <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}">Postuler</a>
+        @if(!$hasApplied)
+            <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}" class="postuler-button">Postuler</a>
+        @else
+            <button class="postuler-button" disabled>Vous avez déjà postulé</button>
+        @endif
     </div>
 </body>
 </html>

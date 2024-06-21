@@ -14,10 +14,8 @@ class CandidactureController extends Controller
      */
     public function index()
     {
-        $candidatures = Candidacture::all();
+        $candidatures = Candidacture::where('user_id', Auth::id())->get();
         return view('postuler.index', compact('candidatures'));
-
-
     }
 
     /**
@@ -41,7 +39,7 @@ class CandidactureController extends Controller
         'description' => 'nullable|string',
         'offre_id' => 'required|exists:offres,id',
     ]);
-
+    $data['etat_candidature'] = 'En attente';
     $data['user_id'] = Auth::id();
 
 
@@ -74,7 +72,7 @@ class CandidactureController extends Controller
     {
         $data = $request->validate([
             'motivation' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'offre_id' => 'required|exists:offres,id',
         ]);
 
@@ -82,8 +80,7 @@ class CandidactureController extends Controller
 
         $candidature->update($data);
 
-        return redirect()->route('offres.show', ['offre' => $data['offre_id']])
-                         ->with('message', 'Candidature mise à jour avec succès');
+        return redirect()->route('offres.show', ['offre' => $data['offre_id']])->with('message', 'Candidature mise à jour avec succès');
     }
 
     /**
@@ -92,7 +89,6 @@ class CandidactureController extends Controller
     public function destroy(Candidacture $candidature)
     {
         $candidature->delete();
-        return redirect()->route('offres.index')
-                         ->with('message', 'Candidature supprimée');
+        return redirect()->route('offres.index')->with('message', 'Candidature supprimée');
     }
 }
