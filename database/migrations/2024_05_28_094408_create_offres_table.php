@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('type_offre');
             $table->string('ville');
             $table->string('pays');
-            $table->string('salaire');
-            $table->string('experience_requis');
+            $table->string('prix')->nullable();
+            $table->string('salaire')->nullable();
+            $table->string('experience_requis')->nullable();
             $table->string('responsabilite');
             $table->string('competence_requis');
             $table->string('etat_offre')->default('en cours');

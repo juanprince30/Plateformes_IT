@@ -26,6 +26,7 @@ class ProfileUpdateRequest extends FormRequest
             'telepone' => 'nullable|string',
             'addresse' => 'nullable|string',
             'statut' => 'nullable|string',
+            'date_naissance' => 'nullable|string'
         ];
     }
 }

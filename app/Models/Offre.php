@@ -20,6 +20,10 @@ class Offre extends Model
         'competence_requis',
         'categorie_id',
         'user_id',
+        'etat_offre',
+        'date_fin_offre',
+        'date_debut_offre',
+        'prix',
     ];
 
     public function Categorie()
