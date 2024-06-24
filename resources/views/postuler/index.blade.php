@@ -23,13 +23,6 @@
                 </div>
                 <div class="offre-buttons">
                     <a href="{{ route('postuler.show', $candidature) }}" class="offre-edit-button">View</a>
-                    
-                    <!-- <a href="{{ route('postuler.edit', $candidature) }}" class="offre-edit-button">Edit</a> -->
-                    <!-- <form action="{{ route('postuler.destroy', $candidature) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="offre-delete-button">Delete</button>
-                    </form> -->
                 </div>
             </div>
             @endforeach

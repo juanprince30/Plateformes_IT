@@ -84,15 +84,13 @@
 </head>
 <body>
 <div class="offre-container">
-        <a href="{{ route('offre.create') }}" class="new-note-btn">
-            Create Offre
-        </a>
         <div class="offres">
         @foreach($offres as $offre)
             @if($offre->date_fin_offre >= now()->format('Y-m-d'))
             <div class="offre-item">
                 <div class="offre-body">
                     <strong><p>Job: {{ $offre->titre }}</p></strong>
+                    <p><strong>Utilisateur: {{ $offre->user->name}} {{ $offre->user->prenom}} </strong></p>
                     <p>Type d'offre: {{ $offre->type_offre }}</p>
                     <p>Ville: {{ $offre->ville }}</p>
                     <p>Pays: {{ $offre->pays }}</p>
@@ -113,20 +111,16 @@
                 </div>
                 <div class="offre-buttons">
                     <a href="{{ route('offre.show', $offre) }}" class="offre-view-button">View</a>
-                    
-                    <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-                    <!-- <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button">Edit</a> -->
-                    <!-- <form action="{{ route('offre.destroy', $offre) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('offre.destroy', $offre) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button class="offre-delete-button">Delete</button>
-                    </form> -->
+                    </form>
                 </div>
             </div>
             @endif
         @endforeach
         </div>
-        {{ $offres->links() }}
     </div>
 </body>
 </html>

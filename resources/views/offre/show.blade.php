@@ -104,7 +104,7 @@
                 <p><strong> Prix: </strong>{{ $offre->prix }}</p>
             @endif
             @if ($offre->experience_requis)
-                <p><strong>Expérience requise: </strong>{{ $offre->experience_requis }}</p>
+                <p><strong>Niveau d'Etude requis: </strong>{{ $offre->experience_requis }}</p>
             @endif
             <p><strong>Responsabilités:</strong> {{ $offre->responsabilite }}</p>
             <p><strong>Compétences requises:</strong> {{ $offre->competence_requis }}</p>
@@ -112,8 +112,11 @@
             <p><strong>Date de fin:</strong> {{ $offre->date_fin_offre }}</p>
         </div>
         
-        @if(!$hasApplied)
+        @if(!$hasApplied && $offre->user_id != auth()->id())
             <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}" class="postuler-button">Postuler</a>
+        @elseif($offre->user_id == auth()->id())
+            <button class="postuler-button" disabled>Postuler</button>
+            <em style="color: red">   *Vous ne pouvez pas postuler à votre propre offre!</em>
         @else
             <button class="postuler-button" disabled>Vous avez déjà postulé</button>
         @endif

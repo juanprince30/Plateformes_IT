@@ -101,22 +101,31 @@
 
         <div class="form-group">
             <label for="salaire">Prix (Formation)</label>
-            <input type="text" class="form-control" id="prix" name="prix">
+            <input type="text" class="form-control" id="prix" name="prix" placeholder="Le prix en FCFA pour une formation">
         </div>
 
         <div class="form-group">
             <label for="salaire">Salaire (Stage ou Emploi)</label>
-            <input type="text" class="form-control" id="salaire" name="salaire" >
+            <input type="text" class="form-control" id="salaire" name="salaire" placeholder="Le salaire en FCFA pour emploi ou stage">
         </div>
 
         <div class="form-group">
-            <label for="experience_requis">Expérience requise</label>
-            <input type="text" class="form-control" id="experience_requis" name="experience_requis" >
+            <label for="experience_requis">Niveau d'Etude requis</label>
+            <select name="experience_requis" id="experience_requis" class="form-control">
+                <option value="" selected disabled hidden>Selectionner une option</option>
+                <option value="Bac+1">Bac+1</option>
+                <option value="Bac+2">Bac+2</option>
+                <option value="Bac+3">Bac+3</option>
+                <option value="Bac+4">Bac+4</option>
+                <option value="Bac+5">Bac+5</option>
+                <option value="Bac+6">Bac+6</option>
+                <option value="Bac+7">Bac+7</option>
+            </select>
         </div>
 
         <div>
             <label for="categorie_id" class="col-sm-2 col-form-label">Catégorie</label>
-            <div class="col-sm-10">
+            <div class="form-control">
                 <input type="hidden" name="categorie_id" id="categorie_id" required>
                 <input type="text" class="form-control" id="categorie_search" placeholder="Sélectionner une catégorie" required>
             </div>

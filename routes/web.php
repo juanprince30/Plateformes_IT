@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CandidactureController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\OffreController;
@@ -46,5 +47,11 @@ Route::middleware('auth')->group(function(){
     Route::get('postuler/{candidature}', [CandidactureController::class, 'show'])->name('postuler.show');
     Route::get('postuler/{candidature}/edit', [CandidactureController::class, 'edit'])->name('postuler.edit');
     Route::put('postuler/{candidature}', [CandidactureController::class, 'update'])->name('postuler.update');
+    Route::put('postuler/{candidature}', [CandidactureController::class, 'updateStatus'])->name('postuler.updateStatus');
     Route::delete('postuler/{candidature}', [CandidactureController::class, 'destroy'])->name('postuler.destroy');
+});
+
+Route::middleware('auth')->group(function(){
+    Route::get('admin/offre', [OffreController::class, 'admin_offre'])->name('admin_offre');
+    Route::get('admin/user', [OffreController::class, 'admin_user'])->name('admin_user');
 });
