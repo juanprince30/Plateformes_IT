@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\CandidactureController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReponseController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,6 +14,35 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+
+
+
+Route::middleware('auth')->group(function(){
+    Route::get('discussion', [DiscussionController::class, 'index'])->name('discussion.index');
+    Route::get('discussion/create', [DiscussionController::class, 'create'])->name('discussion.create');
+    Route::post('discussion', [DiscussionController::class, 'store'])->name('discussion.store');
+    Route::get('discussion/{discussion}', [DiscussionController::class, 'show'])->name('discussion.show');
+    Route::get('discussion/{discussion}/edit', [DiscussionController::class, 'edit'])->name('discussion.edit');
+    Route::put('discussion/{discussion}', [DiscussionController::class, 'update'])->name('discussion.update');
+    Route::delete('discussion/{discussion}', [DiscussionController::class, 'destroy'])->name('discussion.destroy');
+});
+
+
+
+Route::middleware('auth')->group(function(){
+    Route::get('reponse', [ReponseController::class, 'index'])->name('reponse.index');
+    Route::get('/reponse/create/{discussion_id}', [App\Http\Controllers\ReponseController::class, 'create'])->name('reponse.create');
+    Route::post('reponse', [ReponseController::class, 'store'])->name('reponse.store');
+    Route::get('reponse/{reponse}', [ReponseController::class, 'show'])->name('reponse.show');
+    Route::get('reponse/{reponse}/edit', [ReponseController::class, 'edit'])->name('reponse.edit');
+    Route::put('reponse/{reponse}', [ReponseController::class, 'update'])->name('reponse.update');
+    Route::delete('reponse/{reponse}', [ReponseController::class, 'destroy'])->name('reponse.destroy');
+});
+
+
 
 
 

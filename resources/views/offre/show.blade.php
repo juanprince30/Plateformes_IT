@@ -104,8 +104,13 @@
         <p><strong>Date de début:</strong> {{ $offre->date_debut_offre }}</p>
         <p><strong>Date de fin:</strong> {{ $offre->date_fin_offre }}</p>
     </div>
+   
+    @if(!$hasApplied)
+        <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}" class="postuler-button">Postuler</a>
+    @else
+        <button class="postuler-button" disabled>Vous avez déjà postulé</button>
+    @endif
     
-    <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}" class="postuler-button">Postuler</a>
 </div>
 </body>
 </html>

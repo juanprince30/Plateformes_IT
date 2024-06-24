@@ -27,7 +27,7 @@ class Discussion extends Model
         return $this->belongsTo(Categorie::class);
     }
 
-    public function Reponse()
+    public function reponses()
     {
         return $this->hasMany(Reponse::class);
     }

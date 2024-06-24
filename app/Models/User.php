@@ -99,4 +99,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cv_et_motivation::class);
     }
+
+    
 }

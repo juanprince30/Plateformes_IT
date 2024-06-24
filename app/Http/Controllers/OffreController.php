@@ -73,9 +73,17 @@ class OffreController extends Controller
     {
 
         $offre = Offre::with('candidacture')->findOrFail($id);
+        $user = auth()->user();
+        $hasApplied = false;
 
+        if ($user) {
+            // Charger les candidatures de l'utilisateur
+            $hasApplied = $user->candidacture->where('offre_id', $id)->isNotEmpty();
+        }
+
+        return view('offre.show', compact('offre', 'hasApplied'));
         
-        return view('offre.show', ['offre' => $offre]);
+        //return view('offre.show', ['offre' => $offre,]);
     }
 
     /**
