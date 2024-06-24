@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidacture;
 use App\Models\Categorie;
 use App\Models\Offre;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -89,8 +90,9 @@ class OffreController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Offre $offre)
+    public function update(Request $request, $id)
     {
+        $offre=Offre::findOrFail($id);
         $data = $request->validate([
             'titre' => 'required|string|max:255',
             'type_offre' => 'required|string|max:255',
@@ -105,13 +107,6 @@ class OffreController extends Controller
             'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
             'categorie_id' => 'required|integer|exists:categories,id',
         ]);
-
-        $data['user_id'] = Auth::id();
-        $data['etat_offre'] = 'en cours';
-
-        if (now()->greaterThan($data['date_fin_offre'])) {
-            $data['etat_offre'] = 'terminer';
-        }
 
         $offre->update($data);
 
@@ -135,12 +130,42 @@ class OffreController extends Controller
 
     public function showmesoffre($offre)
     {
-        $offre = Offre::find($offre);
+        $offre = Offre::where('user_id', Auth::id())->find($offre);
         if (!$offre) {
             abort(404, 'Offre non trouvée');
         }
         $candidatures = Candidacture::where('offre_id', $offre)->get();
 
         return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidatures]);
+    }
+
+    public function admin_offre()
+    {
+        $user_id = Auth::id();
+        $user=User::where('id',$user_id)->first();
+        if($user->role== 'admin')
+        {
+            $offres=Offre::all();
+            return view('admin_offre.index', compact('offres'));
+        }
+        else
+        {
+            abort(403, ' INTERDIT !! ');
+        }
+    }
+
+    public function admin_user()
+    {
+        $user_id = Auth::id();
+        $user=User::where('id',$user_id)->first();
+        if($user->role== 'admin')
+        {
+            $users=User::all();
+            return view('admin_offre.user', compact('users'));
+        }
+        else
+        {
+            abort(403, ' INTERDIT !! ');
+        }
     }
 }

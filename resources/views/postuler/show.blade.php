@@ -13,7 +13,7 @@
                         {{ $candidature->description}}
                     @endif</p></strong>
                     <p>{{ $candidature->motivation }}</p>
-                    <p>Statue:{{$candidature->etat_candidature}}</p>
+                    <p>Status:{{$candidature->etat_candidature}}</p>
 </div>
 <a href="{{route('postuler.index')}}">Retour</a>
 </body>

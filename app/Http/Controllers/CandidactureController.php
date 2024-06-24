@@ -83,6 +83,26 @@ class CandidactureController extends Controller
         return redirect()->route('offres.show', ['offre' => $data['offre_id']])->with('message', 'Candidature mise à jour avec succès');
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $candidature = Candidacture::findOrFail($id);
+        $offre = $candidature->offre;
+
+        // Vérifiez si l'utilisateur connecté est le créateur de l'offre
+        if (Auth::user()->id !== $offre->user_id) {
+            return redirect()->route('offre.show', $offre->id)->with('error', 'Vous n\'êtes pas autorisé à modifier cette candidature.');
+        }
+
+        $request->validate([
+            'etat_candidature' => 'required',
+        ]);
+
+        $candidature->etat_candidature = $request->input('etat_candidature');
+        $candidature->save();
+
+        return redirect()->route('offre.mesoffre', $offre->id)->with('success', 'État de la candidature mis à jour.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

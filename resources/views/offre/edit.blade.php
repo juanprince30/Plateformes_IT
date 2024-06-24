@@ -71,7 +71,7 @@
 <div class="container">
     <h1>Modifier l'offre</h1>
     <div>
-        <form action="{{ route('offre.update', $offre) }}" method="POST" class="offre">
+        <form action="{{ route('offre.update', $offre->id) }}" method="POST" class="offre">
             @csrf
             @method('PUT')
 
@@ -106,8 +106,17 @@
             </div>
 
             <div class="form-group">
-                <label for="experience_requis">Expérience requise</label>
-                <textarea name="experience_requis" class="form-control" cols="30" rows="10">{{ $offre->experience_requis }}</textarea>
+                <label for="experience_requis">Niveau d'Etude requis</label>
+                <select name="experience_requis" id="experience_requis" class="form-control">
+                    <option value="" selected disabled hidden>Selectionner une option</option>
+                    <option value="Bac+1" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+1' ? 'selected' : '' }}>Bac+1</option>
+                    <option value="Bac+2" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+2' ? 'selected' : '' }}>Bac+2</option>
+                    <option value="Bac+3" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+3' ? 'selected' : '' }}>Bac+3</option>
+                    <option value="Bac+4" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+4' ? 'selected' : '' }}>Bac+4</option>
+                    <option value="Bac+5" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+5' ? 'selected' : '' }}>Bac+5</option>
+                    <option value="Bac+6" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+6' ? 'selected' : '' }}>Bac+6</option>
+                    <option value="Bac+7" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+7' ? 'selected' : '' }}>Bac+7</option>
+                </select>
             </div>
 
             <div class="form-group">
