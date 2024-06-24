@@ -135,7 +135,7 @@ class OffreController extends Controller
 
     public function showmesoffre($offre)
     {
-        $offre = Offre::find($offre);
+        $offre = Offre::where('user_id', Auth::id())->find($offre);
         if (!$offre) {
             abort(404, 'Offre non trouvée');
         }

@@ -46,5 +46,6 @@ Route::middleware('auth')->group(function(){
     Route::get('postuler/{candidature}', [CandidactureController::class, 'show'])->name('postuler.show');
     Route::get('postuler/{candidature}/edit', [CandidactureController::class, 'edit'])->name('postuler.edit');
     Route::put('postuler/{candidature}', [CandidactureController::class, 'update'])->name('postuler.update');
+    Route::patch('/candidature/{id}', [CandidactureController::class, 'updateStatus'])->name('candidature.update');
     Route::delete('postuler/{candidature}', [CandidactureController::class, 'destroy'])->name('postuler.destroy');
 });
