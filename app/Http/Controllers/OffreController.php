@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidacture;
 use App\Models\Categorie;
+use App\Models\Notification;
 use App\Models\Offre;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -57,6 +58,16 @@ class OffreController extends Controller
         }
         
         $offre=Offre::create($data);
+
+        
+        /*Créer une notification pour l'utilisateur qui a créé l'offre*/
+        Notification::create([
+            'type' => 'Nouvelle Offre creer',
+            'message' => 'Vous avez creer une nouvelle Offre \''.$offre->titre.'\' avec succès.',
+            'user_id' => $offre->user_id, // Utilisateur qui a créé l'offre
+            'offre_id' => $offre->id,
+        ]);
+
         return redirect()->route('offre.index', $offre)->with('message', 'Offre créée avec succès.');
     }
 
@@ -137,6 +148,13 @@ class OffreController extends Controller
         $candidatures = Candidacture::where('offre_id', $offre)->get();
 
         return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidatures]);
+    }
+
+    public function showmescandidat($id)
+    {
+        $candidature = Candidacture::findOrfail($id);
+
+        return view('offre.candidat', compact('candidature'));
     }
 
     public function admin_offre()

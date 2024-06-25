@@ -150,31 +150,11 @@
                 <ul class="list-group">
                     @foreach($offre->Candidacture as $candidat)
                         <li class="list-group-item">
-                            <p><strong>Nom:</strong> {{ $candidat->user->name }}</p>
-                            <p><strong>Prénom:</strong> {{ $candidat->user->prenom }}</p>
-                            @if ($candidat->description)
-                                <p><strong>Description:</strong> {{ $candidat->description }}</p>
-                            @endif
-                            <p><strong>Motivation:</strong> {{ $candidat->motivation }}</p>
-
-
-
-                            <!-- Form to update candidature status -->
-                            @if(Auth::user()->id === $offre->user_id)
-                                <form class="form-inline mt-2" action="{{ route('postuler.updateStatus', $candidat->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="form-group mr-2">
-                                        <label for="status" class="mr-2">État de la candidature:</label>
-                                        <select name="etat_candidature" id="status" class="form-control">
-                                            <option value="en attente" {{ $candidat->etat_candidature == 'en attente' ? 'selected' : '' }}>En attente</option>
-                                            <option value="accepté" {{ $candidat->etat_candidature == 'accepté' ? 'selected' : '' }}>Accepté</option>
-                                            <option value="rejeté" {{ $candidat->etat_candidature == 'rejeté' ? 'selected' : '' }}>Rejeté</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
-                                </form>
-                            @endif
+                            <p><strong>Nom: </strong> {{ $candidat->user->name }}</p>
+                            <p><strong>Prénom: </strong> {{ $candidat->user->prenom }}</p>
+                            <p><strong>Email: </strong> {{ $candidat->user->email }}</p>
+                            <p><strong>Etat candidature: </strong> {{ $candidat->etat_candidature }}</p>
+                            <button style="color: #28a745"><a href="{{ route('offre.showmescandidat', $candidat->id )}}">voir plus</a></button>          
                         </li>
                     @endforeach
                 </ul>

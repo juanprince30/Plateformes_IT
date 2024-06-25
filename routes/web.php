@@ -36,9 +36,14 @@ Route::resource('/cv_et_motivation', App\Http\Controllers\CvEtMotivationControll
 
 Route::resource('offre', OffreController::class);
 
-Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');
+Route::middleware('auth')->group(function(){
+    Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');
 
-Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
+    Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
+
+    Route::get('/showmescandidat/{offre}', [OffreController::class, 'showmescandidat'])->name('offre.showmescandidat');
+});
+
 
 Route::middleware('auth')->group(function(){
     Route::get('postuler', [CandidactureController::class, 'index'])->name('postuler.index');

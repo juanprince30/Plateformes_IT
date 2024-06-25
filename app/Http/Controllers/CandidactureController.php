@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidacture;
+use App\Models\Notification;
 use App\Models\Offre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,8 +43,28 @@ class CandidactureController extends Controller
     $data['etat_candidature'] = 'En attente';
     $data['user_id'] = Auth::id();
 
+    // Créer la candidature
+    $candidature = Candidacture::create($data);
 
-    Candidacture::create($data);
+
+    $offre = Offre::find($request->offre_id);
+
+    /*Créer une notification pour l'utilisateur qui a créé l'offre*/
+    Notification::create([
+        'type' => 'Nouvelle Candidature',
+        'message' => 'Une nouvelle candidature a été soumise pour votre offre.',
+        'user_id' => $offre->user_id, // Utilisateur qui a créé l'offre
+        'candidacture_id' => $candidature->id,
+        'offre_id' => $offre->id,
+    ]);
+
+    Notification::create([
+        'type' => 'Candidature à une offre',
+        'message' => 'Confirmation de votre candidature à l\'offre: '.$offre->titre.'.',
+        'user_id' => $candidature->user_id, // Utilisateur qui a soumis sa candidature
+        'candidacture_id' => $candidature->id,
+        'offre_id' => $offre->id,
+    ]);
 
     return redirect()->route('postuler.index')->with('message', 'Candidature soumise avec succès');
 }
