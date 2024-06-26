@@ -47,9 +47,34 @@ Route::middleware('auth')->group(function(){
 
 
 
-Route::resource('offre', OffreController::class);
+/* Route::resource('offre', OffreController::class);
 Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');
-Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
+Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre'); */
+Route::get('offre', [OffreController::class, 'index'])->name('offre.index');
+
+// Afficher le formulaire de création d'une offre
+Route::get('offre/create', [OffreController::class, 'create'])->name('offre.create');
+
+// Enregistrer une nouvelle offre
+Route::post('offre', [OffreController::class, 'store'])->name('offre.store');
+
+// Afficher les détails d'une offre
+Route::get('offre/{offre}', [OffreController::class, 'show'])->name('offre.show');
+
+// Afficher le formulaire de modification d'une offre
+Route::get('showmesoffre/{offre}/edit', [OffreController::class, 'edit'])->name('offre.edit');
+
+// Mettre à jour une offre existante
+Route::put('offre/{offre}', [OffreController::class, 'update'])->name('offre.update');
+
+// Supprimer une offre
+Route::delete('offre/{offre}', [OffreController::class, 'destroy'])->name('offre.destroy');
+
+// Route pour afficher les offres de l'utilisateur connecté
+Route::get('mesoffre', [OffreController::class, 'mesoffre'])->name('offre.mesoffre');
+
+// Route pour afficher les détails des offres de l'utilisateur connecté
+Route::get('showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
 
 Route::middleware('auth')->group(function(){
 

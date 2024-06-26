@@ -84,9 +84,10 @@
 </head>
 <body>
 <div class="offre-container">
-    <a href="{{ route('offre.create') }}" class="new-note-btn">
-        Create Offre
-    </a>
+<a href="{{ route('offre.create') }}" class="new-note-btn">
+    Create Offre
+</a>
+
     <div class="offres">
         @foreach($offres as $offre)
             @if($offre->date_fin_offre >= now()->format('Y-m-d'))

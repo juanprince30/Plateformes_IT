@@ -30,10 +30,10 @@ class OffreController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        $categories = Categorie::all();
-        return view('offre.create', compact('categories'));
-    }
+{
+    $categories = Categorie::all();
+    return view('offre.create', compact('categories'));
+}
 
     /**
      * Store a newly created resource in storage.
@@ -90,36 +90,38 @@ class OffreController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Offre $offre)
-    {
-        return view('offre.edit', ['offre' => $offre]);
-    }
+{
+    $categories = Categorie::all();
+    return view('offre.edit', compact('offre', 'categories'));
+}
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Offre $offre)
-    {
-        $data = $request->validate([
-            'titre' => 'required|string|max:255',
-            'type_offre' => 'required|string|max:255',
-            'ville' => 'required|string|max:255',
-            'pays' => 'required|string|max:255',
-            'salaire' => 'required|string',
-            'experience_requis' => 'required|string',
-            'responsabilite' => 'required|string',
-            'competence_requis' => 'required|string',
-            'date_debut_offre' => 'required|date',
-            'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
-            'categorie_id' => 'required|integer|exists:categories,id',
-        ]);
+{
+    $data = $request->validate([
+        'titre' => 'required|string|max:255',
+        'type_offre' => 'required|string|max:255',
+        'ville' => 'required|string|max:255',
+        'pays' => 'required|string|max:255',
+        'salaire' => 'required|string',
+        'experience_requis' => 'required|string',
+        'responsabilite' => 'required|string',
+        'competence_requis' => 'required|string',
+        'date_debut_offre' => 'required|date',
+        'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
+        'categorie_id' => 'required|integer|exists:categories,id',
+    ]);
 
-        $data['user_id'] = Auth::id();
-        $data['etat_offre'] = 'en cours';
+    $data['user_id'] = Auth::id();
+    $data['etat_offre'] = now()->greaterThan($data['date_fin_offre']) ? 'terminer' : 'en cours';
 
-        $offre->update($data);
+    $offre->update($data);
 
-        return redirect()->route('offre.show', $offre)->with('message', 'Offre mise à jour avec succès.');
-    }
+    return redirect()->route('offre.mesoffre', $offre)->with('message', 'Offre mise à jour avec succès.');
+}
 
     /**
      * Remove the specified resource from storage.
