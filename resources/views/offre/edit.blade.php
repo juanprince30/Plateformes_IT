@@ -130,14 +130,6 @@
             </div>
 
             <div class="form-group">
-                <label for="etat_offre">État de l'offre</label>
-                <select name="etat_offre" class="form-control">
-                    <option value="en cours" {{ $offre->etat_offre == 'en cours' ? 'selected' : '' }}>En cours</option>
-                    <option value="terminée" {{ $offre->etat_offre == 'terminée' ? 'selected' : '' }}>Terminée</option>
-                </select>
-            </div>
-
-            <div class="form-group">
                 <label for="date_debut_offre">Date de début</label>
                 <input type="date" name="date_debut_offre" class="form-control" value="{{ $offre->date_debut_offre }}">
             </div>

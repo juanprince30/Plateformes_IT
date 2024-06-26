@@ -51,10 +51,14 @@ class OffreController extends Controller
         ]);
 
         $data['user_id'] = Auth::id();
-        $data['etat_offre'] = 'en cours';
+        $data['etat_offre'] = 'En attente';
 
+        if (now()->greaterThanOrEqualTo($data['date_debut_offre'])) {
+            $data['etat_offre'] = 'Offre publiée';
+        }
+        
         if (now()->greaterThan($data['date_fin_offre'])) {
-            $data['etat_offre'] = 'terminer';
+            $data['etat_offre'] = 'Offre expiré';
         }
         
         $offre=Offre::create($data);
@@ -103,13 +107,14 @@ class OffreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $offre=Offre::findOrFail($id);
+        $offre = Offre::findOrFail($id);
+    
         $data = $request->validate([
             'titre' => 'required|string|max:255',
             'type_offre' => 'required|string|max:255',
             'ville' => 'required|string|max:255',
             'pays' => 'required|string|max:255',
-            'prix' =>'nullable|string',
+            'prix' => 'nullable|string',
             'salaire' => 'nullable|string',
             'experience_requis' => 'nullable|string',
             'responsabilite' => 'required|string',
@@ -118,11 +123,12 @@ class OffreController extends Controller
             'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
             'categorie_id' => 'required|integer|exists:categories,id',
         ]);
-
+    
         $offre->update($data);
-
+    
         return redirect()->route('offre.show', $offre)->with('message', 'Offre mise à jour avec succès.');
     }
+    
 
     /**
      * Remove the specified resource from storage.

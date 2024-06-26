@@ -127,7 +127,7 @@
             <label for="categorie_id" class="col-sm-2 col-form-label">Catégorie</label>
             <div class="form-control">
                 <input type="hidden" name="categorie_id" id="categorie_id" required>
-                <input type="text" class="form-control" id="categorie_search" placeholder="Sélectionner une catégorie" required>
+                <input type="text" name="categories" class="form-control" id="categorie_search" placeholder="Sélectionner une catégorie" required>
             </div>
         </div>
         

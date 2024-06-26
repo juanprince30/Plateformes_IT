@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Intégration de Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Vos styles CSS personnalisés ici */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -83,50 +86,44 @@
     </style>
 </head>
 <body>
-<div class="offre-container">
-        <a href="{{ route('offre.create') }}" class="new-note-btn">
+    <div class="offre-container">
+        <a href="{{ route('offre.create') }}" class="new-note-btn btn btn-success">
             Create Offre
         </a>
         <div class="offres">
-        @foreach($offres as $offre)
-            @if($offre->date_fin_offre >= now()->format('Y-m-d'))
-            <div class="offre-item">
-                <div class="offre-body">
-                    <strong><p>Job: {{ $offre->titre }}</p></strong>
-                    <p>Type d'offre: {{ $offre->type_offre }}</p>
-                    <p>Ville: {{ $offre->ville }}</p>
-                    <p>Pays: {{ $offre->pays }}</p>
-                    @if ($offre->salaire)
-                        <p>Salaire: {{ $offre->salaire }} FCFA</p>
-                    @endif
-                    @if ($offre->prix)
-                        <p>Prix: {{ $offre->prix }}</p>
-                    @endif
-                    @if ($offre->experience_requis)
-                        <p>Niveau d'Etude requis: {{ $offre->experience_requis }}</p>
-                    @endif
-                    <p>Responsabilités: {{ $offre->responsabilite }}</p>
-                    <p>Compétences requises: {{ $offre->competence_requis }}</p>
-                    <p>État de l'offre: {{ $offre->etat_offre }}</p>
-                    <p>Date de début: {{ $offre->date_debut_offre }}</p>
-                    <p>Date de fin: {{ $offre->date_fin_offre }}</p>
-                </div>
-                <div class="offre-buttons">
-                    <a href="{{ route('offre.show', $offre) }}" class="offre-view-button">View</a>
-                    
-                    <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-                    <!-- <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button">Edit</a> -->
-                    <!-- <form action="{{ route('offre.destroy', $offre) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="offre-delete-button">Delete</button>
-                    </form> -->
-                </div>
-            </div>
-            @endif
-        @endforeach
+            @foreach($offres as $offre)
+                @if($offre->date_debut_offre <= now()->format('Y-m-d') && $offre->date_fin_offre >= now()->format('Y-m-d'))
+                    <div class="offre-item card">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>{{ $offre->titre }}</strong></h5>
+                            <p class="card-text">Type d'offre: {{ $offre->type_offre }}</p>
+                            <p class="card-text">Ville: {{ $offre->ville }}</p>
+                            <p class="card-text">Pays: {{ $offre->pays }}</p>
+                            @if ($offre->salaire)
+                                <p class="card-text">Salaire: {{ $offre->salaire }} FCFA</p>
+                            @endif
+                            @if ($offre->prix)
+                                <p class="card-text">Prix: {{ $offre->prix }}</p>
+                            @endif
+                            @if ($offre->experience_requis)
+                                <p class="card-text">Niveau d'Etude requis: {{ $offre->experience_requis }}</p>
+                            @endif
+                            <p class="card-text">Responsabilités: {{ $offre->responsabilite }}</p>
+                            <p class="card-text">Compétences requises: {{ $offre->competence_requis }}</p>
+                            <p class="card-text">Date de début: {{ $offre->date_debut_offre }}</p>
+                            <p class="card-text">Date de fin: {{ $offre->date_fin_offre }}</p>
+                        </div>
+                        <div class="card-footer text-right">
+                            <a href="{{ route('offre.show', $offre) }}" class="offre-view-button btn btn-primary">View</a>
+                            <!-- Ajoutez ici les boutons Edit et Delete si nécessaire -->
+                        </div>
+                    </div>
+                @endif
+            @endforeach
         </div>
         {{ $offres->links() }}
     </div>
+    <!-- Intégration de Bootstrap JS (optionnel, si vous en avez besoin) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
