@@ -34,15 +34,31 @@ Route::resource('/certification', App\Http\Controllers\CertificationController::
 
 Route::resource('/cv_et_motivation', App\Http\Controllers\CvEtMotivationController::class);
 
-Route::resource('offre', OffreController::class);
+
+
+
+Route::get('offre', [OffreController::class, 'index'])->name('offre.index');
+    Route::get('offre/create', [OffreController::class, 'create'])->name('offre.create');
+    Route::post('offre', [OffreController::class, 'store'])->name('offre.store');
+    Route::get('offre/{offre}', [OffreController::class, 'show'])->name('offre.show');
+    Route::put('offre/{offre}', [OffreController::class, 'update'])->name('offre.update');
+    Route::delete('offre/{offre}', [OffreController::class, 'destroy'])->name('offre.destroy');
+
 
 Route::middleware('auth')->group(function(){
     Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');
+    Route::get('offre/{offre}/edit', [OffreController::class, 'edit'])->name('offre.edit');
+
+
 
     Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
 
     Route::get('/showmescandidat/{offre}', [OffreController::class, 'showmescandidat'])->name('offre.showmescandidat');
 });
+
+
+
+
 
 
 Route::middleware('auth')->group(function(){

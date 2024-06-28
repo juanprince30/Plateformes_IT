@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Modifier une offre</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -69,82 +70,124 @@
 </head>
 <body>
 <div class="container">
-    <h1>Modifier l'offre</h1>
-    <div>
-        <form action="{{ route('offre.update', $offre->id) }}" method="POST" class="offre">
-            @csrf
-            @method('PUT')
+    <h1>Modifier l'offre "{{ $offre->titre }}"</h1>
+    <form action="{{ route('offre.update', $offre->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-            <div class="form-group">
-                <label for="titre">Titre</label>
-                <input type="text" name="titre" class="form-control" value="{{ $offre->titre }}">
-            </div>
+        <div class="form-group">
+            <label for="titre">Titre</label>
+            <input type="text" class="form-control" id="titre" name="titre" value="{{ old('titre', $offre->titre) }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="type_offre">Type d'offre</label>
+            <select class="form-control" name="type_offre" id="type_offre" required>
+                <option value="Stage" @if($offre->type_offre == 'Stage') selected @endif>Stage</option>
+                <option value="Emploi" @if($offre->type_offre == 'Emploi') selected @endif>Emploi</option>
+                <option value="Formation" @if($offre->type_offre == 'Formation') selected @endif>Formation</option>
+            </select>
+        </div>
 
-            <div class="form-group">
-                <label for="type_offre">Type d'offre</label>
-                <input type="text" name="type_offre" class="form-control" value="{{ $offre->type_offre }}">
-            </div>
+        <div class="form-group">
+            <label for="ville">Ville</label>
+            <input type="text" class="form-control" id="ville" name="ville" value="{{ old('ville', $offre->ville) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="ville">Ville</label>
-                <input type="text" name="ville" class="form-control" value="{{ $offre->ville }}">
-            </div>
+        <div class="form-group">
+            <label for="pays">Pays</label>
+            <input type="text" class="form-control" id="pays" name="pays" value="{{ old('pays', $offre->pays) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="pays">Pays</label>
-                <input type="text" name="pays" class="form-control" value="{{ $offre->pays }}">
-            </div>
+        <div class="form-group">
+            <label for="prix">Prix (Formation)</label>
+            <input type="text" class="form-control" id="prix" name="prix" value="{{ old('prix', $offre->prix) }}" placeholder="Le prix en FCFA pour une formation">
+        </div>
 
-            <div class="form-group">
-                <label for="salaire">Prix (Formation)</label>
-                <input type="text" class="form-control" id="prix" name="prix" value="{{ $offre->prix }}">
-            </div>
-    
-            <div class="form-group">
-                <label for="salaire">Salaire (Stage ou Emploi)</label>
-                <input type="text" class="form-control" id="salaire" name="salaire" value="{{ $offre->salaire }}">
-            </div>
+        <div class="form-group">
+            <label for="salaire">Salaire (Stage ou Emploi)</label>
+            <input type="text" class="form-control" id="salaire" name="salaire" value="{{ old('salaire', $offre->salaire) }}" placeholder="Le salaire en FCFA pour emploi ou stage">
+        </div>
 
-            <div class="form-group">
-                <label for="experience_requis">Niveau d'Etude requis</label>
-                <select name="experience_requis" id="experience_requis" class="form-control">
-                    <option value="" selected disabled hidden>Selectionner une option</option>
-                    <option value="Bac+1" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+1' ? 'selected' : '' }}>Bac+1</option>
-                    <option value="Bac+2" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+2' ? 'selected' : '' }}>Bac+2</option>
-                    <option value="Bac+3" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+3' ? 'selected' : '' }}>Bac+3</option>
-                    <option value="Bac+4" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+4' ? 'selected' : '' }}>Bac+4</option>
-                    <option value="Bac+5" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+5' ? 'selected' : '' }}>Bac+5</option>
-                    <option value="Bac+6" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+6' ? 'selected' : '' }}>Bac+6</option>
-                    <option value="Bac+7" {{ old('niveau_etude', $offre->experience_requis) == 'Bac+7' ? 'selected' : '' }}>Bac+7</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="experience_requis">Niveau d'Étude requis</label>
+            <select name="experience_requis" id="experience_requis" class="form-control">
+                <option value="Bac+1" @if($offre->experience_requis == 'Bac+1') selected @endif>Bac+1</option>
+                <option value="Bac+2" @if($offre->experience_requis == 'Bac+2') selected @endif>Bac+2</option>
+                <option value="Bac+3" @if($offre->experience_requis == 'Bac+3') selected @endif>Bac+3</option>
+                <option value="Bac+4" @if($offre->experience_requis == 'Bac+4') selected @endif>Bac+4</option>
+                <option value="Bac+5" @if($offre->experience_requis == 'Bac+5') selected @endif>Bac+5</option>
+                <option value="Bac+6" @if($offre->experience_requis == 'Bac+6') selected @endif>Bac+6</option>
+                <option value="Bac+7" @if($offre->experience_requis == 'Bac+7') selected @endif>Bac+7</option>
+            </select>
+        </div>
 
-            <div class="form-group">
-                <label for="responsabilite">Responsabilités</label>
-                <textarea name="responsabilite" class="form-control" cols="30" rows="10">{{ $offre->responsabilite }}</textarea>
+        <div>
+            <label for="categorie_id" class="col-sm-2 col-form-label">Catégorie</label>
+            <div class="form-control">
+                <input type="hidden" name="categorie_id" id="categorie_id" value="{{ old('categorie_id', $offre->categorie_id) }}" required>
+                <input type="text" name="categories" class="form-control" id="categorie_search" value="{{ old('categories', $offre->categorie->libelle) }}" placeholder="Sélectionner une catégorie" required>
             </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="responsabilite">Responsabilités</label>
+            <input type="text" class="form-control" id="responsabilite" name="responsabilite" value="{{ old('responsabilite', $offre->responsabilite) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="competence_requis">Compétences requises</label>
-                <textarea name="competence_requis" class="form-control" cols="30" rows="10">{{ $offre->competence_requis }}</textarea>
-            </div>
+        <div class="form-group">
+            <label for="competence_requis">Compétences requises</label>
+            <input type="text" class="form-control" id="competence_requis" name="competence_requis" value="{{ old('competence_requis', $offre->competence_requis) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="date_debut_offre">Date de début</label>
-                <input type="date" name="date_debut_offre" class="form-control" value="{{ $offre->date_debut_offre }}">
-            </div>
+        <div class="form-group">
+            <label for="date_debut_offre">Date de début d'offre</label>
+            <input type="date" class="form-control" id="date_debut_offre" name="date_debut_offre" value="{{ old('date_debut_offre', $offre->date_debut_offre) }}" required>
+        </div>
 
-            <div class="form-group">
-                <label for="date_fin_offre">Date de fin</label>
-                <input type="date" name="date_fin_offre" class="form-control" value="{{ $offre->date_fin_offre }}">
-            </div>
+        <div class="form-group">
+            <label for="date_fin_offre">Date de fin d'offre</label>
+            <input type="date" class="form-control" id="date_fin_offre" name="date_fin_offre" value="{{ old('date_fin_offre', $offre->date_fin_offre) }}" required>
+        </div>
 
-            <div class="form-group">
-                <a href="{{ route('offre.index') }}" class="btn btn-secondary">Annuler</a>
-                <button type="submit" class="btn btn-primary">Soumettre</button>
-            </div>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#categorie_search').select2({
+            placeholder: 'Sélectionner une catégorie',
+            minimumInputLength: 2,
+            ajax: {
+                url: '{{ url('/api/categorie/search') }}',  // Utilisation de l'URL directe de l'API
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.libelle
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#categorie_search').on('select2:select', function (e) {
+            var data = e.params.data;
+            $('#categorie_id').val(data.id);
+        });
+    });
+</script>
 </body>
 </html>

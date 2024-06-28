@@ -118,7 +118,9 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="{{ route('offre.showmesoffre', $offre) }}" class="offre-view-button btn btn-primary">View</a>
-                    <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button btn btn-warning">Edit</a>
+                    
+                    <a href="{{ route('offre.edit', $offre->id) }}" class="offre-edit-button btn btn-warning">Édit</a>
+
                     <!-- Vous pouvez ajouter ici le bouton Delete si nécessaire -->
                 </div>
             </div>

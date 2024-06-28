@@ -97,10 +97,16 @@ class OffreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Offre $offre)
-    {
-        return view('offre.edit', ['offre' => $offre]);
-    }
+    public function edit($offre)
+{
+    // Utilisez findOrFail pour trouver l'offre par son identifiant
+    $offre = Offre::findOrFail($offre);
+    $categories = Categorie::all(); // Vous pouvez charger les catégories si nécessaire
+    
+    // Passez les données à la vue d'édition
+    return view('offre.edit', compact('offre', 'categories'));
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -114,7 +120,7 @@ class OffreController extends Controller
             'type_offre' => 'required|string|max:255',
             'ville' => 'required|string|max:255',
             'pays' => 'required|string|max:255',
-            'prix' => 'nullable|string',
+            'prix' =>'nullable|string',
             'salaire' => 'nullable|string',
             'experience_requis' => 'nullable|string',
             'responsabilite' => 'required|string',
@@ -123,10 +129,20 @@ class OffreController extends Controller
             'date_fin_offre' => 'required|date|after_or_equal:date_debut_offre',
             'categorie_id' => 'required|integer|exists:categories,id',
         ]);
-    
+        
+        $data['user_id'] = Auth::id();
+        $data['etat_offre'] = 'En attente';
+
+        if (now()->greaterThanOrEqualTo($data['date_debut_offre'])) {
+            $data['etat_offre'] = 'Offre publiée';
+        }
+        
+        if (now()->greaterThan($data['date_fin_offre'])) {
+            $data['etat_offre'] = 'Offre expiré';
+        }
         $offre->update($data);
     
-        return redirect()->route('offre.show', $offre)->with('message', 'Offre mise à jour avec succès.');
+        return redirect()->route('offre.mesoffre', $offre)->with('message', 'Offre mise à jour avec succès.');
     }
     
 
