@@ -145,10 +145,10 @@
         
 
             <p>
-                <input type="date" name="date_debut_offre">
+                <input type="date" name="date_debut_offre" id="date_debut_offre">
             </p>
             <p>
-                <input type="date" name="date_fin_offre">
+                <input type="date" name="date_fin_offre" id="date_fin_offre">
             </p>
 
         <button type="submit" class="btn btn-primary">Soumettre</button>
@@ -189,6 +189,21 @@
             $('#categorie_id').val(data.id);
         });
     });
+
+    function validateDateDebut() {
+        var currentDate = new Date().toISOString().split('T')[0]; // Date d'aujourd'hui au format ISO (YYYY-MM-DD)
+        var dateDebut = document.getElementById('date_debut_offre').value;
+
+        if (dateDebut < currentDate) {
+            alert("La date de début de l'offre ne peut pas être antérieure à aujourd'hui.");
+            return false; // Empêche la soumission du formulaire si la date est invalide
+        }
+
+        return true; // Autorise la soumission du formulaire si la date est valide
+    }
+
+    // Attacher la fonction de validation au formulaire
+    document.querySelector('form').onsubmit = validateDateDebut;
 </script>
 </body>
 </html>
