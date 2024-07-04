@@ -61,10 +61,9 @@ class CertificationController extends Controller
             $fichierPath = $fichier->store('fichiers', 'public');
             $input['fichier'] = $fichierPath;
         }
-
         Certification::create($input);
 
-        return redirect()->route('certification.index')->with('success', 'Experience creer avec succes');
+        return redirect()->route('profile.edit')->with('success', 'Experience creer avec succes');
     }
 
     /**
@@ -127,6 +126,6 @@ class CertificationController extends Controller
     public function destroy($id)
     {
         Certification::destroy($id);
-        return redirect()->route('certification.index');
+        return redirect()->route('profile.edit');
     }
 }

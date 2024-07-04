@@ -24,6 +24,12 @@ class Offre extends Model
         'date_fin_offre',
         'date_debut_offre',
         'prix',
+        'image',		
+        'email',		
+        'niveau_etude',
+        'entreprise',	
+        'website',
+        'logo',
     ];
 
     public function Categorie()

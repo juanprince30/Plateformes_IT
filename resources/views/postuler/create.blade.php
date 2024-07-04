@@ -1,95 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postuler</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 50%;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        form p {
-            margin-bottom: 15px;
-        }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        .form-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .form-actions a {
-            text-decoration: none;
-            color: #007bff;
-            background-color: transparent;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .form-actions a:hover {
-            text-decoration: underline;
-        }
-        .form-actions button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .form-actions button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
+@extends('main.index')
 
-<div class="container">
-    <h1>Postuler</h1>
-    <form action="{{ route('postuler.store') }}" method="POST">
-        @csrf
-
-        <input type="hidden" name="offre_id" value="{{ $offre->id }}">
-
-        <p>
-            <textarea name="description" cols="30" rows="10" placeholder="Description"></textarea>
-        </p>
-        <p>
-            <textarea name="motivation" cols="30" rows="10" placeholder="Motivation" required></textarea>
-        </p>
-
-        <div class="form-actions">
-            <a href="{{ route('offre.index') }}">Cancel</a>
-            <button type="submit">Submit</button>
+@section('content')
+    
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('IT/images/hero_1.jpg');" id="home-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7">
+              <h1 class="text-white font-weight-bold">Postuler</h1>
+              <div class="custom-breadcrumbs">
+                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <span class="text-white"><strong>Postuler</strong></span>
+              </div>
+            </div>
+          </div>
         </div>
-    </form>
-</div>
+    </section>
 
-</body>
-</html>
+    <section style="margin-top: 8%; margin-bottom: 8%;">
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-8">
+                <h1>Postuler</h1>
+                <form action="{{ route('postuler.store') }}" method="POST">
+                    @csrf
+                    
+                    <input type="hidden" name="offre_id" value="{{ $offre->id }}">
+        
+                    <label for="descriptipon" class="col-form-label">Description de votre profil</label>
+                    <textarea name="description" rows="10" placeholder="Decrivez votre profil, vos competences et experiences..." class="form-control"></textarea>
+                    
+                    <label for="motivation" class="col-form-label">Motivation</label>
+                    <textarea name="motivation" rows="10" placeholder="Decrivez vos Motivations..." class="form-control" required></textarea>
+                    
+                    <br>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary"> <a href="{{ route('offre.index') }}" style="color: white; text-decoration: none;">Cancel</a></button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+@endsection

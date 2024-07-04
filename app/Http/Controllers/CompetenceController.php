@@ -56,7 +56,7 @@ class CompetenceController extends Controller
 
         Competence::create($input);
 
-        return redirect()->route('competence.index');
+        return redirect()->route('profile.edit');
     }
 
     /**
@@ -109,6 +109,6 @@ class CompetenceController extends Controller
     public function destroy($id)
     {
         Competence::destroy($id);
-        return redirect()->route('competence.index');
+        return redirect()->route('profile.edit');
     }
 }

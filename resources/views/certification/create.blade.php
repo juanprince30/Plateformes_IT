@@ -1,54 +1,56 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Ajouter une certification</title>
-
-    </head>
-    <body>
-        @auth
-
-
-        <h1>Ajouter une certification</h1>
-
-        <form action="{{ route('certification.store') }}" method="POST" enctype="multipart/form-data">
-
-            @csrf
-            <div class="mb-3 row">
-                <label for="titre" class="col-sm-2 col-form-label">Titre</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name='titre' id="titre" required>
-                </div>
+@extends('main.index')
+@section('content')
+    
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('IT/images/hero_1.jpg');" id="home-section">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+            <h1 class="text-white font-weight-bold">Profil</h1>
+            <div class="custom-breadcrumbs">
+                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <a href="{{route('offre.index')}}">Profil</a> <span class="mx-2 slash">/</span>
+                <span class="text-white"><strong>Profil</strong></span>
             </div>
-            <div class="mb-3 row">
-                <label for="description" class="col-sm-2 col-form-label">Nom Institut :</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name='nom_institut' id="nom_institut" required>
-                </div>
             </div>
-            <div class="mb-3 row">
-                <label for="description" class="col-sm-2 col-form-label">Date d'obtention :</label>
-                <div class="col-sm-10">
-                    <input type="date" class="form-control" name='date_dobtention' id="date_dobtention" required>
-                </div>
+        </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="row" style="margin-top: 8%; margin-bottom: 8%;">
+            <div class="col-md-3">
+
             </div>
-            <div class="mb-3 row">
-                <label for="description" class="col-sm-2 col-form-label">Fichier :</label>
-                <div class="col-sm-10">
-                    <input type="file" name='fichier' id="fichier" required>
-                </div>
+            <div class="col-md-6">
+                <h1>Ajouter une certification</h1>
+    
+                <form action="{{ route('certification.store') }}" method="POST" enctype="multipart/form-data">
+    
+                    @csrf
+                    <div>
+                        <label for="titre" class="col-form-label">Titre</label>
+                        <input type="text" class="form-control" name='titre' id="titre" required>
+                    </div>
+                    <div>
+                        <label for="description" class="col-form-label">Nom Institut :</label>
+                        <input type="text" class="form-control" name='nom_institut' id="nom_institut" required>
+                    </div>
+                    <div>
+                        <label for="description" class="col-form-label">Date d'obtention :</label>
+                        <input type="date" class="form-control" name='date_dobtention' id="date_dobtention" required>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="description" class="col-form-label">Fichier :</label>
+                        <input type="file" name='fichier' id="fichier" class="form-control" required>
+                    </div>
+                    
+                    <br>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    
+    
+                <form>
             </div>
-
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
-
-
-        <form>
-        @endauth
-        @guest
-            <h1>VOUS ETES PAS CONNECTER</h1>
-            <a href="{{ route('login')}}">CLIQUER ici pour vous connecter!</a>
-        @endguest
-    </body>
-</html>
+        </div>
+    </section>
+@endsection

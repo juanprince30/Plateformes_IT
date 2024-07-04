@@ -1,35 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@extends('main.index')
 
-    <div class="candidature-container">
-
-        <!-- <a href="{{ route('postuler.create') }}" class="new-note-btn">
-            Postuler
-        </a> -->
-        <div class="postuler">
-            @foreach($candidatures as $candidature)
-            <div class="postuler">
-                <div class="postuler-body">
-                    <strong><p>@if ($candidature->description)
-                        {{ $candidature->description}}
-                    @endif</p></strong>
-                    <p>{{ $candidature->motivation }}</p>
-                </div>
-                <div class="offre-buttons">
-                    <a href="{{ route('postuler.show', $candidature) }}" class="offre-edit-button">View</a>
-                </div>
+@section('content')
+    
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('IT/images/hero_1.jpg');" id="home-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7">
+              <h1 class="text-white font-weight-bold">Postuler</h1>
+              <div class="custom-breadcrumbs">
+                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <span class="text-white"><strong>Postuler</strong></span>
+              </div>
             </div>
-            @endforeach
+          </div>
         </div>
-       
-    </div>
+    </section>
 
-
-</body>
-</html>
+    <section style="margin-top: 8%; margin-bottom: 8%;">
+        <div class="container">
+            <div class="row">
+                @foreach($candidatures as $candidature)
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <strong><p class="card-title">Titre: {{$candidature->offre->titre}}</p></strong>
+                                @if ($candidature->description)
+                                    <p class="card-text">Description: {{$candidature->description}}</p>
+                                @endif
+                                <p class="card-text">Motivation: {{$candidature->motivation}}</p>
+                                @if ($candidature->etat_candidature == "En attente")
+                                    <p class="card-text">Etat Candidature : <button class="btn btn-info">{{ $candidature->etat_candidature }}</button></p>
+                                @endif
+                                @if ($candidature->etat_candidature == "Accepter")
+                                    <p class="card-text">Etat Candidature : <button class="btn btn-primary">{{ $candidature->etat_candidature }}</button></p>
+                                @endif
+                                @if ($candidature->etat_candidature == "Rejeter")
+                                    <p class="card-text">Etat Candidature : <button class="btn btn-danger">{{ $candidature->etat_candidature }}</button></p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+@endsection

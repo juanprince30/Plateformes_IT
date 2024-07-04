@@ -1,176 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails de l'Offre</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .offre-details {
-            line-height: 1.6;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .candidature-details {
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .offre-detail-container {
-            width: 80%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .offre-actions {
-            text-align: right;
-            margin-bottom: 20px;
-        }
-
-        .offre-back-button, .offre-edit-button, .offre-delete-button {
-            display: inline-block;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 3px;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .offre-back-button {
-            background-color: #6c757d;
-        }
-
-        .offre-back-button:hover {
-            background-color: #5a6268;
-        }
-
-        .offre-edit-button {
-            background-color: #ffc107;
-        }
-
-        .offre-edit-button:hover {
-            background-color: #e0a800;
-        }
-
-        .offre-delete-button {
-            background-color: #dc3545;
-        }
-
-        .offre-delete-button:hover {
-            background-color: #c82333;
-        }
-
-        .offre-details {
-            line-height: 1.6;
-        }
-
-        .offre-details p {
-            margin: 10px 0;
-        }
-
-        .offre-details strong {
-            display: inline-block;
-            width: 150px;
-        }
-
-        .postuler-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .postuler-button:hover {
-            background-color: #218838;
-        }
-    </style>
-</head>
-<body>
-<div class="offre-detail-container">
-    <h1>Show Post: {{ $offre->titre }}</h1>
+@extends('main.index')
+@section('content')
     
-    <div class="offre-actions">
-        <a href="{{ route('offre.index') }}" class="offre-back-button">Retour</a>
-        
-        <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-        <!-- <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button">Edit</a> -->
-        <!-- <form action="{{ route('offre.destroy', $offre) }}" method="POST" style="display:inline;">
-            @csrf
-            @method('DELETE')
-            <button class="offre-delete-button">Delete</button>
-        </form> -->
-    </div>
-    
-    <div class="offre-details">
-        <p><strong>Titre:</strong> {{ $offre->titre }}</p>
-        <p><strong>Type d'offre:</strong> {{ $offre->type_offre }}</p>
-        <p><strong>Ville:</strong> {{ $offre->ville }}</p>
-        <p><strong>Pays:</strong> {{ $offre->pays }}</p>
-        @if ($offre->salaire)
-            <p><strong> Salaire: </strong>{{ $offre->salaire }} FCFA</p>
-        @endif
-        @if ($offre->prix)
-            <p><strong> Prix: </strong>{{ $offre->prix }}</p>
-        @endif
-        @if ($offre->experience_requis)
-            <p><strong>Expérience requise: </strong>{{ $offre->experience_requis }}</p>
-        @endif
-        <p><strong>Responsabilités:</strong> {{ $offre->responsabilite }}</p>
-        <p><strong>Compétences requises:</strong> {{ $offre->competence_requis }}</p>
-        <p><strong>Date de début:</strong> {{ $offre->date_debut_offre }}</p>
-        <p><strong>Date de fin:</strong> {{ $offre->date_fin_offre }}</p>
-    </div>
-    <div>
-        <div>
-            @if($offre->Candidacture->isEmpty())
-                <p>Aucun candidat n'a postulé pour cette offre.</p>
-            @else
-                <h2>Candidat(e)s ayant postulé(e)s</h2>
-                <ul class="list-group">
-                    @foreach($offre->Candidacture as $candidat)
-                        <li class="list-group-item">
-                            <p><strong>Nom: </strong> {{ $candidat->user->name }}</p>
-                            <p><strong>Prénom: </strong> {{ $candidat->user->prenom }}</p>
-                            <p><strong>Email: </strong> {{ $candidat->user->email }}</p>
-                            <p><strong>Etat candidature: </strong> {{ $candidat->etat_candidature }}</p>
-                            <button style="color: #28a745"><a href="{{ route('offre.showmescandidat', $candidat->id )}}">voir plus</a></button>          
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('IT/images/hero_1.jpg');" id="home-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7">
+              <h1 class="text-white font-weight-bold">{{ $offre->titre }}</h1>
+              <div class="custom-breadcrumbs">
+                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <a href="{{route('offre.index')}}">Offre</a> <span class="mx-2 slash">/</span>
+                <span class="text-white"><strong>{{ $offre->titre }}</strong></span>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </section>
+  
+      
+      <section class="site-section">
+        <div class="container">
+          <div class="row align-items-center mb-5">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+              <div class="d-flex align-items-center">
+                <div class="border p-2 d-inline-block mr-3 rounded">
+                  @if ($offre->logo)
+                    <img src="{{ asset('storage/' . $offre->logo) }}" alt="Logo">
+                  @else
+                    <img src="{{asset('IT/images/default-image.jpg')}}" alt="Image">
+                  @endif
+                </div>
+                <div>
+                  <h2>{{ $offre->titre }}</h2>
+                  <div>
+                    <span class="ml-0 mr-2 mb-2"><span class="icon-briefcase mr-2"></span>{{ $offre->entreprise }}</span>
+                    <span class="m-2"><span class="icon-room mr-2"></span>{{ $offre->ville }}</span>
+                    <span class="m-2"><span class="icon-clock-o mr-2"></span><span class="text-primary">{{ $offre->type_offre }}</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="mb-5">
+                <figure class="mb-5">
+                    @if ($offre->image)
+                        <img src="{{ asset('storage/' . $offre->image) }}" alt="Image" class="img-fluid rounded">
+                    @else
+                        <img src="{{asset('IT/images/default-image.jpg')}}" alt="Image" class="img-fluid rounded">
+                    @endif
+                </figure>
+                <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-align-left mr-3"></span>Description de l'offre</h3>
+                <p>{{ $offre->responsabilite }}</p>
+              </div>
 
+              <div class="mb-5">
+                <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-book mr-3"></span>Niveau d'Etude</h3>
+                <ul class="list-unstyled m-0 p-0">
+                  <li class="d-flex align-items-start mb-2"><span class="icon-check_circle mr-2 text-muted"></span><span>{{ $offre->niveau_etude }} / {{ $offre->categorie->libelle }}</span></li>
+                </ul>
+              </div>
 
-    </div>
+              @if ($offre->experience_requis)
+                <div class="mb-5">
+                    <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-rocket mr-3"></span>Experiences</h3>
+                    <ul class="list-unstyled m-0 p-0">
+                    <li class="d-flex align-items-start mb-2"><span class="icon-check_circle mr-2 text-muted"></span><span>{{ $offre->experience_requis }} an(s)</span></li>
+                    </ul>
+                </div>
+              @endif
+  
+              <div class="mb-5">
+                <h3 class="h5 d-flex align-items-center mb-4 text-primary"><span class="icon-turned_in mr-3"></span>Competence Requis</h3>
+                <ul class="list-unstyled m-0 p-0">
+                  <li class="d-flex align-items-start mb-2"><span class="icon-check_circle mr-2 text-muted"></span><span>{{ $offre->competence_requis }}</span></li>
+                </ul>
+              </div>
+  
+              <div class="row mb-5">
+                
+              </div>
+  
+            </div>
+            <div class="col-lg-4">
+              <div class="bg-light p-3 border rounded mb-4">
+                <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Resume de l'Offre</h3>
+                <ul class="list-unstyled pl-3 mb-0">
+                  <li class="mb-2"><strong class="text-black">Publie le:</strong> {{ $offre->date_debut_offre }}</li>
+                  <li class="mb-2"><strong class="text-black">Type d'Offre:</strong> {{ $offre->type_offre }}</li>
+                  @if ($offre->experience_requis)
+                    <li class="mb-2"><strong class="text-black">Experiences:</strong> {{ $offre->experience_requis }} an(s)</li>
+                  @endif
+                  <li class="mb-2"><strong class="text-black">Localisation:</strong> {{ $offre->ville }}, {{ $offre->pays }}</li>
+                  @if ($offre->salaire)
+                    <li class="mb-2"><strong class="text-black">Salaire:</strong> {{ $offre->salaire }} FCFA</li>
+                  @endif
+                  @if ($offre->prix)
+                    <li class="mb-2"><strong class="text-black">Prix:</strong> {{ $offre->prix }} FCFA</li>
+                  @endif
+                  <li class="mb-2"><strong class="text-black">Contact:</strong> {{ $offre->email }}</li>
+                  @if ($offre->website)
+                    <li class="mb-2"><strong class="text-black">Site web:</strong> {{ $offre->website }} FCFA</li>
+                  @endif
+                  <li class="mb-2"><strong class="text-black">Deadline:</strong> {{ $offre->date_fin_offre }}</li>
+                </ul>
+              </div>
+  
+              <div class="bg-light p-3 border rounded">
+                <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Partager</h3>
+                <div class="px-3">
+                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-facebook"></span></a>
+                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-twitter"></span></a>
+                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-linkedin"></span></a>
+                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="icon-pinterest"></span></a>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="row">
+            <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="bg-light p-3 border rounded mb-4 text-center">
+              <h3 class="text-primary  mt-3 h5 pl-3 mb-3 text-center">Candidature</h3>
+
+                @if($offre->Candidacture->isEmpty())
+                    <p>Aucun candidat n'a postulé pour cette offre.</p>
+                @else
+                    <h2>Candidat(e)s ayant postulé(e)s</h2>
+                    <ul class="list-group">
+                        @foreach($offre->Candidacture as $candidat)
+                            <li class="list-group-item">
+                                <span><strong>Nom et Prenom: </strong> {{ $candidat->user->name }} {{ $candidat->user->prenom }}</span><br>
+                                <span><strong>Etat candidature: </strong> {{ $candidat->etat_candidature }}</span>
+                                <br>
+                                <button class="btn btn-info"><a href="{{ route('offre.showmescandidat', $candidat->id )}}" style="color:white; text-decoration: none;">Voir plus</a></button>          
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        </div>
+        </div>
     
-</div>
-
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-</body>
-</html>
+      </section>
+  
+@endsection

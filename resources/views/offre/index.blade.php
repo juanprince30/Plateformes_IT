@@ -1,132 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        .offre-container {
-            width: 80%;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        .new-note-btn {
-            display: inline-block;
-            padding: 10px 15px;
-            margin-bottom: 20px;
-            background-color: #28a745;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .new-note-btn:hover {
-            background-color: #218838;
-        }
-        .offres {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .offre-item {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: calc(33.333% - 20px);
-            box-sizing: border-box;
-        }
-        .offre-body p {
-            margin: 0 0 10px;
-        }
-        .offre-body strong {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .offre-buttons {
-            text-align: right;
-        }
-        .offre-view-button, .offre-edit-button, .offre-delete-button {
-            display: inline-block;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 3px;
-            text-decoration: none;
-            color: #fff;
-        }
-        .offre-view-button {
-            background-color: #007bff;
-        }
-        .offre-view-button:hover {
-            background-color: #0056b3;
-        }
-        .offre-edit-button {
-            background-color: #ffc107;
-        }
-        .offre-edit-button:hover {
-            background-color: #e0a800;
-        }
-        .offre-delete-button {
-            background-color: #dc3545;
-        }
-        .offre-delete-button:hover {
-            background-color: #c82333;
-        }
-    </style>
-</head>
-<body>
-<div class="offre-container">
-        <a href="{{ route('offre.create') }}" class="new-note-btn">
-            Create Offre
-        </a>
-        <div class="offres">
-        @foreach($offres as $offre)
-            @if($offre->date_fin_offre >= now()->format('Y-m-d'))
-            <div class="offre-item">
-                <div class="offre-body">
-                    <strong><p>Job: {{ $offre->titre }}</p></strong>
-                    <p>Type d'offre: {{ $offre->type_offre }}</p>
-                    <p>Ville: {{ $offre->ville }}</p>
-                    <p>Pays: {{ $offre->pays }}</p>
-                    @if ($offre->salaire)
-                        <p>Salaire: {{ $offre->salaire }} FCFA</p>
-                    @endif
-                    @if ($offre->prix)
-                        <p>Prix: {{ $offre->prix }}</p>
-                    @endif
-                    @if ($offre->experience_requis)
-                        <p>Niveau d'Etude requis: {{ $offre->experience_requis }}</p>
-                    @endif
-                    <p>Responsabilités: {{ $offre->responsabilite }}</p>
-                    <p>Compétences requises: {{ $offre->competence_requis }}</p>
-                    <p>État de l'offre: {{ $offre->etat_offre }}</p>
-                    <p>Date de début: {{ $offre->date_debut_offre }}</p>
-                    <p>Date de fin: {{ $offre->date_fin_offre }}</p>
-                </div>
-                <div class="offre-buttons">
-                    <a href="{{ route('offre.show', $offre) }}" class="offre-view-button">View</a>
-                    
-                    <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-                    <!-- <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button">Edit</a> -->
-                    <!-- <form action="{{ route('offre.destroy', $offre) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="offre-delete-button">Delete</button>
-                    </form> -->
+@extends('main.index')
+@section('content')
+    
+    <!-- HOME -->
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url('IT/images/hero_1.jpg');" id="home-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7">
+              <h1 class="text-white font-weight-bold">Listes des Offres</h1>
+              <div class="custom-breadcrumbs">
+                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <span class="text-white"><strong>Offre</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <section class="site-section" id="next">
+        <div class="container">
+            <div class="row mb-5 justify-content-center">
+                <div class="col-md-7 text-center">
+                  <h2 class="section-title mb-2">Offres Disponible</h2>
                 </div>
             </div>
-            @endif
-        @endforeach
+
+            <ul class="job-listings mb-5">
+                    @foreach($offres as $offre)
+                        @if($offre->etat_offre == 'Offre publiée')
+                            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+                                <a href="{{ route('offre.show', $offre) }}"></a>
+                                <div class="job-listing-logo">
+                                    @if ($offre->logo)
+                                        <img src="{{ asset('storage/' . $offre->logo) }}" alt="Logo" class="img-fluid">
+                                    @else
+                                        <img src="IT/images/default-image.jpg" alt="Image" class="img-fluid">
+                                    @endif
+                                </div>
+                    
+                                <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+                                    <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                                    <h2>{{ $offre->titre }}</h2>
+                                    <strong>{{ $offre->entreprise }}</strong>
+                                    </div>
+                                    <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                                        <span class="icon-room"></span>{{ $offre->ville }}, {{ $offre->pays }}
+                                        <br>
+                                        <span class="icon-money"></span> {{$offre->salaire}} FCFA
+                                    </div>
+                                    <div class="job-listing-meta">
+                                    <span class="badge badge-info">{{ $offre->type_offre }}</span>
+                                    </div>
+                                </div>
+                                
+                            </li>
+
+                        @endif
+                    @endforeach
+                    </div>
+                    {{ $offres->links() }}
+            </ul>
+
+        <div class="row pagination-wrap">
+            <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
+            <span>Showing 1-7 Of 22,392 Jobs</span>
+            </div>
+            <div class="col-md-6 text-center text-md-right">
+            <div class="custom-pagination ml-auto">
+                <a href="#" class="prev">Prev</a>
+                <div class="d-inline-block">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                </div>
+                <a href="#" class="next">Next</a>
+            </div>
+            </div>
         </div>
-        {{ $offres->links() }}
-    </div>
-</body>
-</html>
+
+        </div>
+    </section>
+
+@endsection
