@@ -79,21 +79,46 @@
 <body>
     <div class="container">
         <h1>Liste des Discussions</h1>
+        <form class="search-form" id="search-form">
+            <input type="text" id="search-input" placeholder="Rechercher par catégorie...">
+        </form>
         @if(session('message'))
             <div class="message">
                 {{ session('message') }}
             </div>
         @endif
-        <ul>
+        <ul id="discussion-list">
             @foreach($discussions as $discussion)
                 <li>
                     <a href="{{ route('discussion.show', $discussion) }}">{{ $discussion->sujet }}</a>
                 </li>
             @endforeach
         </ul>
-        <div class="pagination">
+        <div class="pagination" id="pagination-links">
             {{ $discussions->links() }}
         </div>
     </div>
+    <script>
+        document.getElementById('search-input').addEventListener('input', function() {
+            var query = this.value;
+            
+            fetch(`/discussions/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    var discussionList = document.getElementById('discussion-list');
+                    discussionList.innerHTML = '';
+                    
+                    data.discussions.forEach(discussion => {
+                        var li = document.createElement('li');
+                        li.innerHTML = `<a href="/discussion/${discussion.id}">${discussion.sujet}</a>`;
+                        discussionList.appendChild(li);
+                    });
+                    
+                    var paginationLinks = document.getElementById('pagination-links');
+                    paginationLinks.innerHTML = data.pagination;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
 </body>
 </html>

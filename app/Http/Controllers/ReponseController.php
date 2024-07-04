@@ -41,11 +41,13 @@ class ReponseController extends Controller
         $discussion = Discussion::find($request->input('discussion_id'));
 
         // Rediriger vers la vue de la discussion avec un message de succès
-        return redirect()->route('discussion.show', ['discussion' => $discussion->id])
-                         ->with([
-                             'message' => 'Discussion répondue avec succès.',
-                             'reponse' => $reponse
-                         ]);
+        // Rediriger vers la vue de la discussion avec un message de succès
+return redirect()->route('discussion.show', ['id' => $discussion->id])
+->with([
+    'message' => 'Discussion répondue avec succès.',
+    'reponse' => $reponse
+]);
+
 
     }
 

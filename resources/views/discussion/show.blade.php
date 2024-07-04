@@ -88,6 +88,21 @@
             color: #6c757d;
             font-size: 0.9em;
         }
+        #load-more {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px 15px;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #load-more:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -102,25 +117,51 @@
         </div>
         <div class="discussion-status">
             Etat : 
-            @if($discussion->etat==1)
+            @if($discussion->etat == 1)
                 Ouvert
-            @elseif($discussion->etat==2)
+            @elseif($discussion->etat == 2)
                 Fermer
             @endif
         </div>
-        <div class="replies">
+        <div class="replies" id="reponses">
             <strong>Les Réponses</strong>
-            @foreach($discussion->reponses->sortByDesc('created_at') as $reponse)
+            @foreach($reponses as $reponse)
                 <div class="reply">
                     <p class="reply-author">Auteur : {{$reponse->user->name}}</p>
                     <p class="timestamp">Date : {{$reponse->created_at}}</p>
                     <p class="reply-content">{{$reponse->contenu}}</p>
-                    <a href="{{ route('reponse.create', ['discussion_id' => $discussion->id]) }}">reply</a>
-
                 </div>
             @endforeach
         </div>
+        <button id="load-more" data-id="{{ $discussion->id }}" data-offset="10">Voir plus</button>
         <a class="reply-link" href="{{ route('reponse.create', ['discussion_id' => $discussion->id]) }}">Répondre</a>
     </div>
+    <script>
+    document.getElementById('load-more').addEventListener('click', function() {
+        var button = this;
+        var offset = button.getAttribute('data-offset');
+        var discussionId = button.getAttribute('data-id');
+
+        fetch(`/discussion/${discussionId}/loadMore/${offset}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Ajouté pour déboguer les données reçues
+                var reponsesDiv = document.getElementById('reponses');
+                data.forEach(reponse => {
+                    var reponseDiv = document.createElement('div');
+                    reponseDiv.classList.add('reply');
+                    reponseDiv.innerHTML = `
+                        <p class="reply-author">Auteur : ${reponse.user.name}</p>
+                        <p class="timestamp">Date : ${reponse.created_at}</p>
+                        <p class="reply-content">${reponse.contenu}</p>
+                    `;
+                    reponsesDiv.appendChild(reponseDiv);
+                });
+                button.setAttribute('data-offset', parseInt(offset) + 10);
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
 </body>
 </html>

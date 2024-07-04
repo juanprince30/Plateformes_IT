@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use App\Models\Discussion;
+use App\Models\Reponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Contracts\Service\Attribute\Required;
@@ -56,11 +57,49 @@ class DiscussionController extends Controller
     } */
  
     // App\Http\Controllers\DiscussionController.php
-public function show($id)
-{
-    $discussion = Discussion::with('user', 'reponses.user')->findOrFail($id);
-    return view('discussion.show', compact('discussion'));
-}
+    public function show($id)
+    {
+        $discussion = Discussion::findOrFail($id);
+        $reponses = $discussion->reponses()->orderBy('created_at', 'desc')->take(10)->get();
+
+        return view('discussion.show', compact('discussion', 'reponses'));
+    }
+
+    // Exemple de contrôleur Laravel
+    public function loadMore($discussionId, $offset)
+    {
+        $reponses = Reponse::where('discussion_id', $discussionId)
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->skip($offset)
+            ->take(10)
+            ->get()
+            ->map(function($reponse) {
+                return [
+                    'user' => $reponse->user->only('name'),
+                    'created_at' => $reponse->created_at->format('Y-m-d H:i:s'),
+                    'contenu' => $reponse->contenu,
+                ];
+            });
+        
+        return response()->json($reponses);
+    }
+    
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $discussions = Discussion::whereHas('categorie', function($q) use ($query) {
+            $q->where('name', 'like', '%' . $query . '%');
+        })->paginate(10);
+    
+        return response()->json([
+            'discussions' => $discussions->items(),
+            'pagination' => (string) $discussions->links()
+        ]);
+    }
+    
+    
+
 
     
 

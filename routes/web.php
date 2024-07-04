@@ -24,7 +24,11 @@ Route::middleware('auth')->group(function(){
     Route::get('discussion', [DiscussionController::class, 'index'])->name('discussion.index');
     Route::get('discussion/create', [DiscussionController::class, 'create'])->name('discussion.create');
     Route::post('discussion', [DiscussionController::class, 'store'])->name('discussion.store');
-    Route::get('discussion/{discussion}', [DiscussionController::class, 'show'])->name('discussion.show');
+    Route::get('/discussion/{id}', [DiscussionController::class, 'show'])->name('discussion.show');
+    Route::get('/discussion/{id}/loadMore/{offset}', [DiscussionController::class, 'loadMore'])->name('discussion.loadMore');
+    Route::get('/discussions/search', [DiscussionController::class, 'search'])->name('discussion.search');
+
+
     Route::get('discussion/{discussion}/edit', [DiscussionController::class, 'edit'])->name('discussion.edit');
     Route::put('discussion/{discussion}', [DiscussionController::class, 'update'])->name('discussion.update');
     Route::delete('discussion/{discussion}', [DiscussionController::class, 'destroy'])->name('discussion.destroy');
