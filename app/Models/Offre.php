@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Offre extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'id';
+    public $incrementing = true;
     protected $fillable=[
         'titre',
         'type_offre',
@@ -24,6 +25,12 @@ class Offre extends Model
         'date_fin_offre',
         'date_debut_offre',
         'prix',
+        'image',		
+        'email',		
+        'niveau_etude',
+        'entreprise',	
+        'website',
+        'logo',
     ];
 
     public function Categorie()

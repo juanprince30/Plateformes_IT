@@ -109,7 +109,7 @@
                 <div class="offre-buttons">
                     <a href="{{ route('offre.showmesoffre', $offre) }}" class="offre-view-button">View</a>
                     <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-                    <a href="{{ route('offre.edit', $offre) }}" class="offre-edit-button">Edit</a>
+                    <a href="{{ route('offre.edit', $offre->id) }}" class="offre-edit-button">Edit</a>
                 </div>
             </div>
             @endif

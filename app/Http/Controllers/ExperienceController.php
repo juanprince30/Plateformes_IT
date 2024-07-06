@@ -56,7 +56,7 @@ class ExperienceController extends Controller
 
         Experience::create($input);
 
-        return redirect()->route('experience.index')->with('success', 'Experience creer avec succes');
+        return redirect()->route('profile.edit')->with('success', 'Experience creer avec succes');
     }
 
     /**
@@ -111,6 +111,6 @@ class ExperienceController extends Controller
     public function destroy($id)
     {
         Experience::destroy($id);
-        return redirect()->route('experience.index')->with('success','Experience supprimer avec succes');
+        return redirect()->route('profile.edit')->with('success','Experience supprimer avec succes');
     }
 }

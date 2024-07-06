@@ -17,9 +17,15 @@ return new class extends Migration
             $table->string('type_offre');
             $table->string('ville');
             $table->string('pays');
-            $table->string('prix')->nullable();
-            $table->string('salaire')->nullable();
-            $table->string('experience_requis')->nullable();
+            $table->string('image')->nullable();
+            $table->string('email');
+            $table->unsignedInteger('prix')->nullable();
+            $table->unsignedInteger('salaire')->nullable();
+            $table->unsignedInteger('experience_requis')->nullable();
+            $table->string('niveau_etude');
+            $table->string('entreprise');
+            $table->string('website')->nullable();
+            $table->string('logo')->nullable();
             $table->string('responsabilite');
             $table->string('competence_requis');
             $table->string('etat_offre')->default('en cours');

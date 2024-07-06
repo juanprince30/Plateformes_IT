@@ -1,11 +1,7 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
-        </h2>
-
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Mettez à jour votre profil et vos informations personnelles.") }}
         </p>
     </header>
 
@@ -13,72 +9,128 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6 justify-items-center" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
         @if($user->image)
-            <img src="{{ asset('storage/' . $user->image) }}" alt="Image du profil" width="100">
+            <img src="{{ asset('storage/' . $user->image) }}" class="rounded-circle mt-5" alt="Image du profil" width="150px">
+        @else
+            <img class="rounded-circle mt-5" width="150px" src="{{asset('IT/images/avatar.jpg')}}" alt="Image du profil">
         @endif
 
         <div>
-            <x-input-label for="image" :value="__('Image')" />
-            <input type="file" id="image" name="image" class="mt-1 block w-full" accept="image/*" />
-            <x-input-error class="mt-2" :messages="$errors->get('image')" />
+            <label for="image">Modifier votre Image</label>
+            <input type="file" id="image" name="image" class="mt-1 block w-full form-control" accept="image/*"/>
+            @if ($errors->has('image'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('image') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <label for="name">Nom</label>
+            <input id="name" name="name" type="text" class="mt-1 block w-full form-control" value="{{$user->name}}" required autofocus autocomplete="name" />
+            @if ($errors->has('name'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('name') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <div>
-            <x-input-label for="prenom" :value="__('Prenom')" />
-            <x-text-input id="prenom" name="prenom" type="text" class="mt-1 block w-full" :value="old('prenom', $user->prenom)" required autofocus autocomplete="prenom" />
-            <x-input-error class="mt-2" :messages="$errors->get('prenom')" />
+            <label for="prenom">Prenom</label>
+            <input id="prenom" name="prenom" type="text" class="mt-1 block w-full form-control" value="{{$user->prenom}}" required autofocus autocomplete="prenom" />
+            @if ($errors->has('prenom'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('prenom') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <div>
-            <x-input-label for="date_naissance" :value="__('Date de naissance')" />
-            <x-text-input id="date_naissance" name="date_naissance" type="date" class="mt-1 block w-full" :value="old('date_naissance', $user->date_naissance)" autofocus autocomplete="date_naissance" />
-            <x-input-error class="mt-2" :messages="$errors->get('date_naissance')" />
+            <label for="date_naissance">Date de naissance</label>
+            <input id="date_naissance" name="date_naissance" type="date" class="mt-1 block w-full form-control" value="{{$user->date_naissance}}" autofocus autocomplete="date_naissance" />
+            @if ($errors->has('date_naissance'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('date_naissance') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
         
         <div>
-            <x-input-label for="telepone" :value="__('Telephone')" />
-            <x-text-input id="telepone" name="telepone" type="text" class="mt-1 block w-full" :value="old('telepone', $user->telepone)"  autofocus autocomplete="telepone" />
-            <x-input-error class="mt-2" :messages="$errors->get('telepone')" />
+            <label for="telepone">Telephone</label>
+            <input id="telepone" name="telepone" type="text" class="mt-1 block w-full form-control" value="{{$user->telepone}}"  autofocus autocomplete="telepone" />
+            @if ($errors->has('telepone'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('telepone') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <div>
-            <x-input-label for="telephone_2" :value="__('Telephone 2')" />
-            <x-text-input id="telephone_2" name="telephone_2" type="text" class="mt-1 block w-full" :value="old('telephone_2', $user->telephone_2)" autofocus autocomplete="telephone_2" />
-            <x-input-error class="mt-2" :messages="$errors->get('telephone_2')" />
+            <label for="telephone_2">Telephone 2</label>
+            <input id="telephone_2" name="telephone_2" type="text" class="mt-1 block w-full form-control" value="{{$user->telephone_2}}" autofocus autocomplete="telephone_2" />
+            @if ($errors->has('telephone_2'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('telephone_2') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <div>
-            <x-input-label for="ville" :value="__('Ville')" />
-            <x-text-input id="ville" name="ville" type="text" class="mt-1 block w-full" :value="old('ville', $user->ville)" autofocus autocomplete="ville" />
-            <x-input-error class="mt-2" :messages="$errors->get('ville')" />
+            <label for="ville">Ville</label>
+            <input id="ville" name="ville" type="text" class="mt-1 block w-full form-control" value="{{$user->ville}}" autofocus autocomplete="ville" />
+            @if ($errors->has('ville'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('ville') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>      
         
         <div>
-            <x-input-label for="addresse" :value="__('Addresse ')" />
-            <x-text-input id="addresse" name="addresse" type="text" class="mt-1 block w-full" :value="old('addresse', $user->addresse)" autofocus autocomplete="addresse" />
-            <x-input-error class="mt-2" :messages="$errors->get('addresse')" />
+            <label for="addresse">Addresse</label>
+            <input id="addresse" name="addresse" type="text" class="mt-1 block w-full form-control" value="{{$user->addresse}}" autofocus autocomplete="addresse" />
+            @if ($errors->has('addresse'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('addresse') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <div>
-            <x-input-label for="description" :value="__('Description')" />
-            <textarea id="description" name="description" class="mt-1 block w-full" autofocus autocomplete="description">{{ old('description', $user->description) }}</textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('description')" />
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="9" class="mt-1 block w-full form-control" autofocus autocomplete="description">{{ old('description', $user->description) }}</textarea>
+            @if ($errors->has('description'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('description') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
         
         <div>
-            <x-input-label for="niveau_etude" :value="__('Niveau d\'étude')" />
-            <select name="niveau_etude" id="niveau_etude" class="mt-1 block w-full">
+            <label for="niveau_etude">Niveau Etude</label>
+            <select name="niveau_etude" id="niveau_etude" class="mt-1 block w-full form-control">
                 <option value="" selected disabled hidden>Selectionner une option</option>
                 <option value="Bac+1" {{ old('niveau_etude', $user->niveau_etude) == 'Bac+1' ? 'selected' : '' }}>Bac+1</option>
                 <option value="Bac+2" {{ old('niveau_etude', $user->niveau_etude) == 'Bac+2' ? 'selected' : '' }}>Bac+2</option>
@@ -88,25 +140,43 @@
                 <option value="Bac+6" {{ old('niveau_etude', $user->niveau_etude) == 'Bac+6' ? 'selected' : '' }}>Bac+6</option>
                 <option value="Bac+7" {{ old('niveau_etude', $user->niveau_etude) == 'Bac+7' ? 'selected' : '' }}>Bac+7</option>
             </select>
-            <x-input-error class="mt-2" :messages="$errors->get('niveau_etude')" />
+            @if ($errors->has('niveau_etude'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('niveau_etude') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>
         
         <div>
-            <x-input-label for="statut" :value="__('Statut')" />
-            <select name="statut" id="statut" class="mt-1 block w-full" >
+            <label for="statut">Statut</label>
+            <select name="statut" id="statut" class="mt-1 block w-full form-control" >
                 <option value="" selected disabled hidden>Selectionner une option</option>
                 <option value="Etudiant" {{ old('statut', $user->statut) == 'Etudiant' ? 'selected' : '' }}>Etudiant</option>
                 <option value="Professionel" {{ old('statut', $user->statut) == 'Professionel' ? 'selected' : '' }}>Professionel</option>
                 <option value="Chomeur" {{ old('statut', $user->statut) == 'Chomeur' ? 'selected' : '' }}>Chomeur</option>
                 <option value="Stagiaire" {{ old('statut', $user->statut) == 'Stagiaire' ? 'selected' : '' }}>Stagiaire</option>
             </select>
-            <x-input-error class="mt-2" :messages="$errors->get('statut')" />
+            @if ($errors->has('statut'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('statut') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
         </div>       
 
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" class="mt-1 block w-full form-control" value="{{$user->email}}" required autocomplete="username" />
+            @if ($errors->has('email'))
+                <div class="mt-2 text-red-600">
+                    @foreach ($errors->get('email') as $error)
+                        <p class="text-danger">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
@@ -126,9 +196,10 @@
                 </div>
             @endif
         </div>
+        <br>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <button class="btn btn-primary">{{ __('Modifier') }}</button>
 
             @if (session('status') === 'profile-updated')
                 <p

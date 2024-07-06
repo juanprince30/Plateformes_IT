@@ -8,8 +8,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('main.main');
+})->name('/');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,6 +35,22 @@ Route::resource('/certification', App\Http\Controllers\CertificationController::
 Route::resource('/cv_et_motivation', App\Http\Controllers\CvEtMotivationController::class);
 
 Route::resource('offre', OffreController::class);
+Route::get('/offres/{type}', [OffreController::class, 'filterByType'])->name('offres.filterByType');
+Route::get('/offres', function () {
+    $offres = App\Models\Offre::query();
+
+    if (request()->has('all') && request()->get('all') == 'true') {
+        // Chargez toutes les offres si le paramètre 'all' est défini à true
+        $offres = $offres->where('etat_offre', 'Offre publiée')->paginate(10); // Modifier la pagination selon vos besoins
+    } else {
+        // Chargez les offres normalement
+        $offres = $offres->where('etat_offre', 'Offre publiée')->paginate(7); // Modifier la pagination selon vos besoins
+    }
+
+    return view('offre.index', compact('offres'));
+})->name('offres.index');
+
+
 
 Route::middleware('auth')->group(function(){
     Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');

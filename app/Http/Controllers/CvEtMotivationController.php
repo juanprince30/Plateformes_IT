@@ -68,7 +68,7 @@ class CvEtMotivationController extends Controller
         }
 
         Cv_et_motivation::create($input);
-        return redirect()->route('cv_et_motivation.index')->with('success', 'CV et Motivation creer avec succes');
+        return redirect()->route('profile.edit')->with('success', 'CV et Motivation creer avec succes');
     }
 
     /**
@@ -140,6 +140,6 @@ class CvEtMotivationController extends Controller
     public function destroy($id)
     {
         Cv_et_motivation::destroy($id);
-        return redirect()->route('cv_et_motivation.index')->with('success', 'CV et Motivation supprimer avec succes');
+        return redirect()->route('profile.edit')->with('success', 'CV et Motivation supprimer avec succes');
     }
 }

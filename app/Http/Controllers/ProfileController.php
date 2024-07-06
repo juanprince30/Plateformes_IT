@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Certification;
+use App\Models\Competence;
+use App\Models\Cv_et_motivation;
+use App\Models\Experience;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +21,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user_id= Auth::id();
+        $certifications=Certification::where('user_id',$user_id)->get();
+        $competences=Competence::where('user_id',$user_id)->get();
+        $cv_et_motivations=Cv_et_motivation::where('user_id',$user_id)->get();
+        $experiences=Experience::where('user_id',$user_id)->get();
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $request->user(),'certifications' =>$certifications, 'competences' => $competences,
+            'cv_et_motivations' => $cv_et_motivations, 'experiences' => $experiences,
         ]);
     }
 
