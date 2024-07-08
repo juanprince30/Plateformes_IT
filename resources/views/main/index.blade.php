@@ -72,6 +72,7 @@
               <li><a href="{{('')}}">Forum</a></li>
               <li><a href="{{('')}}">Cours</a></li>
               <li><a href="{{('')}}">Blog</a></li>
+              <li><a href="{{route('events.index')}}">Evenement</a></li>
               <li class="d-lg-none"><a href="{{route('offre.create')}}"><span class="mr-2">+</span> Poster Offre</a></li>
               <li class="d-lg-none"><a href="{{route('login')}}">Log In</a></li>
             </ul>
@@ -109,6 +110,7 @@
               <li><a href="{{('')}}">Forum</a></li>
               <li><a href="{{('')}}">Cours</a></li>
               <li><a href="{{('')}}">Blog</a></li>
+              <li><a href="{{route('events.index')}}">Evenement</a></li>
               <li class="d-lg-none"><a href="{{('')}}"><span class="mr-2">+</span> Poster offre</a></li>
               <li class="d-lg-none"><a href="{{('')}}">Profile</a></li>
               <li class="d-lg-none">

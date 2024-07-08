@@ -33,7 +33,7 @@
           </div>
           <div class="row mb-5">
             <div class="col-lg-12">
-              <form class="p-4 p-md-5 border rounded" action="{{ route('offre.store') }}" method="POST" enctype="multipart/form-data">
+              <form class="p-4 p-md-5 border rounded" action="{{ route('offre.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                 @csrf
                 <h3 class="text-black mb-5 border-bottom pb-2">Details de l'Offre</h3>
                 
@@ -365,7 +365,7 @@
                   <label for="date_fin">Date Fin <span class="text-danger">*</span></label>
                   <input type="date" id="date_fin_offre" name="date_fin_offre" required>
                 </div>
-  
+              
   
                 <h3 class="text-black my-5 border-bottom pb-2">Details de l'Entreprise</h3>
                 <div class="form-group">
@@ -400,7 +400,25 @@
               </form>
             </div>
   
-           
+            <script>
+
+              function validateForm() {
+                  var startDate = document.getElementById('date_debut_offre').value;
+                  var currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+                  var endDate = document.getElementById('date_fin_offre').value;
+      
+                  if (startDate < currentDate) {
+                      alert('La date de début doit être égale ou postérieure à la date actuelle.');
+                      return false; // Prevent form submission
+                  }
+                  if (endDate < startDate) {
+                      alert('La date de fin doit être postérieure à la date de début.');
+                      return false; // Prevent form submission
+                  }
+      
+                  return true; // Allow form submission
+              }
+          </script>
           </div>
         </div>
       </section>

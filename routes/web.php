@@ -6,6 +6,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
 
 Route::get('/', function () {
     return view('main.main');
@@ -60,3 +61,24 @@ Route::middleware('auth')->group(function(){
     Route::get('admin/offre', [OffreController::class, 'admin_offre'])->name('admin_offre');
     Route::get('admin/user', [OffreController::class, 'admin_user'])->name('admin_user');
 });
+
+// Route pour afficher la liste des événements
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+
+// Route pour afficher le formulaire de création d'un événement
+Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+
+// Route pour enregistrer un nouvel événement
+Route::post('/events', [EventController::class, 'store'])->name('events.store');
+
+// Route pour afficher les détails d'un événement spécifique
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+
+// Route pour afficher le formulaire de modification d'un événement
+Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
+
+// Route pour mettre à jour les informations d'un événement spécifique
+Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update');
+
+// Route pour supprimer un événement spécifique
+Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');

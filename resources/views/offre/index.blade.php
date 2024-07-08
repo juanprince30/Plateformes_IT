@@ -8,7 +8,7 @@
             <div class="col-md-7">
               <h1 class="text-white font-weight-bold">Listes des Offres</h1>
               <div class="custom-breadcrumbs">
-                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <a href="{{route('/')}}">Accueil</a> <span class="mx-2 slash">/</span>
                 <span class="text-white"><strong>Offre</strong></span>
               </div>
             </div>
@@ -25,7 +25,7 @@
             </div>
 
             <ul class="job-listings mb-5">
-                    @foreach($offres as $offre)
+                    @foreach($offresPubliees as $offre)
                         @if($offre->etat_offre == 'Offre publiée')
                             <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
                                 <a href="{{ route('offre.show', $offre) }}"></a>
@@ -57,7 +57,7 @@
                         @endif
                     @endforeach
                     </div>
-                    {{ $offres->links() }}
+                    {{ $offresPubliees->links() }}
             </ul>
 
         <div class="row pagination-wrap">
@@ -66,14 +66,14 @@
             </div>
             <div class="col-md-6 text-center text-md-right">
             <div class="custom-pagination ml-auto">
-                <a href="#" class="prev">Prev</a>
+                <a href="#" class="prev">Precedent</a>
                 <div class="d-inline-block">
                 <a href="#" class="active">1</a>
                 <a href="#">2</a>
                 <a href="#">3</a>
                 <a href="#">4</a>
                 </div>
-                <a href="#" class="next">Next</a>
+                <a href="#" class="next">Suivant</a>
             </div>
             </div>
         </div>

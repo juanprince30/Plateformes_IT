@@ -8,7 +8,7 @@
             <div class="col-md-7">
               <h1 class="text-white font-weight-bold">Mes Offres</h1>
               <div class="custom-breadcrumbs">
-                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <a href="{{route('/')}}">Accueil</a> <span class="mx-2 slash">/</span>
                 <span class="text-white"><strong>Mes offres</strong></span>
               </div>
             </div>
@@ -43,9 +43,9 @@
                                     <button class="btn btn-info">{{ $offre->etat_offre}}</button>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="{{ route('offre.showmesoffre', $offre) }}" class="btn btn-primary">View</a>
+                                    <a href="{{ route('offre.showmesoffre', $offre) }}" class="btn btn-primary">Voir</a>
                                     <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-                                    <a href="{{ route('offre.edit', $offre->id) }}" class="btn btn-secondary">Edit</a>
+                                    <a href="{{ route('offre.edit', $offre->id) }}" class="btn btn-secondary">Modifier</a>
                                 </div>
                             </div>
                         </div>

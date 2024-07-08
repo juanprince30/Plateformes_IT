@@ -91,7 +91,7 @@
             <p class="mb-0 text-white lead">Inscrivez vous pour pourvoir postuler aux offres et aussi publier vos propres offres.</p>
           </div>
           <div class="col-md-3 ml-auto">
-            <a href="{{route('register')}}" class="btn btn-warning btn-block btn-lg">Sign Up</a>
+            <a href="{{route('register')}}" class="btn btn-warning btn-block btn-lg">S'inscrire</a>
           </div>
         </div>
       </div>
