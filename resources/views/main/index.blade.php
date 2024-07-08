@@ -14,6 +14,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
 
     
     <link rel="stylesheet" href="{{ asset ('IT/css/custom-bs.css')}}">
@@ -27,6 +31,14 @@
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{{ asset ('IT/css/style.css')}}"> 
+
+    <style>
+      .fc-daygrid-event { /* Classe pour cibler les événements dans la vue dayGrid */
+          white-space: normal !important; /* Permet au texte de revenir à la ligne */
+          overflow: visible !important; /* Garantit que le texte complet est visible */
+          text-overflow: unset !important; /* Annule toute propriété de texte caché */
+      }
+    </style>
   </head>
   <body id="top">
 
@@ -71,7 +83,7 @@
               </li>
               <li><a href="{{('')}}">Forum</a></li>
               <li><a href="{{('')}}">Cours</a></li>
-              <li><a href="{{('')}}">Blog</a></li>
+              <li><a href="{{('')}}">Evenement</a></li>
               <li class="d-lg-none"><a href="{{route('offre.create')}}"><span class="mr-2">+</span> Poster Offre</a></li>
               <li class="d-lg-none"><a href="{{route('login')}}">Log In</a></li>
             </ul>
@@ -106,9 +118,9 @@
                   <li><a href="{{route('offre.create')}}"> Poster offre</a></li>
                 </ul>
               </li>
-              <li><a href="{{('')}}">Forum</a></li>
+              <li><a href="{{route('discussion.index')}}">Forum</a></li>
               <li><a href="{{('')}}">Cours</a></li>
-              <li><a href="{{('')}}">Blog</a></li>
+              <li><a href="{{route('events.index')}}">Evenement</a></li>
               <li class="d-lg-none"><a href="{{('')}}"><span class="mr-2">+</span> Poster offre</a></li>
               <li class="d-lg-none"><a href="{{('')}}">Profile</a></li>
               <li class="d-lg-none">
@@ -274,6 +286,62 @@
       }
     });
   </script>
+  <script>
+    $(document).ready(function() {
+        $('#search-input').select2({
+            placeholder: "Rechercher par catégorie...",
+            ajax: {
+                url: '/api/discussions/search',
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: data.discussions.map(function(discussion) {
+                            return { id: discussion.id, text: discussion.sujet };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#search-input').on('select2:select', function(e) {
+            var discussionId = e.params.data.id;
+            window.location.href = `/discussion/${discussionId}`;
+        });
+    });
+  </script>
+
+<script>
+  document.getElementById('load-more').addEventListener('click', function() {
+      var button = this;
+      var offset = button.getAttribute('data-offset');
+      var discussionId = button.getAttribute('data-id');
+
+      fetch(`/discussion/${discussionId}/loadMore/${offset}`)
+          .then(response => response.json())
+          .then(data => {
+              console.log(data); // Ajouté pour déboguer les données reçues
+              var reponsesDiv = document.getElementById('reponses');
+              data.forEach(reponse => {
+                  var reponseDiv = document.createElement('div');
+                  reponseDiv.classList.add('reply', 'p-3', 'bg-light', 'rounded');
+                  reponseDiv.innerHTML = `
+                      <p class="reply-author font-weight-bold text-primary">Auteur : ${reponse.user.name}</p>
+                      <p class="timestamp">Date : ${reponse.created_at}</p>
+                      <p class="reply-content">${reponse.contenu}</p>
+                  `;
+                  reponsesDiv.appendChild(reponseDiv);
+              });
+              button.setAttribute('data-offset', parseInt(offset) + 10);
+          })
+          .catch(error => console.error('Error:', error));
+  });
+  </script>
+   <!-- FullCalendar JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/main.min.js"></script>
+
 
   </body>
 </html>

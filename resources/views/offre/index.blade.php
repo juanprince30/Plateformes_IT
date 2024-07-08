@@ -25,7 +25,7 @@
             </div>
 
             <ul class="job-listings mb-5">
-                    @foreach($offres as $offre)
+                    @foreach($offresPubliees  as $offre)
                         @if($offre->etat_offre == 'Offre publiée')
                             <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
                                 <a href="{{ route('offre.show', $offre) }}"></a>
@@ -57,7 +57,7 @@
                         @endif
                     @endforeach
                     </div>
-                    {{ $offres->links() }}
+                    {{ $offresPubliees ->links() }}
             </ul>
 
         <div class="row pagination-wrap">

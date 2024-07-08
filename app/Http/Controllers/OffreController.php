@@ -18,8 +18,29 @@ class OffreController extends Controller
      */
     public function index()
     {
-        $offres = Offre::paginate(10);
-        return view('offre.index', compact('offres'));
+        // Récupérer toutes les offres (ou les offres pertinentes pour votre application)
+        $offres = Offre::all();
+
+        // Parcourir chaque offre pour déterminer son état en fonction des dates
+        foreach ($offres as $offre) {
+            $etat_offre = 'En attente';
+
+            if (now()->greaterThanOrEqualTo($offre->date_debut_offre)) {
+                $etat_offre = 'Offre publiée';
+            }
+
+            if (now()->greaterThan($offre->date_fin_offre)) {
+                $etat_offre = 'Terminer';
+            }
+
+            // Mettre à jour l'état de l'offre dans la base de données
+            $offre->update(['etat_offre' => $etat_offre]);
+        }
+
+        // Récupérer uniquement les offres publiées pour l'affichage
+        $offresPubliees = Offre::where('etat_offre', 'Offre publiée')->paginate(10);
+
+        return view('offre.index', compact('offresPubliees'));
     }
 
     /**

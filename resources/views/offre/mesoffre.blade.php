@@ -43,9 +43,9 @@
                                     <button class="btn btn-info">{{ $offre->etat_offre}}</button>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="{{ route('offre.showmesoffre', $offre) }}" class="btn btn-primary">View</a>
+                                    <a href="{{ route('offre.showmesoffre', $offre) }}" class="btn btn-primary">Voir</a>
                                     <!-- Uncomment these lines if you want to add Edit and Delete functionality -->
-                                    <a href="{{ route('offre.edit', $offre->id) }}" class="btn btn-secondary">Edit</a>
+                                    <a href="{{ route('offre.edit', $offre->id) }}" class="btn btn-secondary">Modifier</a>
                                 </div>
                             </div>
                         </div>

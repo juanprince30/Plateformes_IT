@@ -11,7 +11,7 @@
         <div class="row align-items-center justify-content-center">
           <div class="col-md-12">
             <div class="mb-5 text-center">
-              <h1 class="text-white font-weight-bold">Plateforme Colaboratif Pour Professionnel De l'IT</h1>
+              <h1 class="text-white font-weight-bold">Plateforme Collaboratif Pour Professionnel De l'IT</h1>
               <p>Notre plateforme est le moyen le plus facile pour trouver des offres, des conseils, et rester à jour pour tous les Professionnels de l'IT.</p>
             </div>
             <form method="post" class="search-jobs-form">
