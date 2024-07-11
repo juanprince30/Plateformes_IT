@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/showmescandidat/{offre}', [OffreController::class, 'showmescandidat'])->name('offre.showmescandidat');
 });
-
+Route::get('/', [OffreController::class, 'jobsRecents'])->name('offres.jobsRecents');
 
 Route::middleware('auth')->group(function(){
     Route::get('postuler', [CandidactureController::class, 'index'])->name('postuler.index');

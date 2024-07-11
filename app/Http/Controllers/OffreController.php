@@ -296,4 +296,10 @@ class OffreController extends Controller
             abort(403, ' INTERDIT !! ');
         }
     }
+    public function jobsRecents()
+{
+    $offres = Offre::latest()->paginate(7); // Récupère les 7 offres les plus récentes
+    $totalOffres = Offre::count(); // Nombre total d'emplois
+    return view('main.main', compact('offres', 'totalOffres'));
+}
 }
