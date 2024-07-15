@@ -67,13 +67,13 @@
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6"><a href="{{route('/')}}">IT-Board</a></div>
+          <div class="site-logo col-6"><a href="{{route('offres.jobsRecents')}}">IT-Board</a></div>
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="{{route('/')}}" class="nav-link active">Home</a></li>
+              <li><a href="{{route('offres.jobsRecents')}}" class="nav-link active">Home</a></li>
               <li class="has-children">
-                <a href="{{route('/')}}">Offres</a>
+                <a href="{{('')}}">Offres</a>
                 <ul class="dropdown">
                   <li><a href="{{route('offre.index')}}">Voir les offres</a></li>
                   <li><a href="{{route('offre.mesoffre')}}">Mes offres</a></li>
@@ -81,9 +81,9 @@
                   <li><a href="{{route('offre.create')}}"> Poster offre</a></li>
                 </ul>
               </li>
-              <li><a href="{{('')}}">Forum</a></li>
-              <li><a href="{{('')}}">Cours</a></li>
-              <li><a href="{{('')}}">Evenement</a></li>
+              <li><a href="{{route('discussion.index')}}">Forum</a></li>
+              <li><a href="{{route('cours.index')}}">Cours</a></li>
+              <li><a href="{{route('events.index')}}">Evenement</a></li>
               <li class="d-lg-none"><a href="{{route('offre.create')}}"><span class="mr-2">+</span> Poster Offre</a></li>
               <li class="d-lg-none"><a href="{{route('login')}}">Log In</a></li>
             </ul>
@@ -104,11 +104,11 @@
     <header class="site-navbar mt-3">
       <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="site-logo col-6"><a href="{{route('/')}}">IT-Board</a></div>
+          <div class="site-logo col-6"><a href="{{route('offres.jobsRecents')}}">IT-Burkina</a></div>
 
           <nav class="mx-auto site-navigation">
             <ul class="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
-              <li><a href="{{route('/')}}" class="nav-link active">Home</a></li>
+              <li><a href="{{route('offres.jobsRecents')}}" class="nav-link active">Home</a></li>
               <li class="has-children">
                 <a href="{{('')}}">Offres</a>
                 <ul class="dropdown">
@@ -119,10 +119,10 @@
                 </ul>
               </li>
               <li><a href="{{route('discussion.index')}}">Forum</a></li>
-              <li><a href="{{('')}}">Cours</a></li>
+              <li><a href="{{route('cours.index')}}">Cours</a></li>
               <li><a href="{{route('events.index')}}">Evenement</a></li>
               <li class="d-lg-none"><a href="{{('')}}"><span class="mr-2">+</span> Poster offre</a></li>
-              <li class="d-lg-none"><a href="{{('')}}">Profile</a></li>
+              <li class="d-lg-none"><a href="{{route('profile.edit')}}">Profile</a></li>
               <li class="d-lg-none">
                 <form action="{{route('logout')}}" method="POST" class="border-width-2 d-none d-lg-inline-block">
                   @csrf
@@ -133,7 +133,39 @@
           </nav>
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
-              <a href="" class="d-inline-block" style="text-decoration: none; padding: 12px;"><span class="icon-bell"></span><sup class="text-white bg-danger" style="font-size: 14px;">6</sup></a>
+              <div class="dropdown d-inline-block">
+                <a href="" class="btn btn-outline border-width-2 d-none d-lg-inline-block dropdown-toggle" id="notifDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; padding: 12px; position: relative;">
+                  <span class="icon-bell"></span>
+                  @if ($totalnotification >0)
+                    <sup class="text-white bg-danger" style="font-size: 14px;">{{$totalnotification}}</sup>
+                  @endif
+                </a>
+                <div class="dropdown-menu" aria-labelledby="notifDropdown">
+                  @if ($notifications->isEmpty())
+                      <p class="text-center">Aucunes Notifications.</p>
+                  @else
+                    @foreach ($notifications as $item)
+                      <a class="dropdown-item" href="">
+                        <strong style="color: green">
+                          @php
+                              // Insère un <br> tous les 30 caractères
+                              $Type = wordwrap($item->type, 30, '<br>', true);
+                          @endphp
+                          {!! $Type !!}
+                        </strong>
+                        <br>
+                        <em>
+                          @php
+                              // Insère un <br> tous les 30 caractères
+                              $wrappedMessage = wordwrap($item->message, 30, '<br>', true);
+                          @endphp
+                          {!! $wrappedMessage !!}
+                        </em>
+                      </a> 
+                    @endforeach
+                  @endif
+                </div>
+              </div>
               <div class="dropdown d-inline-block">
                 <a href="{{route('profile.edit')}}" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block dropdown-toggle" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="mr-2 icon-user"></span>{{Auth::user()->name}}</a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">

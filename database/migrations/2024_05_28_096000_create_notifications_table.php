@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('message');
+            $table->string('etat')->default('Pas lu');
             $table->unsignedBigInteger('candidacture_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('discussion_id')->nullable();

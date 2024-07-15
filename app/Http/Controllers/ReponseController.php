@@ -24,6 +24,16 @@ class ReponseController extends Controller
     public function create($discussion_id)
     {
         $discussion = Discussion::findOrFail($discussion_id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('reponse.create', compact('discussion','notifications', 'totalnotification'));
+        }
+
         return view('reponse.create', compact('discussion'));
     }
 

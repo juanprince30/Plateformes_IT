@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Experience;
+use App\Models\Notification;
 use App\Models\Profil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,15 @@ class ExperienceController extends Controller
         $user_id= Auth::id();
         $experience=Experience::where('user_id',$user_id)->get();
         
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('experience.index', compact('experience','notifications', 'totalnotification'));
+        }
+
         return view('experience.index', compact('experience'));
     }
 
@@ -29,6 +39,14 @@ class ExperienceController extends Controller
      */
     public function create()
     {
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('experience.create', compact('notifications', 'totalnotification'));
+        }
         return view('experience.create');
     }
 
@@ -65,6 +83,15 @@ class ExperienceController extends Controller
     public function show($id)
     {
         $experience=Experience::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('experience.show', compact('experience','notifications', 'totalnotification'));
+        }
         return view('experience.show', compact('experience'));
     }
 
@@ -74,6 +101,15 @@ class ExperienceController extends Controller
     public function edit($id)
     {
         $experience=Experience::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('experience.edit', compact('experience','notifications', 'totalnotification'));
+        }
         return view('experience.edit', compact('experience'));
     }
 

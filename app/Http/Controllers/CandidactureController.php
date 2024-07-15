@@ -16,6 +16,15 @@ class CandidactureController extends Controller
     public function index()
     {
         $candidatures = Candidacture::where('user_id', Auth::id())->get();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('postuler.index', compact('candidatures','notifications', 'totalnotification'));
+        }
         return view('postuler.index', compact('candidatures'));
     }
 
@@ -26,6 +35,15 @@ class CandidactureController extends Controller
     {
         $offreId = $request->query('offre');
         $offre = Offre::findOrFail($offreId);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('postuler.create', compact('offre','notifications', 'totalnotification'));
+        }
 
         return view('postuler.create', compact('offre'));
     }
@@ -75,6 +93,14 @@ class CandidactureController extends Controller
      */
     public function show(Candidacture $candidature)
     {
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('postuler.show', ['candidature' => $candidature], compact('offre','notifications', 'totalnotification'));
+        }
         return view('postuler.show', ['candidature' => $candidature]);
     }
 
@@ -83,6 +109,14 @@ class CandidactureController extends Controller
      */
     public function edit(Candidacture $candidature)
     {
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('postuler.edit', ['candidature' => $candidature], compact('offre','notifications', 'totalnotification'));
+        }
         return view('postuler.edit', ['candidature' => $candidature]);
     }
 
@@ -121,7 +155,15 @@ class CandidactureController extends Controller
         $candidature->etat_candidature = $request->input('etat_candidature');
         $candidature->save();
 
-        return redirect()->route('offre.mesoffre', $offre->id)->with('success', 'État de la candidature mis à jour.');
+        Notification::create([
+            'type' => 'Vous avez un retour pour Candidature.',
+            'message' => 'Votre Candidacture à l\'offre ' .$offre->titre.' à ete ' .$candidature->etat_candidature .'.',
+            'user_id' => $candidature->user_id, // Utilisateur qui a soumis sa candidature
+            'candidacture_id' => $candidature->id,
+            'offre_id' => $offre->id,
+        ]);
+
+        return redirect()->route('offre.showmesoffre', $offre->id)->with('success', 'État de la candidature mis à jour.');
     }
 
     /**

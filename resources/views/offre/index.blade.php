@@ -8,7 +8,7 @@
             <div class="col-md-7">
               <h1 class="text-white font-weight-bold">Listes des Offres</h1>
               <div class="custom-breadcrumbs">
-                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <a href="{{route('offres.jobsRecents')}}">Home</a> <span class="mx-2 slash">/</span>
                 <span class="text-white"><strong>Offre</strong></span>
               </div>
             </div>
@@ -59,24 +59,6 @@
                     </div>
                     {{ $offresPubliees ->links() }}
             </ul>
-
-        <div class="row pagination-wrap">
-            <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Showing 1-7 Of 22,392 Jobs</span>
-            </div>
-            <div class="col-md-6 text-center text-md-right">
-            <div class="custom-pagination ml-auto">
-                <a href="#" class="prev">Prev</a>
-                <div class="d-inline-block">
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                </div>
-                <a href="#" class="next">Next</a>
-            </div>
-            </div>
-        </div>
 
         </div>
     </section>

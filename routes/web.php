@@ -3,8 +3,10 @@
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CandidactureController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CourController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReponseController;
@@ -108,3 +110,9 @@ Route::put('/events/{id}', [EventController::class, 'update'])->name('events.upd
 
 // Route pour supprimer un événement spécifique
 Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+
+Route::resource('cours', CourController::class);
+
+Route::get('/', [OffreController::class, 'jobsRecents'])->name('offres.jobsRecents');
+
+Route::resource('notification', NotificationController::class);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use App\Models\Competence;
+use App\Models\Notification;
 use App\Models\Profil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,15 @@ class CompetenceController extends Controller
 
         $user_id= Auth::id();
         $competence=Competence::where('user_id',$user_id)->get();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('competence.index', compact('competence','notifications', 'totalnotification'));
+        }
         
         return view('competence.index', compact('competence'));
     }
@@ -32,6 +42,15 @@ class CompetenceController extends Controller
     {
         $categorie=Categorie::select('id','libelle')->get();
         
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('competence.create', compact('categorie','notifications', 'totalnotification'));
+        }
         return view('competence.create', compact('categorie'));
     }
 
@@ -65,6 +84,15 @@ class CompetenceController extends Controller
     public function show($id)
     {
         $competence=Competence::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('competence.show', compact('competence','notifications', 'totalnotification'));
+        }
         return view('competence.show', compact('competence'));
     }
 
@@ -76,6 +104,14 @@ class CompetenceController extends Controller
         $competence=Competence::findOrFail($id);
         $categorie=Categorie::select('id','libelle')->get();
 
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('competence.edit', compact('competence', 'categorie','notifications', 'totalnotification'));
+        }
         return view('competence.edit', compact('competence', 'categorie'));
     }
 

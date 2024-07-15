@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cv_et_motivation;
+use App\Models\Notification;
 use App\Models\Profil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,15 @@ class CvEtMotivationController extends Controller
 
         $user_id= Auth::id();
         $cv_et_motivation=Cv_et_motivation::where('user_id',$user_id)->get();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('cv_et_motivation.index', compact('cv_et_motivation','notifications', 'totalnotification'));
+        }
         
         return view('cv_et_motivation.index', compact('cv_et_motivation'));
     }
@@ -30,6 +40,15 @@ class CvEtMotivationController extends Controller
      */
     public function create()
     {
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('cv_et_motivation.create', compact('notifications', 'totalnotification'));
+        }
         return view('cv_et_motivation.create');
     }
 
@@ -77,6 +96,15 @@ class CvEtMotivationController extends Controller
     public function show($id)
     {
         $cv_et_motivation=Cv_et_motivation::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('cv_et_motivation.show', compact('cv_et_motivation','notifications', 'totalnotification'));
+        }
         return view('cv_et_motivation.show', compact('cv_et_motivation'));
     }
 
@@ -86,6 +114,15 @@ class CvEtMotivationController extends Controller
     public function edit($id)
     {
         $cv_et_motivation=Cv_et_motivation::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('cv_et_motivation.edit', compact('cv_et_motivation','notifications', 'totalnotification'));
+        }
         return view('cv_et_motivation.edit', compact('cv_et_motivation'));
     }
 

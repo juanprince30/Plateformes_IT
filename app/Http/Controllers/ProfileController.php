@@ -7,6 +7,7 @@ use App\Models\Certification;
 use App\Models\Competence;
 use App\Models\Cv_et_motivation;
 use App\Models\Experience;
+use App\Models\Notification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,18 @@ class ProfileController extends Controller
         $competences=Competence::where('user_id',$user_id)->get();
         $cv_et_motivations=Cv_et_motivation::where('user_id',$user_id)->get();
         $experiences=Experience::where('user_id',$user_id)->get();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('profile.edit', [
+                'user' => $request->user(),'certifications' =>$certifications, 'competences' => $competences,
+                'cv_et_motivations' => $cv_et_motivations, 'experiences' => $experiences,
+                ], compact('notifications', 'totalnotification'));
+        }
 
         return view('profile.edit', [
             'user' => $request->user(),'certifications' =>$certifications, 'competences' => $competences,

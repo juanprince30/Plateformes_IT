@@ -20,7 +20,14 @@ class DiscussionController extends Controller
     {
         $discussions = Discussion::paginate(10);
         
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
 
+            return view('discussion.index', compact('discussions','notifications', 'totalnotification'));
+        }
         return view('discussion.index', compact('discussions'));
     }
 
@@ -30,6 +37,14 @@ class DiscussionController extends Controller
     public function create()
     {
         $categories = Categorie::all();
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('discussion.create', compact('categories','notifications', 'totalnotification'));
+        }
         return view('discussion.create', compact('categories'));
     }
 
@@ -73,6 +88,14 @@ class DiscussionController extends Controller
         $discussion = Discussion::findOrFail($id);
         $reponses = $discussion->Reponse()->orderBy('created_at', 'desc')->take(10)->get();
 
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('discussion.show', compact('discussion', 'reponses','notifications', 'totalnotification'));
+        }
         return view('discussion.show', compact('discussion', 'reponses'));
     }
 
@@ -141,6 +164,15 @@ class DiscussionController extends Controller
     public function edit($id)
     {
         $discussion=Discussion::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('discussion.edit', compact('discussion','notifications', 'totalnotification'));
+        }
         return view('discussion.edit', compact('discussion'));
     }
 

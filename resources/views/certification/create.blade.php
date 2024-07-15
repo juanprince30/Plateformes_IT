@@ -7,7 +7,7 @@
             <div class="col-md-7">
             <h1 class="text-white font-weight-bold">Profil</h1>
             <div class="custom-breadcrumbs">
-                <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+                <a href="{{route('offres.jobsRecents')}}">Home</a> <span class="mx-2 slash">/</span>
                 <a href="{{route('offre.index')}}">Profil</a> <span class="mx-2 slash">/</span>
                 <span class="text-white"><strong>Profil</strong></span>
             </div>

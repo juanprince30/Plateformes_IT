@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certification;
+use App\Models\Notification;
 use App\Models\Profil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,15 @@ class CertificationController extends Controller
 
         $user_id= Auth::id();
         $certification=Certification::where('user_id',$user_id)->get();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('certification.index',compact('certification','notifications', 'totalnotification'));
+        }
         
         return view('certification.index',compact('certification'));
     }
@@ -30,6 +40,14 @@ class CertificationController extends Controller
      */
     public function create()
     {
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('certification.create',compact('notifications', 'totalnotification'));
+        }
         return view('certification.create');
     }
 
@@ -72,6 +90,15 @@ class CertificationController extends Controller
     public function show($id)
     {
         $certification=Certification::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('certification.show', compact('certification','notifications', 'totalnotification'));
+        }
         return view('certification.show', compact('certification'));
     }
 
@@ -81,6 +108,15 @@ class CertificationController extends Controller
     public function edit($id)
     {
         $certification=Certification::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('certification.edit', compact('certification','notifications', 'totalnotification'));
+        }
         return view('certification.edit', compact('certification'));
     }
 

@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -19,6 +20,15 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('evenement.index', compact('events', 'notifications', 'totalnotification'));
+        }
         return view('evenement.index', compact('events'));
     }
 
@@ -29,6 +39,18 @@ class EventController extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
+        }
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('evenement.create', compact('notifications', 'totalnotification'));
+        }
         return view('evenement.create');
     }
 
@@ -57,6 +79,15 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('evenement.show', compact('event','notifications', 'totalnotification'));
+        }
         return view('evenement.show', compact('event'));
     }
 

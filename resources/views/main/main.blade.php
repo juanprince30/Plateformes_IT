@@ -11,39 +11,9 @@
         <div class="row align-items-center justify-content-center">
           <div class="col-md-12">
             <div class="mb-5 text-center">
-              <h1 class="text-white font-weight-bold">Plateforme Collaboratif Pour Professionnel De l'IT</h1>
+              <h1 class="text-white font-weight-bold">Plateforme Collaborative Pour Professionnels De l'IT</h1>
               <p>Notre plateforme est le moyen le plus facile pour trouver des offres, des conseils, et rester à jour pour tous les Professionnels de l'IT.</p>
             </div>
-            <form method="post" class="search-jobs-form">
-              <div class="row mb-5">
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input type="text" class="form-control form-control-lg" placeholder="titre de l'offre">
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select une categorie"></select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Selectionner le type de l'offre">
-                    <option>Stage</option>
-                    <option>Emploi</option>
-                    <option>Formation</option>
-                  </select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12 popular-keywords">
-                  <h3>Les mots-clés tendance</h3>
-                  <ul class="keywords list-unstyled m-0 p-0">
-                    <li><a href="#" class="">Developpement Web</a></li>
-                    <li><a href="#" class="">Designer</a></li>
-                    <li><a href="#" class="">Cybersecurite</a></li>
-                  </ul>
-                </div>
-              </div>
-            </form>
           </div>
         </div>
       </div>
@@ -99,176 +69,83 @@
 
     <section class="site-section">
       <div class="container">
-
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
-            <h2 class="section-title mb-2">Offres Reçents</h2>
+              <h2 class="section-title mb-2">Offres Récentes</h2>
           </div>
         </div>
-        
         <ul class="job-listings mb-5">
+          @foreach($offres as $job)
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <a href="job-single.html"></a>
             <div class="job-listing-logo">
-              <img src="{{asset('IT/images/job_logo_1.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
+              @if ($job->logo)
+                  <img src="{{ asset('storage/' . $job->logo) }}" alt="Logo" class="img-fluid">
+              @else
+                  <img src="IT/images/default-image.jpg" alt="Image" class="img-fluid">
+              @endif
             </div>
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Adidas</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> New York, New York
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-danger">Part Time</span>
-              </div>
+                <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                    <h2>{{ $job->titre }}</h2>
+                    <strong>{{ $job->entreprise }}</strong>
+                </div>
+                <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                    <span class="icon-room"></span> {{ $job->ville }}
+                    <br>
+                    <span class="icon-money"></span> {{$job->salaire}} FCFA
+                </div>
+                <div class="job-listing-meta">
+                    <span class="badge badge-info">{{ $job->type_offre }}</span>
+                </div>
             </div>
-            
-          </li>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="{{asset('IT/images/job_logo_2.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
+        </li>
+          @endforeach
+      </ul>
 
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Digital Marketing Director</h2>
-                <strong>Sprint</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Overland Park, Kansas 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="{{asset('IT/images/job_logo_3.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Back-end Engineer (Python)</h2>
-                <strong>Amazon</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Overland Park, Kansas 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="{{asset('IT/images/job_logo_4.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Senior Art Director</h2>
-                <strong>Microsoft</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Anywhere 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="{{asset('IT/images/job_logo_5.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Puma</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> San Mateo, CA 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="{{asset('IT/images/job_logo_1.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Adidas</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> New York, New York
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-danger">Part Time</span>
-              </div>
-            </div>
-            
-          </li>
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
-            <div class="job-listing-logo">
-              <img src="{{asset('IT/images/job_logo_2.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
-            </div>
-
-            <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-              <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Digital Marketing Director</h2>
-                <strong>Sprint</strong>
-              </div>
-              <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> Overland Park, Kansas 
-              </div>
-              <div class="job-listing-meta">
-                <span class="badge badge-success">Full Time</span>
-              </div>
-            </div>
-          </li>
-
-          
-
-          
-        </ul>
-
-        <div class="row pagination-wrap">
+      <!-- Pagination (à adapter selon vos besoins) -->
+      <div class="row pagination-wrap">
           <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-            <span>Showing 1-7 Of 43,167 Jobs</span>
+              <span>Affichage de {{ $offres->count() }} des {{ $totalOffres }} offres</span>
           </div>
           <div class="col-md-6 text-center text-md-right">
             <div class="custom-pagination ml-auto">
-              <a href="#" class="prev">Prev</a>
-              <div class="d-inline-block">
-              <a href="#" class="active">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              </div>
-              <a href="#" class="next">Next</a>
+                {{ $offres->links() }} <!-- Intégration de la pagination Laravel -->
             </div>
+        </div>
+      </div>  
+    </section>
+
+    <section class="site-section">
+      <div class="container">
+        <div class="row mb-5 justify-content-center">
+          <div class="col-md-7 text-center">
+              <h2 class="section-title mb-2">Discussions Récentes</h2>
           </div>
         </div>
-
+        <div class="row" id="discussion-list">
+          @foreach($discussions as $discussion)
+              <div class="col-md-12 mb-4">
+                  <div class="card">
+                      <div class="card-body">
+                          <h5 class="card-title">
+                              <a href="{{ route('discussion.show', $discussion) }}">{{ $discussion->sujet }}</a>
+                          </h5>
+                          <p class="card-text text-muted">
+                              {{ Str::limit($discussion->contenu, 150) }}
+                          </p>
+                          <div class="d-flex justify-content-between align-items-center">
+                              <small class="text-muted">Posté par {{ $discussion->user->name }}</small>
+                              <small class="text-muted">{{ $discussion->created_at->diffForHumans() }}</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          @endforeach
+      </div>
+      <div class="d-flex justify-content-center mt-4" id="pagination-links">
+          {{ $discussions->links() }}
       </div>
     </section>
 

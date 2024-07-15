@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidacture;
 use App\Models\Categorie;
+use App\Models\Discussion;
 use App\Models\Notification;
 use App\Models\Offre;
 use App\Models\User;
@@ -40,6 +41,15 @@ class OffreController extends Controller
         // Récupérer uniquement les offres publiées pour l'affichage
         $offresPubliees = Offre::where('etat_offre', 'Offre publiée')->paginate(10);
 
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('offre.index', compact('offresPubliees', 'notifications', 'totalnotification'));
+        }
+
         return view('offre.index', compact('offresPubliees'));
     }
 
@@ -51,8 +61,18 @@ class OffreController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login');
         }
-
+        
         $categories = Categorie::all();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('offre.create', compact('categories', 'notifications', 'totalnotification'));
+        }
+
         return view('offre.create', compact('categories'));
     }
 
@@ -144,6 +164,15 @@ class OffreController extends Controller
             $hasApplied = $user->candidacture->where('offre_id', $id)->isNotEmpty();
         }
 
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('offre.show', compact('offre', 'hasApplied', 'notifications', 'totalnotification'));
+        }
+
         return view('offre.show', compact('offre', 'hasApplied'));
     }
 
@@ -153,6 +182,16 @@ class OffreController extends Controller
     public function edit($id)
     {
         $offre=Offre::findOrFail($id);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('offre.edit', compact('offre', 'notifications', 'totalnotification'));
+        }
+
         return view('offre.edit', compact('offre'));
     }
 
@@ -238,6 +277,15 @@ class OffreController extends Controller
     public function mesoffre()
     {
         $offres = Offre::where('user_id', Auth::id())->paginate(10);
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('offre.mesoffre', compact('offres', 'notifications', 'totalnotification'));
+        }
         return view('offre.mesoffre', compact('offres'));
     }
 
@@ -253,6 +301,15 @@ class OffreController extends Controller
         }
         $candidatures = Candidacture::where('offre_id', $offre)->get();
 
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidatures], compact('notifications', 'totalnotification'));
+        }
+
         return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidatures]);
     }
 
@@ -264,7 +321,37 @@ class OffreController extends Controller
         }
         $candidature = Candidacture::findOrfail($id);
 
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('offre.candidat', compact('candidature','notifications', 'totalnotification'));
+        }
+
         return view('offre.candidat', compact('candidature'));
+    }
+
+    public function jobsRecents()
+    {
+        $offres = Offre::latest()->paginate(7); // Récupère les 7 offres les plus récentes
+        $discussions = Discussion::latest()->paginate(7);
+        $totalOffres = Offre::count(); // Nombre total d'emplois
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            return view('main.main', compact('offres', 'totalOffres','discussions', 'notifications', 'totalnotification'));
+        }
+        else
+        {
+            return view('main.main', compact('offres', 'totalOffres','discussions'));
+        }
+
+       
     }
 
     public function admin_offre()

@@ -8,7 +8,7 @@
         <div class="col-md-7">
         <h1 class="text-white font-weight-bold">Evenements</h1>
         <div class="custom-breadcrumbs">
-            <a href="{{route('/')}}">Home</a> <span class="mx-2 slash">/</span>
+            <a href="{{route('offres.jobsRecents')}}">Home</a> <span class="mx-2 slash">/</span>
             <span class="text-white"><strong>Profil</strong></span>
         </div>
         </div>
@@ -16,7 +16,7 @@
     </div>
 </section>
 
-    <section style="margin-top: 5%;">
+    <section style="margin-top: 5%; margin-bottom: 5%;">
         <div class="container mt-5">
             <h1>Créer un nouvel événement</h1>
     
