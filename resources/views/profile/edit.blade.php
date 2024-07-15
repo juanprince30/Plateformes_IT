@@ -5,11 +5,11 @@
     <div class="container">
       <div class="row">
         <div class="col-md-7">
-          <h1 class="text-white font-weight-bold">Profil</h1>
+          <h1 class="text-white font-weight-bold">Portfolio</h1>
           <div class="custom-breadcrumbs">
             <a href="{{route('offres.jobsRecents')}}">Home</a> <span class="mx-2 slash">/</span>
-            <a href="{{route('profile.edit')}}">Profil</a> <span class="mx-2 slash">/</span>
-            <span class="text-white"><strong>Profil</strong></span>
+            <a href="{{route('profile.edit')}}">Portfolio</a> <span class="mx-2 slash">/</span>
+            <span class="text-white"><strong>Portfolio</strong></span>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
             <div class="col-md-6 border-right">
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h1 class="text-right"><strong>Profil</strong></h1>
+                        <h1 class="text-right"><strong>Portfolio</strong></h1>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6">

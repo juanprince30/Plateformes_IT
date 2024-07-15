@@ -354,6 +354,18 @@ class OffreController extends Controller
        
     }
 
+    public function filterByType($type)
+    {
+        $offres = Offre::where('type_offre', $type)->where('etat_offre', 'Offre publiée')->get();
+        return response()->json($offres);
+    }
+
+    public function getAllOffres()
+    {
+        $offres = Offre::where('etat_offre', 'Offre publiée')->get();
+        return response()->json($offres);
+    }
+
     public function admin_offre()
     {
         $user_id = Auth::id();

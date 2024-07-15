@@ -132,7 +132,7 @@
                           <h5 class="card-title">
                               <a href="{{ route('discussion.show', $discussion) }}">{{ $discussion->sujet }}</a>
                           </h5>
-                          <p class="card-text text-muted">
+                          <p class="card-text">
                               {{ Str::limit($discussion->contenu, 150) }}
                           </p>
                           <div class="d-flex justify-content-between align-items-center">
