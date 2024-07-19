@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CandidactureController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CourController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\OffreController;
@@ -41,6 +42,11 @@ Route::resource('offre', OffreController::class);
 
 Route::middleware('auth')->group(function(){
     Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');
+    // web.php
+    // web.php
+Route::post('/mesoffre/{id}/terminer', [OffreController::class, 'terminerTraitement'])->name('offre.terminer');
+
+
 
     Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
 
@@ -58,6 +64,8 @@ Route::middleware('auth')->group(function(){
     Route::put('postuler/{candidature}', [CandidactureController::class, 'updateStatus'])->name('postuler.updateStatus');
     Route::delete('postuler/{candidature}', [CandidactureController::class, 'destroy'])->name('postuler.destroy');
 });
+
+
 
 Route::middleware('auth')->group(function(){
     Route::get('admin/offre', [OffreController::class, 'admin_offre'])->name('admin_offre');
@@ -108,3 +116,5 @@ Route::put('/events/{id}', [EventController::class, 'update'])->name('events.upd
 
 // Route pour supprimer un événement spécifique
 Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+
+/* Route::resource('cours', CourController::class); */

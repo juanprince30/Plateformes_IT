@@ -43,13 +43,6 @@ use Carbon\Carbon;
                             <p class="card-text"><strong>Date de fin:</strong>  {{ Carbon::parse($event->date_fin)->format('Y-m-d H:i') }}</p>
                             <p class="card-text"><strong>Lieu:</strong> {{ $event->lieu }}</p>
                             <p class="card-text"><strong>Type:</strong> {{ ucfirst($event->type) }}</p>
-                            <a href="{{ route('events.show', $event->id) }}" class="btn btn-info btn-sm">Voir</a>
-                            <a href="{{ route('events.edit', $event->id) }}" class="btn btn-primary btn-sm">Éditer</a>
-                            <form action="{{ route('events.destroy', $event->id) }}" method="POST" style="display: inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">Supprimer</button>
-                            </form>
                         </div>
                     </div>
                 </div>

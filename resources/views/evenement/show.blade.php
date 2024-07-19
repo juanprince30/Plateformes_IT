@@ -35,14 +35,6 @@ use Carbon\Carbon;
     
                     <!-- Boutons d'action pour retourner à la liste et éditer l'événement -->
                     <a href="{{ route('events.index') }}" class="btn btn-secondary">Retour à la liste</a>
-                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-primary">Éditer</a>
-    
-                    <!-- Formulaire de suppression de l'événement -->
-                    <form action="{{ route('events.destroy', $event->id) }}" method="POST" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">Supprimer</button>
-                    </form>
                 </div>
             </div>
         </div>

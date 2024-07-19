@@ -138,13 +138,14 @@ class OffreController extends Controller
         $offre = Offre::with('candidacture')->findOrFail($id);
         $user = auth()->user();
         $hasApplied = false;
+        $competences = $user ? $user->competences : collect();
 
         if ($user) {
             // Charger les candidatures de l'utilisateur
             $hasApplied = $user->candidacture->where('offre_id', $id)->isNotEmpty();
         }
 
-        return view('offre.show', compact('offre', 'hasApplied'));
+        return view('offre.show', compact('offre', 'hasApplied','competences'));
     }
 
     /**
@@ -242,19 +243,62 @@ class OffreController extends Controller
     }
 
     public function showmesoffre($offre)
+{
+    if (!Auth::check()) 
     {
-        if (!Auth::check()) 
-        {
-            return redirect()->route('login'); 
-        }
-        $offre = Offre::where('user_id', Auth::id())->find($offre);
-        if (!$offre) {
-            abort(404, 'Offre non trouvée');
-        }
-        $candidatures = Candidacture::where('offre_id', $offre)->get();
-
-        return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidatures]);
+        return redirect()->route('login'); 
     }
+    
+    $offre = Offre::where('user_id', Auth::id())->find($offre);
+    if (!$offre) {
+        abort(404, 'Offre non trouvée');
+    }
+
+    $candidatures = Candidacture::where('offre_id', $offre->id)->get();
+
+    // Calculer les scores de pertinence pour chaque candidature
+    $candidatures = $candidatures->map(function ($candidature) use ($offre) {
+        $score = 0;
+
+        // Vérifier si les compétences requises sont exactement les mêmes
+        if ($candidature->competence_requis == $offre->competence_requis) {
+            $score += 10;
+        }
+
+        // Ajouter des points en fonction de l'expérience
+        if ($candidature->experience_requis >= $offre->experience_requis) {
+            $score += $candidature->experience_requis;
+        }
+
+        // Ajouter le score à la candidature
+        $candidature->score = $score;
+        return $candidature;
+    });
+
+    // Trier les candidatures par score de pertinence décroissant
+    $candidaturesTriees = $candidatures->sortByDesc('score');
+
+    return view('offre.showmesoffre', ['offre' => $offre, 'candidatures' => $candidaturesTriees]);
+}
+
+// OffreController.php
+// OffreController.php
+public function terminerTraitement($offreId)
+{
+    // Trouver l'offre par son ID
+    $offre = Offre::find($offreId);
+
+    if ($offre) {
+        // Rejeter toutes les candidatures en attente pour cette offre
+        Candidacture::where('offre_id', $offreId)
+            ->where('etat_candidature', 'En attente')
+            ->update(['etat_candidature' => 'Rejeter']);
+    }
+
+    return redirect()->route('offre.showmesoffre', $offreId)->with('success', 'Le traitement des candidatures est terminé.');
+}
+
+
 
     public function showmescandidat($id)
     {
@@ -266,6 +310,9 @@ class OffreController extends Controller
 
         return view('offre.candidat', compact('candidature'));
     }
+##
+
+
 
     public function admin_offre()
     {
@@ -281,6 +328,7 @@ class OffreController extends Controller
             abort(403, ' INTERDIT !! ');
         }
     }
+
 
     public function admin_user()
     {

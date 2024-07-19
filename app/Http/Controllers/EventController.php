@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -29,6 +30,9 @@ class EventController extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
+        }
         return view('evenement.create');
     }
 

@@ -121,7 +121,7 @@ class CandidactureController extends Controller
         $candidature->etat_candidature = $request->input('etat_candidature');
         $candidature->save();
 
-        return redirect()->route('offre.mesoffre', $offre->id)->with('success', 'État de la candidature mis à jour.');
+        return redirect()->route('offre.showmesoffre', $offre->id)->with('success', 'État de la candidature mis à jour.');
     }
 
     /**

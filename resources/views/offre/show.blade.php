@@ -47,7 +47,18 @@
                 </div>
                 <div class="col-6">
                     @if(!$hasApplied && $offre->user_id != auth()->id())
-                        <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}" class="btn btn-block btn-primary btn-md">Postuler</a>
+                    <a href="{{ route('postuler.create', ['offre' => $offre->id]) }}" class="btn btn-block btn-primary btn-md">Postuler</a>
+
+                    @if(is_null($competences) || $competences->isEmpty() || $competences->every(fn($competence) => empty($competence->titre)))
+@else
+    <a href="{{ route('checkUserCompetences', ['offre' => $offre->id]) }}" class="btn btn-block btn-primary btn-md">Postuler</a>
+
+@endif
+
+
+
+
+                        
                     @elseif($offre->user_id == auth()->id())
                         <button class="btn btn-block btn-primary btn-md" disabled>Postuler</button>
                         <em style="color: red">   *Vous ne pouvez pas postuler à votre propre offre!</em>

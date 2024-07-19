@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+    
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
 
@@ -81,9 +81,9 @@
                   <li><a href="{{route('offre.create')}}"> Poster offre</a></li>
                 </ul>
               </li>
-              <li><a href="{{('')}}">Forum</a></li>
+              <li><a href="{{route('discussion.index')}}">Forum</a></li>
               <li><a href="{{('')}}">Cours</a></li>
-              <li><a href="{{('')}}">Evenement</a></li>
+              <li><a href="{{route('events.index')}}">Evenement</a></li>
               <li class="d-lg-none"><a href="{{route('offre.create')}}"><span class="mr-2">+</span> Poster Offre</a></li>
               <li class="d-lg-none"><a href="{{route('login')}}">Log In</a></li>
             </ul>

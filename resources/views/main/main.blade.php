@@ -11,39 +11,9 @@
         <div class="row align-items-center justify-content-center">
           <div class="col-md-12">
             <div class="mb-5 text-center">
-              <h1 class="text-white font-weight-bold">Plateforme Collaboratif Pour Professionnel De l'IT</h1>
+              <h1 class="text-white font-weight-bold">Plateforme Collaborative Pour Professionnels De l'IT</h1>
               <p>Notre plateforme est le moyen le plus facile pour trouver des offres, des conseils, et rester à jour pour tous les Professionnels de l'IT.</p>
             </div>
-            <form method="post" class="search-jobs-form">
-              <div class="row mb-5">
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <input type="text" class="form-control form-control-lg" placeholder="titre de l'offre">
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Select une categorie"></select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" data-live-search="true" title="Selectionner le type de l'offre">
-                    <option>Stage</option>
-                    <option>Emploi</option>
-                    <option>Formation</option>
-                  </select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12 popular-keywords">
-                  <h3>Les mots-clés tendance</h3>
-                  <ul class="keywords list-unstyled m-0 p-0">
-                    <li><a href="#" class="">Developpement Web</a></li>
-                    <li><a href="#" class="">Designer</a></li>
-                    <li><a href="#" class="">Cybersecurite</a></li>
-                  </ul>
-                </div>
-              </div>
-            </form>
           </div>
         </div>
       </div>
