@@ -34,10 +34,30 @@ class ProfileController extends Controller
             $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
             $totalnotification=$notifications->count();
 
+            $user = Auth::user();
+
+            // Vérifiez si le profil de l'utilisateur est complet
+            $profileIncomplete = false;
+            if (empty($user->telephone_2) || empty($user->ville) || empty($user->niveau_etude) || empty($user->image) || empty($user->description) || empty($user->telepone) || empty($user->addresse) || empty($user->statut) || empty($user->date_naissance) || empty($user->competence) || empty($user->experience) || empty($user->certification) || empty($user->cv_et_motivation) ) {
+                // Ajoutez d'autres champs de profil que vous souhaitez vérifier
+                $profileIncomplete = true;
+            }
+            else
+            {
+                $profileIncomplete = false;
+            }
+
+            // Si le profil est incomplet, définir une variable de session
+            if ($profileIncomplete) {
+                session(['profile_incomplete' => true]);
+            } else {
+                session()->forget('profile_incomplete');
+            }
+
             return view('profile.edit', [
                 'user' => $request->user(),'certifications' =>$certifications, 'competences' => $competences,
                 'cv_et_motivations' => $cv_et_motivations, 'experiences' => $experiences,
-                ], compact('notifications', 'totalnotification'));
+                ], compact('notifications', 'totalnotification','user'));
         }
 
         return view('profile.edit', [

@@ -30,37 +30,58 @@
                             <p><strong>Nom: </strong> {{ $candidature->user->name }}</p>
                             <p><strong>Prénom: </strong> {{ $candidature->user->prenom }}</p>
                             <p><strong>Email: </strong> {{ $candidature->user->email }}</p>
-                            <p><strong>Date Naissance: </strong> {{ $candidature->user->date_naissance }}</p>
-                            <p><strong>Niveau d'Etude: </strong> {{ $candidature->user->niveau_etude }}</p>
-                            <p><strong>Statut: </strong> {{ $candidature->user->statut }}</p>
-                            @foreach ($candidature->user->competence as $item)
-                                <ul>
-                                    <p><strong>Competences: </strong><li> {{ $item->titre }}</li></p>
-                                </ul>
-                            @endforeach
-            
-                            @foreach ($candidature->user->experience as $item)
-                                <ul>
-                                    <p><strong>Experience: </strong><li> {{ $item->titre}} , {{$item->entreprise}}</li></p>
-                                </ul>
-                            @endforeach
+                            
+                            @if ($candidature->user->date_naissance)
+                                <p><strong>Date Naissance: </strong> {{ $candidature->user->date_naissance }}</p>
+                            @endif
+                            @if ($candidature->user->niveau_etude)
+                                <p><strong>Niveau d'Etude: </strong> {{ $candidature->user->niveau_etude }}</p>
+                            @endif
+                            @if ($candidature->user->statut)
+                                <p><strong>Statut: </strong> {{ $candidature->user->statut }}</p>
+                            @endif
+
+                            <p><strong>Competences: </strong></p>
+                            <ul>
+                                
+                                @foreach ($candidature->user->competence as $item)
+                                    
+                                    <li> {{ $item->titre }}</li>
+                                @endforeach
+                            </ul>
+                        
+                            <p><strong>Experience: </strong></p>
+                            <ul>
+                                
+                                @foreach ($candidature->user->experience as $item)
+                                    
+                                    <li> {{ $item->titre}} , {{$item->entreprise}}</li>
+                                @endforeach
+                            </ul>
                             
                             @foreach ($candidature->user->cv_et_motivation as $item)
-                                <ul>
                                     @if ($item->cv)
-                                        <p><strong>CV: </strong><li> <a href="{{ asset('storage/' . $item->cv) }}" target="_blank">Voir le fichier CV</a></li></p>
+                                        <p>
+                                            <strong>CV: </strong> 
+                                            <a href="{{ asset('storage/' . $item->cv) }}" target="_blank">Voir le fichier CV</a>
+                                        </p>
                                     @endif
                                     @if ($item->motivation)
-                                        <p><strong>Motivation: </strong><li> <a href="{{ asset('storage/' . $item->motivation) }}" target="_blank">Voir le fichier Motivation</a></li></p>
+                                        <p>
+                                            <strong>Motivation: </strong>
+                                            <a href="{{ asset('storage/' . $item->motivation) }}" target="_blank">Voir le fichier Motivation</a>
+                                        </p>
                                     @endif
-                                </ul>
                             @endforeach
-            
-                            @foreach ($candidature->user->certification as $item)
-                                <ul>
-                                    <p><strong>certification: </strong><li> {{ $item->titre}} , {{$item->date_dobtention}}, <a href="{{ asset('storage/' . $item->fichier) }}" target="_blank">Voir la certification</a><br></li></p>
-                                </ul>
-                            @endforeach
+                            
+                            <p><strong>certification: </strong></p>
+                            <ul>
+                                
+                                @foreach ($candidature->user->certification as $item)
+                                    
+                                    <li> {{ $item->titre}} , {{$item->date_dobtention}}, <a href="{{ asset('storage/' . $item->fichier) }}" target="_blank">Voir la certification</a><br></li>
+                                @endforeach
+                            </ul>
                     
             
                             

@@ -33,22 +33,32 @@
           </div>
         </div>
         <div class="row pb-0 block__19738 section-counter">
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0"></div>
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="1930">0</strong>
+              <strong class="number" data-number="{{$visite}}">0</strong>
+            </div>
+            <span class="caption">Visites du site</span>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="{{$totalcandidacture}}">0</strong>
             </div>
             <span class="caption">Candidatures</span>
           </div>
 
           <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
             <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="54">0</strong>
+              <strong class="number" data-number="{{$totalOffres}}">0</strong>
             </div>
             <span class="caption">Offre Publier</span>
           </div> 
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0"></div>
+          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <strong class="number" data-number="{{$totaldiscussions}}">0</strong>
+            </div>
+            <span class="caption">Discussions Publier</span>
+          </div> 
         </div>
       </div>
     </section>
@@ -67,6 +77,76 @@
       </div>
     </section>
 
+    @auth
+        {{-- recommendations pour l'user --}}
+      <section class="site-section">
+        <div class="container">
+          <div class="row mb-5 justify-content-center">
+            <div class="col-md-7 text-center">
+                <h2 class="section-title mb-2">Suggéré pour vous</h2>
+            </div>
+          </div>
+          @if (empty($offrerecommender) && empty($discussionrecommender))
+              <div class="bg-warning">
+                  <p class="text-center">Veuillez remplir votre profil pour pouvoir avoir des recommandations !! <a href="{{route('profile.edit')}}">Completer mon profil</a></p>
+              </div>
+          @endif
+          <ul class="job-listings mb-5">
+            @foreach($offrerecommender as $job)
+            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+              <a href="{{ route('offre.show', $job) }}"></a>
+              <div class="job-listing-logo">
+                @if ($job->logo)
+                    <img src="{{ asset('storage/' . $job->logo) }}" alt="Logo" class="img-fluid">
+                @else
+                    <img src="IT/images/default-image.jpg" alt="Image" class="img-fluid">
+                @endif
+              </div>
+
+              <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+                  <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+                      <h2>{{ $job->titre }}</h2>
+                      <strong>{{ $job->entreprise }}</strong>
+                  </div>
+                  <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+                      <span class="icon-room"></span> {{ $job->ville }}
+                      <br>
+                      <span class="icon-money"></span> {{$job->salaire}} FCFA
+                  </div>
+                  <div class="job-listing-meta">
+                      <span class="badge badge-info">{{ $job->type_offre }}</span>
+                  </div>
+              </div>
+          </li>
+            @endforeach
+        </ul>
+
+        <div class="row" id="discussion-list">
+          @foreach($discussionrecommender as $discussion)
+              <div class="col-md-12 mb-4">
+                  <div class="card">
+                      <div class="card-body">
+                          <h5 class="card-title">
+                              <a href="{{ route('discussion.show', $discussion) }}">{{ $discussion->sujet }}</a>
+                          </h5>
+                          <p class="card-text">
+                              {{ Str::limit($discussion->contenu, 150) }}
+                          </p>
+                          <div class="d-flex justify-content-between align-items-center">
+                              <small class="text-muted">Posté par {{ $discussion->user->name }}</small>
+                              <small class="text-muted">{{ $discussion->created_at->diffForHumans() }}</small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          @endforeach
+      </div>
+        
+        </div>  
+      </section>
+    @endauth
+
+    {{-- partie pour les offres reçentes --}}
     <section class="site-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">
@@ -77,7 +157,7 @@
         <ul class="job-listings mb-5">
           @foreach($offres as $job)
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
+            <a href="{{ route('offre.show', $job) }}"></a>
             <div class="job-listing-logo">
               @if ($job->logo)
                   <img src="{{ asset('storage/' . $job->logo) }}" alt="Logo" class="img-fluid">
@@ -117,6 +197,7 @@
       </div>  
     </section>
 
+    {{-- Partie du code pour les discussions reçentes --}}
     <section class="site-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">

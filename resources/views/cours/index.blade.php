@@ -38,7 +38,7 @@
                             </a>
                         </div>
                         <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">Web Design & Development Course for Beginners</h3>
+                            <h3 class="mb-0">Design Web Pour les Debutants</h3>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                             </a>
                         </div>
                         <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">Web Design & Development Course for Beginners</h3>
+                            <h3 class="mb-0">Initiation à l'Ethical Hacking</h3>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                             </a>
                         </div>
                         <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">Web Design & Development Course for Beginners</h3>
+                            <h3 class="mb-0">Introduction à Laravel</h3>
                         </div>
                     </div>
                 </div>

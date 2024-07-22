@@ -38,9 +38,28 @@
           overflow: visible !important; /* Garantit que le texte complet est visible */
           text-overflow: unset !important; /* Annule toute propriété de texte caché */
       }
+      #profile-incomplete-banner {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 1050;
+          border-radius: 0;
+      }
     </style>
   </head>
   <body id="top">
+
+    <div class="container">
+       <!-- Si l'utilisateur est authentifié et que le profil n'est pas complet, afficher une bannière -->
+        @auth
+          @if (session('profile_incomplete'))
+              <div id="profile-incomplete-banner" class="alert alert-warning text-center" role="alert">
+                  Pour bénéficier des pleines fonctionnalités de notre site, veuillez compléter votre profil. <a href="{{ route('profile.edit') }}">Compléter mon profil</a>
+              </div>
+          @endif
+        @endauth
+    </div>
 
   <div id="overlayer"></div>
     <div class="loader">
@@ -137,7 +156,7 @@
                 <a href="" class="btn btn-outline border-width-2 d-none d-lg-inline-block dropdown-toggle" id="notifDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; padding: 12px; position: relative;">
                   <span class="icon-bell"></span>
                   @if ($totalnotification >0)
-                    <sup class="text-white bg-danger" style="font-size: 14px;">{{$totalnotification}}</sup>
+                    <sup class="badge rounded-pill bg-danger text-white" style="position: relative; right: 30%; top: 9%;">{{$totalnotification}}</sup>
                   @endif
                 </a>
                 <div class="dropdown-menu" aria-labelledby="notifDropdown">
@@ -370,6 +389,25 @@
           .catch(error => console.error('Error:', error));
   });
   </script>
+
+<script>
+  $(document).ready(function() {
+      // Cacher la bannière après 3 secondes (3000 millisecondes)
+      setTimeout(function() {
+          $('#profile-incomplete-banner').fadeOut('slow');
+      }, 3000);
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      fetch('api/increment-visit')
+          .then(response => response.json())
+          .then(data => console.log(data.message))
+          .catch(error => console.error('Erreur:', error));
+  });
+</script>
+
    <!-- FullCalendar JavaScript -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/main.min.js"></script>

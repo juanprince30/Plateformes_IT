@@ -8,6 +8,7 @@ use App\Models\Discussion;
 use App\Models\Notification;
 use App\Models\Offre;
 use App\Models\User;
+use App\Models\Visite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +48,27 @@ class OffreController extends Controller
             $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
             $totalnotification=$notifications->count();
 
-            return view('offre.index', compact('offresPubliees', 'notifications', 'totalnotification'));
+            $user = Auth::user();
+
+            // Vérifiez si le profil de l'utilisateur est complet
+            $profileIncomplete = false;
+            if (empty($user->telephone_2) || empty($user->ville) || empty($user->niveau_etude) || empty($user->image) || empty($user->description) || empty($user->telepone) || empty($user->addresse) || empty($user->statut) || empty($user->date_naissance) || empty($user->competence) || empty($user->experience) || empty($user->certification) || empty($user->cv_et_motivation) ) {
+                // Ajoutez d'autres champs de profil que vous souhaitez vérifier
+                $profileIncomplete = true;
+            }
+            else
+            {
+                $profileIncomplete = false;
+            }
+
+            // Si le profil est incomplet, définir une variable de session
+            if ($profileIncomplete) {
+                session(['profile_incomplete' => true]);
+            } else {
+                session()->forget('profile_incomplete');
+            }
+
+            return view('offre.index', compact('offresPubliees', 'notifications', 'totalnotification','user'));
         }
 
         return view('offre.index', compact('offresPubliees'));
@@ -299,7 +320,7 @@ class OffreController extends Controller
         if (!$offre) {
             abort(404, 'Offre non trouvée');
         }
-        $candidatures = Candidacture::where('offre_id', $offre)->get();
+        $candidatures = $offre->Candidacture->sortByDesc('point');
 
         if (Auth::check()) 
         {   
@@ -337,22 +358,91 @@ class OffreController extends Controller
     {
         $offres = Offre::latest()->paginate(7); // Récupère les 7 offres les plus récentes
         $discussions = Discussion::latest()->paginate(7);
+        $totaldiscussions =Discussion::count();
         $totalOffres = Offre::count(); // Nombre total d'emplois
+        $visit = Visite::first();
+        $visite = $visit->visit_count;
+        $totalcandidacture= Candidacture::count();
+
         if (Auth::check()) 
         {   
             $user_id= Auth::id();
             $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
             $totalnotification=$notifications->count();
 
-            return view('main.main', compact('offres', 'totalOffres','discussions', 'notifications', 'totalnotification'));
+            $user = Auth::user();
+
+            // Vérifiez si le profil de l'utilisateur est complet
+            $profileIncomplete = false;
+            if (empty($user->telephone_2) || empty($user->ville) || empty($user->niveau_etude) || empty($user->image) || empty($user->description) || empty($user->telepone) || empty($user->addresse) || empty($user->statut) || empty($user->date_naissance) || empty($user->competence) || empty($user->experience) || empty($user->certification) || empty($user->cv_et_motivation) ) {
+                // Ajoutez d'autres champs de profil que vous souhaitez vérifier
+                $profileIncomplete = true;
+            }
+            else
+            {
+                $profileIncomplete = false;
+            }
+
+            // Si le profil est incomplet, définir une variable de session
+            if ($profileIncomplete) {
+                session(['profile_incomplete' => true]);
+            } else {
+                session()->forget('profile_incomplete');
+            }
+
+            if($user->competence) {
+                $categorie_recommender = [];
+                foreach($user->competence as $item) {
+                    if (!in_array($item->categorie_id, $categorie_recommender)) {
+                        $categorie_recommender[] = $item->categorie_id;
+                    }
+                }
+            
+                $offrerecommender = [];
+                $discussionrecommender = [];
+                foreach($categorie_recommender as $categori) {
+                    $offre = Offre::where('categorie_id', $categori)->get();
+                    foreach($offre as $item) {
+                        $offrerecommender[] = $item;
+                    }
+            
+                    $discussion = Discussion::where('categorie_id', $categori)->get();
+                    foreach($discussion as $item) {
+                        $discussionrecommender[] = $item;
+                    }
+                }
+            }
+                 
+            
+
+            return view('main.main', compact('offrerecommender', 'discussionrecommender','totalcandidacture','visite','offres','totaldiscussions', 'totalOffres','discussions', 'notifications', 'totalnotification','user'));
         }
         else
         {
-            return view('main.main', compact('offres', 'totalOffres','discussions'));
+            return view('main.main', compact('totalcandidacture','visite','offres', 'totalOffres','discussions','totaldiscussions'));
         }
 
        
     }
+
+    
+    // OffreController.php
+    // OffreController.php
+    public function terminerTraitement($offreId)
+    {
+        // Trouver l'offre par son ID
+        $offre = Offre::find($offreId);
+
+        if ($offre) {
+            // Rejeter toutes les candidatures en attente pour cette offre
+            Candidacture::where('offre_id', $offreId)
+                ->where('etat_candidature', 'En attente')
+                ->update(['etat_candidature' => 'Rejeter']);
+        }
+
+        return redirect()->route('offre.showmesoffre', $offreId)->with('success', 'Le traitement des candidatures est terminé.');
+    }
+
 
     public function filterByType($type)
     {

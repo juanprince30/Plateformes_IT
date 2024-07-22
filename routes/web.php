@@ -44,6 +44,8 @@ Route::resource('offre', OffreController::class);
 Route::middleware('auth')->group(function(){
     Route::get('mesoffre',[OffreController::class,'mesoffre'])->name('offre.mesoffre');
 
+    Route::post('/mesoffre/{id}/terminer', [OffreController::class, 'terminerTraitement'])->name('offre.terminer');
+
     Route::get('/showmesoffre/{offre}', [OffreController::class, 'showmesoffre'])->name('offre.showmesoffre');
 
     Route::get('/showmescandidat/{offre}', [OffreController::class, 'showmescandidat'])->name('offre.showmescandidat');

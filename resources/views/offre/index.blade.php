@@ -18,6 +18,8 @@
 
     <section class="site-section" id="next">
         <div class="container">
+
+            {{-- offres disponible recemment --}}
             <div class="row mb-5 justify-content-center">
                 <div class="col-md-7 text-center">
                   <h2 class="section-title mb-2">Offres Disponible</h2>
@@ -35,7 +37,7 @@
             <ul class="job-listings mb-5" id="job-listings">
                     @foreach($offresPubliees  as $offre)
                         @if($offre->etat_offre == 'Offre publiée')
-                            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+                            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" >
                                 <a href="{{ route('offre.show', $offre) }}"></a>
                                 <div class="job-listing-logo">
                                     @if ($offre->logo)

@@ -23,7 +23,27 @@ class CandidactureController extends Controller
             $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
             $totalnotification=$notifications->count();
 
-            return view('postuler.index', compact('candidatures','notifications', 'totalnotification'));
+            $user = Auth::user();
+
+            // Vérifiez si le profil de l'utilisateur est complet
+            $profileIncomplete = false;
+            if (empty($user->telephone_2) || empty($user->ville) || empty($user->niveau_etude) || empty($user->image) || empty($user->description) || empty($user->telepone) || empty($user->addresse) || empty($user->statut) || empty($user->date_naissance) || empty($user->competence) || empty($user->experience) || empty($user->certification) || empty($user->cv_et_motivation) ) {
+                // Ajoutez d'autres champs de profil que vous souhaitez vérifier
+                $profileIncomplete = true;
+            }
+            else
+            {
+                $profileIncomplete = false;
+            }
+
+            // Si le profil est incomplet, définir une variable de session
+            if ($profileIncomplete) {
+                session(['profile_incomplete' => true]);
+            } else {
+                session()->forget('profile_incomplete');
+            }
+
+            return view('postuler.index', compact('candidatures','notifications', 'totalnotification','user'));
         }
         return view('postuler.index', compact('candidatures'));
     }
@@ -66,6 +86,7 @@ class CandidactureController extends Controller
 
 
     $offre = Offre::find($request->offre_id);
+    $user = Auth::user();
 
     /*Créer une notification pour l'utilisateur qui a créé l'offre*/
     Notification::create([
@@ -83,6 +104,41 @@ class CandidactureController extends Controller
         'candidacture_id' => $candidature->id,
         'offre_id' => $offre->id,
     ]);
+
+    $point=0;
+
+    $ville_offre= $offre->ville;
+    $niveau_etude_offre= $offre->niveau_etude;
+    // $competence_offre= $offre->competence_requis;
+    $competence_offre = explode(' ', preg_replace('/[\s,]+/', ' ', $offre->competence_requis));
+
+    if($user->ville)
+    {
+        if($user->ville == $ville_offre)
+        {
+            $point++;
+        }
+    }
+    if($user->niveau_etude)
+    {
+        if($user->niveau_etude == $niveau_etude_offre)
+        {
+            $point += 2;
+        }
+    }
+    if($user->competence)
+    {
+        foreach($user->competence as $item)
+        {
+            if (in_array($item->titre, $competence_offre)) {
+                $point += 2;
+            }
+        }
+    }
+
+    $candidature->point = $point;
+    $candidature->save();
+
 
     return redirect()->route('postuler.index')->with('message', 'Candidature soumise avec succès');
 }

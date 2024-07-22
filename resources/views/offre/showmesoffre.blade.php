@@ -127,30 +127,109 @@
 
       <section>
         <div class="row">
-            <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="bg-light p-3 border rounded mb-4 text-center">
-              <h3 class="text-primary  mt-3 h5 pl-3 mb-3 text-center">Candidature</h3>
-
-                @if($offre->Candidacture->isEmpty())
-                    <p>Aucun candidat n'a postulé pour cette offre.</p>
-                @else
-                    <h2>Candidat(e)s ayant postulé(e)s</h2>
-                    <ul class="list-group">
-                        @foreach($offre->Candidacture as $candidat)
-                            <li class="list-group-item">
-                                <span><strong>Nom et Prenom: </strong> {{ $candidat->user->name }} {{ $candidat->user->prenom }}</span><br>
-                                <span><strong>Etat candidature: </strong> {{ $candidat->etat_candidature }}</span>
-                                <br>
-                                <button class="btn btn-info"><a href="{{ route('offre.showmescandidat', $candidat->id )}}" style="color:white; text-decoration: none;">Voir plus</a></button>          
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="bg-light p-3 border rounded mb-4 text-center">
+                    <h1 class="text-primary text-center">Candidature</h1>
+    
+                    @if($offre->Candidacture->isEmpty())
+                        <p>Aucun candidat n'a postulé pour cette offre.</p>
+                    @else
+                        
+                        <h5>Candidat(e)s ayant postulé(e)s</h5>
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h3 class="bg-success">Accepter</h3>
+                                            <ul class="list-group">
+                                                @foreach($offre->Candidacture as $candidat)
+                                                    @if ($candidat->etat_candidature == 'Accepter')
+                                                        <li class="list-group-item">
+                                                            <span><strong> {{ $candidat->user->name }} {{ $candidat->user->prenom }}</strong></span><br>
+                                                            <button class="btn btn-info mt-2">
+                                                                <a href="{{ route('offre.showmescandidat', $candidat->id) }}" style="color:white; text-decoration: none;"><i class="icon icon-eye"></i></a>
+                                                            </button>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-body" >
+                                            <div class="container">
+                                              <h3 class="bg-warning">En attente</h3>
+                                              <form action="{{ route('offre.terminer', ['id' => $offre->id]) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir terminer le traitement des candidatures ?')">Tout Rejeter</button>
+                                              </form>
+                                            </div>
+                                            <ul class="list-group">
+                                                @foreach($offre->Candidacture as $candidat)
+                                                    @if ($candidat->etat_candidature == 'En attente')
+                                                        <li class="list-group-item">
+                                                            <span><strong>{{ $candidat->user->name }} {{ $candidat->user->prenom }}</strong></span><br>
+                                                            <button class="btn btn-info mt-2">
+                                                                <a href="{{ route('offre.showmescandidat', $candidat->id) }}" style="color:white; text-decoration: none;"><i class="icon icon-eye"></i></a>
+                                                            </button>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h3 class="bg-danger">Rejeter</h3>
+                                            <ul class="list-group">
+                                                @foreach($offre->Candidacture as $candidat)
+                                                    @if ($candidat->etat_candidature == 'Rejeter')
+                                                        <li class="list-group-item">
+                                                            <span><strong>{{ $candidat->user->name }} {{ $candidat->user->prenom }}</strong></span><br>
+                                                            <button class="btn btn-info mt-2">
+                                                                <a href="{{ route('offre.showmescandidat', $candidat->id) }}" style="color:white; text-decoration: none;"><i class="icon icon-eye"></i></a>
+                                                            </button>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
-        </div>
+    </section>
     
-      </section>
+    <style>
+      .card {
+          height: 100%;
+      }
+  
+      .card-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+      }
+  
+      .list-group-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+  </style>
+     
   
 @endsection

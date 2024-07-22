@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\OffreController;
+use App\Http\Controllers\VisiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,5 @@ Route::get('/offres', function () {
 
     return view('offre.index', compact('offres'));
 })->name('offres.index');
+
+Route::get('/increment-visit', [VisiteController::class, 'increment'])->name('api.increment');
