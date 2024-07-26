@@ -77,4 +77,89 @@ use Carbon\Carbon;
         });
     </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var events = {!! json_encode($events) !!}; // Convertir le tableau PHP en objet JavaScript
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // Vue initiale: mois
+            buttonText: {
+                today: 'Aujourd\'hui' // Texte pour le bouton "Today" en français
+            },
+            events: events.map(function(event) {
+                return {
+                    title: event.titre,
+                    start: event.date_debut,
+                    end: event.date_fin,
+                    extendedProps: {
+                        lieu: event.lieu,
+                        type: event.type
+                    },
+                    url: '{{ url('events') }}/' + event.id // Lien vers la page de détail de l'événement
+                };
+            }),
+            locale: 'fr', // Langue du calendrier
+            eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'short' }, // Format d'affichage de l'heure
+            editable: false, // Désactiver l'édition des événements sur le calendrier
+            selectable: false, // Désactiver la sélection de plages horaires
+            
+            // Ajouter des tooltips
+            eventMouseEnter: function(info) {
+                var event = info.event;
+                var tooltipContent = `
+                    <div>
+                        <strong>Titre:</strong> ${event.title}<br>
+                        <strong>Date de début:</strong> ${moment(event.start).format('Y-MM-DD HH:mm')}<br>
+                        <strong>Date de fin:</strong> ${moment(event.end).format('Y-MM-DD HH:mm')}<br>
+                        <strong>Lieu:</strong> ${event.extendedProps.lieu || 'Non spécifié'}<br>
+                        <strong>Type:</strong> ${event.extendedProps.type || 'Non spécifié'}
+                    </div>
+                `;
+
+                // Créer un élément pour le tooltip
+                var tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                tooltip.innerHTML = tooltipContent;
+                document.body.appendChild(tooltip);
+
+                // Positionner le tooltip
+                var rect = info.el.getBoundingClientRect();
+                tooltip.style.position = 'absolute';
+                tooltip.style.left = `${rect.left + window.scrollX}px`;
+                tooltip.style.top = `${rect.bottom + window.scrollY}px`;
+                
+                // Ajouter la classe de style pour le tooltip
+                tooltip.classList.add('tooltip-show');
+                
+                // Supprimer le tooltip quand la souris quitte l'événement
+                info.el.addEventListener('mouseleave', function() {
+                    document.body.removeChild(tooltip);
+                });
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+
+<style>
+    .tooltip {
+        background: #ffffff;
+        color: #000000;
+        padding: 10px;
+        border-radius: 5px;
+        max-width: 300px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .tooltip-show {
+        opacity: 1;
+    }
+</style>
+
+
 @endsection

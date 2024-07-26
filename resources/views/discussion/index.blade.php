@@ -39,7 +39,7 @@
         <div class="row" id="discussion-list">
             @foreach($discussions as $discussion)
                 <div class="col-md-12 mb-4">
-                    <div class="card">
+                    <div class="card badge-secondary">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <a href="{{ route('discussion.show', $discussion) }}">{{ $discussion->sujet }}</a>

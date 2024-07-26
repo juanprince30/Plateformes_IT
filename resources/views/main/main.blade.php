@@ -63,7 +63,7 @@
       </div>
     </section>
 
-    <section class="py-5 bg-dark overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');">
+    <section class="py-5 bg-dark overlay-primary fixed overlay" style="background-image: url('images/hero_1.jpg');" data-aos="zoom-in">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-8">
@@ -79,7 +79,7 @@
 
     @auth
         {{-- recommendations pour l'user --}}
-      <section class="site-section">
+      <section class="site-section" data-aos="flip-left">
         <div class="container">
           <div class="row mb-5 justify-content-center">
             <div class="col-md-7 text-center">
@@ -93,7 +93,7 @@
           @endif
           <ul class="job-listings mb-5">
             @foreach($offrerecommender as $job)
-            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" data-aos="zoom-in">
               <a href="{{ route('offre.show', $job) }}"></a>
               <div class="job-listing-logo">
                 @if ($job->logo)
@@ -123,8 +123,8 @@
 
         <div class="row" id="discussion-list">
           @foreach($discussionrecommender as $discussion)
-              <div class="col-md-12 mb-4">
-                  <div class="card">
+              <div class="col-md-12 mb-4" data-aos="zoom-in">
+                  <div class="card badge-secondary">
                       <div class="card-body">
                           <h5 class="card-title">
                               <a href="{{ route('discussion.show', $discussion) }}">{{ $discussion->sujet }}</a>
@@ -147,7 +147,7 @@
     @endauth
 
     {{-- partie pour les offres reçentes --}}
-    <section class="site-section">
+    <section class="site-section" data-aos="fade-up">
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
@@ -156,7 +156,7 @@
         </div>
         <ul class="job-listings mb-5">
           @foreach($offres as $job)
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" data-aos="zoom-in">
             <a href="{{ route('offre.show', $job) }}"></a>
             <div class="job-listing-logo">
               @if ($job->logo)
@@ -198,7 +198,7 @@
     </section>
 
     {{-- Partie du code pour les discussions reçentes --}}
-    <section class="site-section">
+    <section class="site-section" data-aos="fade-left">
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
@@ -207,8 +207,8 @@
         </div>
         <div class="row" id="discussion-list">
           @foreach($discussions as $discussion)
-              <div class="col-md-12 mb-4">
-                  <div class="card">
+              <div class="col-md-12 mb-4" data-aos="zoom-in">
+                  <div class="card badge-secondary">
                       <div class="card-body">
                           <h5 class="card-title">
                               <a href="{{ route('discussion.show', $discussion) }}">{{ $discussion->sujet }}</a>

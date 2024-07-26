@@ -25,28 +25,34 @@
             @csrf
             <div class="row form-group" id="email-group">
               <div class="col-md-12 mb-3 mb-md-0">
+
+                
+                    @if ($errors->has('email'))
+                      <div class="alert alert-danger mt-2 text-red-600">
+                            @foreach ($errors->get('email') as $error)
+                                <p class="text-danger">{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    @if ($errors->has('password'))
+                      <div class="alert alert-danger mt-2 text-red-600">
+                            @foreach ($errors->get('password') as $error)
+                                <p class="text-danger">{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    @endif
+
                 <label class="text-black" for="email">Email</label>
                 <input type="text" id="email" class="form-control" placeholder="Adresse email" name="email" :value="old('email')" required autofocus autocomplete="username">
-                @if ($errors->has('email'))
-                    <div class="mt-2 text-red-600">
-                        @foreach ($errors->get('email') as $error)
-                            <p class="text-danger">{{ $error }}</p>
-                        @endforeach
-                    </div>
-                @endif
+                
               </div>
             </div>
             <div class="row form-group" id="password-group">
               <div class="col-md-12 mb-3 mb-md-0">
                 <label class="text-black" for="password">Mot de passe</label>
                 <input type="password" id="password" class="form-control" placeholder="Mot de passe" name="password" required autocomplete="current-password" >
-                @if ($errors->has('password'))
-                    <div class="mt-2 text-red-600">
-                        @foreach ($errors->get('password') as $error)
-                            <p class="text-danger">{{ $error }}</p>
-                        @endforeach
-                    </div>
-                @endif
+                
               </div>
             </div>
             <div class="row form-group mb-4" id="retype-password-group">

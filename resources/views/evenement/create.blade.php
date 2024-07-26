@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <label for="type">Type</label>
                     <select name="type" id="type" class="form-control" required>
-                        <option value="webinar">Webinar</option>
+                        <option value="webinar">Webinare</option>
                         <option value="salon">Salon</option>
                     </select>
                 </div>

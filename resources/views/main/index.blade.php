@@ -19,6 +19,14 @@
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
 
+    <!-- Ajouter dans la section <head> de votre layout Blade -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+    <!-- Ajouter dans la section <head> de votre layout Blade -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tooltip.js/1.3.1/tooltip.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tooltip.js/1.3.1/tooltip.min.js"></script>
+
+
     
     <link rel="stylesheet" href="{{ asset ('IT/css/custom-bs.css')}}">
     <link rel="stylesheet" href="{{ asset ('IT/css/jquery.fancybox.min.css')}}">
@@ -153,38 +161,39 @@
           <div class="right-cta-menu text-right d-flex aligin-items-center col-6">
             <div class="ml-auto">
               <div class="dropdown d-inline-block">
-                <a href="" class="btn btn-outline border-width-2 d-none d-lg-inline-block dropdown-toggle" id="notifDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; padding: 12px; position: relative;">
-                  <span class="icon-bell"></span>
-                  @if ($totalnotification >0)
-                    <sup class="badge rounded-pill bg-danger text-white" style="position: relative; right: 30%; top: 9%;">{{$totalnotification}}</sup>
-                  @endif
+                <a href="#" class="btn btn-outline border-width-2 d-none d-lg-inline-block dropdown-toggle" id="notifDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-decoration: none; padding: 12px; position: relative;">
+                    <span class="icon-bell"></span>
+                    @if ($totalnotification > 0)
+                        <sup class="badge rounded-pill bg-danger text-white" style="position: relative; right: 30%; top: 9%;">{{$totalnotification}}</sup>
+                    @endif
                 </a>
-                <div class="dropdown-menu" aria-labelledby="notifDropdown">
-                  @if ($notifications->isEmpty())
-                      <p class="text-center">Aucunes Notifications.</p>
-                  @else
-                    @foreach ($notifications as $item)
-                      <a class="dropdown-item" href="">
-                        <strong style="color: green">
-                          @php
-                              // Insère un <br> tous les 30 caractères
-                              $Type = wordwrap($item->type, 30, '<br>', true);
-                          @endphp
-                          {!! $Type !!}
-                        </strong>
-                        <br>
-                        <em>
-                          @php
-                              // Insère un <br> tous les 30 caractères
-                              $wrappedMessage = wordwrap($item->message, 30, '<br>', true);
-                          @endphp
-                          {!! $wrappedMessage !!}
-                        </em>
-                      </a> 
-                    @endforeach
-                  @endif
+                <div class="dropdown-menu" aria-labelledby="notifDropdown" style="position: absolute; top: 100%; left: 0; min-width: 200px; max-height: 300px; overflow-y: auto;">
+                    @if ($notifications->isEmpty())
+                        <p class="text-center">Aucunes Notifications.</p>
+                    @else
+                        @foreach ($notifications as $item)
+                            <a class="dropdown-item" href="#">
+                                <strong style="color: green">
+                                    @php
+                                        // Insère un <br> tous les 30 caractères
+                                        $Type = wordwrap($item->type, 30, '<br>', true);
+                                    @endphp
+                                    {!! $Type !!}
+                                </strong>
+                                <br>
+                                <em>
+                                    @php
+                                        // Insère un <br> tous les 30 caractères
+                                        $wrappedMessage = wordwrap($item->message, 30, '<br>', true);
+                                    @endphp
+                                    {!! $wrappedMessage !!}
+                                </em>
+                            </a>
+                        @endforeach
+                    @endif
                 </div>
-              </div>
+            </div>
+            
               <div class="dropdown d-inline-block">
                 <a href="{{route('profile.edit')}}" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block dropdown-toggle" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="mr-2 icon-user"></span>{{Auth::user()->name}}</a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
@@ -225,24 +234,22 @@
             </ul>
           </div>
           <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Company</h3>
+            <h3>Notre Compagnie</h3>
             <ul class="list-unstyled">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Career</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Resources</a></li>
+              <li><a href="#">A propos de nous</a></li>
             </ul>
           </div>
           <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Support</h3>
+            <h3>Liens rapides</h3>
             <ul class="list-unstyled">
-              <li><a href="#">Support</a></li>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Offres</a></li>
+              <li><a href="#">Discussions</a></li>
+              <li><a href="#">Evenement</a></li>
+              <li><a href="#">Cours</a></li>
             </ul>
           </div>
           <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Contact Us</h3>
+            <h3>Contacter nous</h3>
             <div class="footer-social">
               <a href="#"><span class="icon-facebook"></span></a>
               <a href="#"><span class="icon-twitter"></span></a>
@@ -411,6 +418,14 @@
    <!-- FullCalendar JavaScript -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/main.min.js"></script>
+
+   <!-- Ajouter juste avant la balise </body> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 2000, // Durée des animations en millisecondes
+    });
+  </script>
 
 
   </body>
