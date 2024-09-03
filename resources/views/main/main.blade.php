@@ -93,7 +93,7 @@
           @endif
           <ul class="job-listings mb-5">
             @foreach($offrerecommender as $job)
-            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" data-aos="zoom-in">
+            <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
               <a href="{{ route('offre.show', $job) }}"></a>
               <div class="job-listing-logo">
                 @if ($job->logo)
@@ -123,7 +123,7 @@
 
         <div class="row" id="discussion-list">
           @foreach($discussionrecommender as $discussion)
-              <div class="col-md-12 mb-4" data-aos="zoom-in">
+              <div class="col-md-12 mb-4">
                   <div class="card badge-secondary">
                       <div class="card-body">
                           <h5 class="card-title">
@@ -156,7 +156,7 @@
         </div>
         <ul class="job-listings mb-5">
           @foreach($offres as $job)
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" data-aos="zoom-in">
+          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <a href="{{ route('offre.show', $job) }}"></a>
             <div class="job-listing-logo">
               @if ($job->logo)
@@ -207,7 +207,7 @@
         </div>
         <div class="row" id="discussion-list">
           @foreach($discussions as $discussion)
-              <div class="col-md-12 mb-4" data-aos="zoom-in">
+              <div class="col-md-12 mb-4">
                   <div class="card badge-secondary">
                       <div class="card-body">
                           <h5 class="card-title">

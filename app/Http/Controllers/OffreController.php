@@ -356,7 +356,7 @@ class OffreController extends Controller
 
     public function jobsRecents()
     {
-        $offres = Offre::latest()->paginate(7); // Récupère les 7 offres les plus récentes
+        $offres = Offre::where('etat_offre', 'Offre publiée')->latest()->paginate(7); // Récupère les 7 offres les plus récentes
         $discussions = Discussion::latest()->paginate(7);
         $totaldiscussions =Discussion::count();
         $totalOffres = Offre::count(); // Nombre total d'emplois
@@ -401,7 +401,7 @@ class OffreController extends Controller
                 $offrerecommender = [];
                 $discussionrecommender = [];
                 foreach($categorie_recommender as $categori) {
-                    $offre = Offre::where('categorie_id', $categori)->get();
+                    $offre = Offre::where('categorie_id', $categori)->where('etat_offre', 'Offre publiée')->get();
                     foreach($offre as $item) {
                         $offrerecommender[] = $item;
                     }
