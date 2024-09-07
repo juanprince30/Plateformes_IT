@@ -20,6 +20,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'prenom',
+        'description',
+        'telepone',
+        'telephone_2',
+        'ville',
+        'addresse',
+        'niveau_etude',
+        'statut',
+        'image',
+        'role',
+        'date_naissance',
     ];
 
     /**
@@ -43,5 +54,50 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function Notification()
+    { 
+        return $this->hasMany(Notification::class);
+    }
+
+    public function Certification()
+    {
+        return $this->hasMany(Certification::class);
+    }
+
+    public function Competence()
+    {
+        return $this->hasMany(Competence::class);
+    }
+
+    public function Experience()
+    {
+        return $this->hasMany(Experience::class);
+    }
+
+    public function Offre()
+    {
+        return $this->hasMany(Offre::class);
+    }
+
+    public function Candidacture()
+    {
+        return $this->hasMany(Candidacture::class);
+    }
+
+    public function Discussion()
+    {
+        return $this->hasMany(Discussion::class);
+    }
+
+    public function Reponse()
+    {
+        return $this->hasMany(Reponse::class);
+    }
+
+    public function Cv_et_motivation()
+    {
+        return $this->hasMany(Cv_et_motivation::class);
     }
 }

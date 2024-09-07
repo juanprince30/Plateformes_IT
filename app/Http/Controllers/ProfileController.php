@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Certification;
+use App\Models\Competence;
+use App\Models\Cv_et_motivation;
+use App\Models\Experience;
+use App\Models\Notification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -16,8 +22,47 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user_id= Auth::id();
+        $certifications=Certification::where('user_id',$user_id)->get();
+        $competences=Competence::where('user_id',$user_id)->get();
+        $cv_et_motivations=Cv_et_motivation::where('user_id',$user_id)->get();
+        $experiences=Experience::where('user_id',$user_id)->get();
+
+        if (Auth::check()) 
+        {   
+            $user_id= Auth::id();
+            $notifications= Notification::where('user_id',$user_id)->where('etat','Pas lu')->get();
+            $totalnotification=$notifications->count();
+
+            $user = Auth::user();
+
+            // Vérifiez si le profil de l'utilisateur est complet
+            $profileIncomplete = false;
+            if (empty($user->telephone_2) || empty($user->ville) || empty($user->niveau_etude) || empty($user->image) || empty($user->description) || empty($user->telepone) || empty($user->addresse) || empty($user->statut) || empty($user->date_naissance) || empty($user->competence) || empty($user->experience) || empty($user->certification) || empty($user->cv_et_motivation) ) {
+                // Ajoutez d'autres champs de profil que vous souhaitez vérifier
+                $profileIncomplete = true;
+            }
+            else
+            {
+                $profileIncomplete = false;
+            }
+
+            // Si le profil est incomplet, définir une variable de session
+            if ($profileIncomplete) {
+                session(['profile_incomplete' => true]);
+            } else {
+                session()->forget('profile_incomplete');
+            }
+
+            return view('profile.edit', [
+                'user' => $request->user(),'certifications' =>$certifications, 'competences' => $competences,
+                'cv_et_motivations' => $cv_et_motivations, 'experiences' => $experiences,
+                ], compact('notifications', 'totalnotification','user'));
+        }
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $request->user(),'certifications' =>$certifications, 'competences' => $competences,
+            'cv_et_motivations' => $cv_et_motivations, 'experiences' => $experiences,
         ]);
     }
 
@@ -26,16 +71,39 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        // Récupérer l'utilisateur actuellement authentifié
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Récupérer les données validées de la requête
+        $validatedData = $request->validated();
+
+        // Vérification de la présence d'un fichier image dans la requête
+        if ($request->hasFile('image')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+
+            // Stocker la nouvelle image
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validatedData['image'] = $imagePath;
         }
 
-        $request->user()->save();
+        // Remplir l'objet utilisateur avec les données validées
+        $user->fill($validatedData);
 
+        // Vérifier si l'email a été modifié
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        // Sauvegarder les modifications dans la base de données
+        $user->save();
+
+        // Rediriger vers la route de modification du profil avec un message de succès
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
 
     /**
      * Delete the user's account.
